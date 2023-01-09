@@ -13,7 +13,7 @@ app.listen(PORT, () => {
 });
 
 //routes import
-const catsRoutes = require('./routes/catsRoutes');
+const flowersRoutes = require('./routes/flowersRoutes');
 
 //middleware
 app.use(cors());
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //routes
-app.use('/cats', catsRoutes);
+app.use('/flowers', flowersRoutes);
 
 app.get('/', (req, res) => {
   res.json({ greetings: 'hello world' });
