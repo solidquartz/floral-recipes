@@ -13,12 +13,12 @@ import React from "react";
 export const Dashboard: React.FC = () => {
   return (
     <Flex direction="column" align="center" m="auto" justify="center">
-      <Box p="8">
+      <Box pt="50px">
         <Heading>Envision Floral Recipes</Heading>
       </Box>
       <Spacer />
-      <Box p="4">
-        <ButtonGroup>
+      <Box p="30px">
+        <ButtonGroup spacing="8">
           <Button size="lg" colorScheme="pink">
             Projects
           </Button>
