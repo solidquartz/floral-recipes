@@ -14,8 +14,11 @@ import { Header, ProjectCard } from "./components";
 export const Dashboard: React.FC = () => {
   return (
     <>
+      
+      {/* Navbar */}
       <Header />
 
+      {/* Dashboard hero */}
       <Flex direction="column" align="center" m="auto" justify="center">
         <Box pt="10px">
           <Heading>Dashboard</Heading>
@@ -33,7 +36,8 @@ export const Dashboard: React.FC = () => {
         </Box>
       </Flex>
 
-      <Flex>
+      {/* Pinned Projects */}
+      <Flex align="center" m="auto" justify="center" p="20px">
         <ProjectCard />
       </Flex>
     </>
