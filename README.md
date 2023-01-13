@@ -8,6 +8,5 @@ An internal app to make floral orders intended to reduce human error. Features a
 - TypeScript
 - React
 - Express/Node.js
-- Sass
 - Chakra UI
 - Formik & Yup
