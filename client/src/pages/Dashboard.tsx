@@ -9,24 +9,33 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import React from "react";
+import { Header, ProjectCard } from "./components";
 
 export const Dashboard: React.FC = () => {
   return (
-    <Flex direction="column" align="center" m="auto" justify="center">
-      <Box pt="50px">
-        <Heading>Envision Floral Recipes</Heading>
-      </Box>
-      <Spacer />
-      <Box p="30px">
-        <ButtonGroup spacing="8">
-          <Button size="lg" colorScheme="pink">
-            Projects
-          </Button>
-          <Button size="lg" colorScheme="pink">
-            Flowers
-          </Button>
-        </ButtonGroup>
-      </Box>
-    </Flex>
+    <>
+      <Header />
+
+      <Flex direction="column" align="center" m="auto" justify="center">
+        <Box pt="10px">
+          <Heading>Dashboard</Heading>
+        </Box>
+        <Spacer />
+        <Box p="30px">
+          <ButtonGroup spacing="8" variant="outline">
+            <Button size="lg" colorScheme="pink">
+              Projects
+            </Button>
+            <Button size="lg" colorScheme="pink">
+              Flowers
+            </Button>
+          </ButtonGroup>
+        </Box>
+      </Flex>
+
+      <Flex>
+        <ProjectCard />
+      </Flex>
+    </>
   );
 };

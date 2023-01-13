@@ -11,22 +11,24 @@ export const Header: React.FC = () => {
       justify="space-between"
       wrap="wrap"
       w="100%"
-      mb={8}
-      p={8}
+      mb="15px"
+      p="25px"
     >
 
         <Box>
           <Heading size="lg">Envision Floral Recipes</Heading>
         </Box>
         <Spacer />
-
         <Box>
-          <ButtonGroup>
+          <ButtonGroup spacing="4">
             <Button size="md" colorScheme="pink">
               Projects
             </Button>
             <Button size="md" colorScheme="pink">
               Flowers
+            </Button>
+            <Button size="md" colorScheme="pink" variant="outline">
+              Log Out
             </Button>
           </ButtonGroup>
         </Box>
