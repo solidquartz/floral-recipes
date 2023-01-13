@@ -12,6 +12,8 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
+import { HiOutlineBookOpen } from "react-icons/hi";
+import { TbEdit } from 'react-icons/tb'
 
 export const ProjectCard: React.FC = () => {
   return (
@@ -29,15 +31,21 @@ export const ProjectCard: React.FC = () => {
       </CardBody>
       <Divider />
       <CardFooter justify="center" flexWrap="wrap">
-          <ButtonGroup spacing="3" size="sm">
-            <Button colorScheme="pink">View Project</Button>
-            <Button variant="outline" colorScheme="pink">
-              Edit Project
-            </Button>
-            <Button variant="outline" colorScheme="gray">
-              Unpin
-            </Button>
-          </ButtonGroup>
+        <ButtonGroup spacing="3" size="sm">
+          <Button colorScheme="pink" leftIcon={<HiOutlineBookOpen />}>
+            View Project
+          </Button>
+          <Button
+            variant="outline"
+            colorScheme="pink"
+            leftIcon={<TbEdit />}
+          >
+            Edit Project
+          </Button>
+          <Button variant="outline" colorScheme="gray">
+            Unpin
+          </Button>
+        </ButtonGroup>
       </CardFooter>
     </Card>
   );
