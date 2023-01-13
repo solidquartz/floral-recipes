@@ -15,7 +15,7 @@ import {
 
 export const ProjectCard: React.FC = () => {
   return (
-    <Card maxW="md" maxH="md">
+    <Card maxW="md" maxH="md" m="auto">
       <CardHeader>
         <Flex direction="column" align="center">
           <Heading size="md">Tali & Spock's Wedding</Heading>

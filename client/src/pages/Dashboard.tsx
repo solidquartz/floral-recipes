@@ -7,6 +7,7 @@ import {
   Flex,
   Heading,
   Spacer,
+  SimpleGrid
 } from "@chakra-ui/react";
 import React from "react";
 import { Header, ProjectCard } from "./components";
@@ -14,7 +15,6 @@ import { Header, ProjectCard } from "./components";
 export const Dashboard: React.FC = () => {
   return (
     <>
-      
       {/* Navbar */}
       <Header />
 
@@ -37,9 +37,21 @@ export const Dashboard: React.FC = () => {
       </Flex>
 
       {/* Pinned Projects */}
-      <Flex align="center" m="auto" justify="center" p="20px">
-        <ProjectCard />
-      </Flex>
+      <SimpleGrid columns={3} spacing={10} minChildWidth="400px" p="30px">
+        <Box>
+          <ProjectCard />
+        </Box>
+        <Box>
+          <ProjectCard />
+        </Box>
+        <Box>
+          <ProjectCard />
+        </Box>
+        <Box>
+          <ProjectCard />
+        </Box>
+
+      </SimpleGrid>
     </>
   );
 };
