@@ -9,6 +9,8 @@ import {
   Spacer,
   SimpleGrid
 } from "@chakra-ui/react";
+import { BiBookAdd } from "react-icons/bi";
+import { GiFlowerPot } from "react-icons/gi";
 import React from "react";
 import { Header, ProjectCard, PinProjectCard } from "./components";
 
@@ -26,11 +28,11 @@ export const Dashboard: React.FC = () => {
         <Spacer />
         <Box p="30px">
           <ButtonGroup spacing="8" variant="outline">
-            <Button size="lg" colorScheme="pink">
-              Projects
+            <Button size="lg" colorScheme="pink" leftIcon={<BiBookAdd />}>
+              Create a Project
             </Button>
-            <Button size="lg" colorScheme="pink">
-              Flowers
+            <Button size="lg" colorScheme="pink" leftIcon={<GiFlowerPot />}>
+              Add New Florals
             </Button>
           </ButtonGroup>
         </Box>
@@ -53,7 +55,6 @@ export const Dashboard: React.FC = () => {
         <Box>
           <PinProjectCard />
         </Box>
-
       </SimpleGrid>
     </>
   );
