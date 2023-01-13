@@ -10,7 +10,7 @@ import {
   SimpleGrid
 } from "@chakra-ui/react";
 import React from "react";
-import { Header, ProjectCard } from "./components";
+import { Header, ProjectCard, PinProjectCard } from "./components";
 
 export const Dashboard: React.FC = () => {
   return (
@@ -49,6 +49,9 @@ export const Dashboard: React.FC = () => {
         </Box>
         <Box>
           <ProjectCard />
+        </Box>
+        <Box>
+          <PinProjectCard />
         </Box>
 
       </SimpleGrid>
