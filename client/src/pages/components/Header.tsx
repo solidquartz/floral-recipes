@@ -1,11 +1,11 @@
 // import { Link } from "react-router-dom";
 
-import { Flex } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Heading, Spacer } from "@chakra-ui/react";
 import React from "react";
 
 export const Header: React.FC = () => {
   return (
-    <Flex 
+    <Flex
       as="nav"
       align="center"
       justify="space-between"
@@ -15,7 +15,22 @@ export const Header: React.FC = () => {
       p={8}
     >
 
+        <Box>
+          <Heading size="lg">Envision Floral Recipes</Heading>
+        </Box>
+        <Spacer />
 
-    </Flex>
-    );
+        <Box>
+          <ButtonGroup>
+            <Button size="md" colorScheme="pink">
+              Projects
+            </Button>
+            <Button size="md" colorScheme="pink">
+              Flowers
+            </Button>
+          </ButtonGroup>
+        </Box>
+      </Flex>
+
+  );
 };
