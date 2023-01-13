@@ -7,26 +7,54 @@ import {
   Flex,
   Heading,
   Spacer,
+  SimpleGrid
 } from "@chakra-ui/react";
 import React from "react";
+import { Header, ProjectCard, PinProjectCard } from "./components";
 
 export const Dashboard: React.FC = () => {
   return (
-    <Flex direction="column" align="center" m="auto" justify="center">
-      <Box p="8">
-        <Heading>Envision Floral Recipes</Heading>
-      </Box>
-      <Spacer />
-      <Box p="4">
-        <ButtonGroup>
-          <Button size="lg" colorScheme="pink">
-            Projects
-          </Button>
-          <Button size="lg" colorScheme="pink">
-            Flowers
-          </Button>
-        </ButtonGroup>
-      </Box>
-    </Flex>
+    <>
+      {/* Navbar */}
+      <Header />
+
+      {/* Dashboard hero */}
+      <Flex direction="column" align="center" m="auto" justify="center">
+        <Box pt="10px">
+          <Heading>Dashboard</Heading>
+        </Box>
+        <Spacer />
+        <Box p="30px">
+          <ButtonGroup spacing="8" variant="outline">
+            <Button size="lg" colorScheme="pink">
+              Projects
+            </Button>
+            <Button size="lg" colorScheme="pink">
+              Flowers
+            </Button>
+          </ButtonGroup>
+        </Box>
+      </Flex>
+
+      {/* Pinned Projects */}
+      <SimpleGrid columns={3} spacing={10} minChildWidth="400px" p="30px">
+        <Box>
+          <ProjectCard />
+        </Box>
+        <Box>
+          <ProjectCard />
+        </Box>
+        <Box>
+          <ProjectCard />
+        </Box>
+        <Box>
+          <ProjectCard />
+        </Box>
+        <Box>
+          <PinProjectCard />
+        </Box>
+
+      </SimpleGrid>
+    </>
   );
 };
