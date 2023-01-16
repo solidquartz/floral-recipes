@@ -52,6 +52,8 @@ export const Dashboard: React.FC = () => {
         <Box>
           <ProjectCard />
         </Box>
+
+        {/* Add Pin */}
         <Box>
           <PinProjectCard />
         </Box>
