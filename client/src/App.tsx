@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Dashboard, Projects } from "./pages";
+import { Dashboard, Flowers, Projects } from "./pages";
 
 export const App: React.FC = () => (
   <Router>
@@ -8,6 +8,7 @@ export const App: React.FC = () => (
       <Route path="/">
         <Route index element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/flowers" element={<Flowers />} />
       </Route>
     </Routes>
   </Router>

@@ -1,11 +1,9 @@
 // import { Link } from "react-router-dom";
-
 import {
   Button,
   Flex,
   Heading,
   Input,
-  Spacer,
   Table,
   TableContainer,
   Tbody,
@@ -13,11 +11,29 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
+import api from "../api/api";
 import { Header, ProjectTableItem } from "./components";
 
 export const Projects: React.FC = () => {
+
+
+  //get all projects
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.get("/projects");
+      console.log(response);
+    };
+
+    fetchData()
+      .catch(console.error);
+}, [])
+
+
+
+
   return (
     <>
       {/* Navbar */}
