@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
-import { Header } from "./components";
+import { Header, ProjectTableItem } from "./components";
 
 export const Projects: React.FC = () => {
   return (
@@ -60,7 +60,10 @@ export const Projects: React.FC = () => {
                 <Th>Status</Th>
               </Tr>
             </Thead>
-            <Tbody></Tbody>
+            <Tbody>
+              {/* Body */}
+              <ProjectTableItem />
+            </Tbody>
           </Table>
         </TableContainer>
       </Flex>
