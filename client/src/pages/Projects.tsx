@@ -51,7 +51,7 @@ export const Projects: React.FC = () => {
       {/* Table of Projects */}
       <Flex justify="center">
         <TableContainer>
-          <Table variant="simple">
+          <Table variant="simple" size="lg">
             <Thead>
               <Tr>
                 <Th>Project Name</Th>
@@ -62,6 +62,10 @@ export const Projects: React.FC = () => {
             </Thead>
             <Tbody>
               {/* Body */}
+              <ProjectTableItem />
+              <ProjectTableItem />
+              <ProjectTableItem />
+              <ProjectTableItem />
               <ProjectTableItem />
             </Tbody>
           </Table>
