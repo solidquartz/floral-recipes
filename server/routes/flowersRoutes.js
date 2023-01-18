@@ -9,7 +9,7 @@ app.get('/', async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        projects: results.rows
+        flowers: results.rows
       },
     });
   } catch (err) {

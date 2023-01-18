@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ProjectsContextProvider } from "./context/ProjectsContext";
+import { AppContextProvider } from "./context/AppContext";
 import { Dashboard, Flowers, Projects } from "./pages";
 
 export const App: React.FC = () => (
-  <ProjectsContextProvider>
+  <AppContextProvider>
     <Router>
       <Routes>
         <Route path="/">
@@ -14,5 +14,5 @@ export const App: React.FC = () => (
         </Route>
       </Routes>
     </Router>
-  </ProjectsContextProvider>
+  </AppContextProvider>
 );
