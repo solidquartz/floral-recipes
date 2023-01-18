@@ -5,7 +5,7 @@ const db = require('../configs/db.config');
 //gets all projects with all data
 app.get('/', async (req, res) => {
   try {
-    const results = await db.query("SELECT * FROM flowers");
+    const results = await db.query("SELECT * FROM flowers ORDER BY flower_name");
     res.status(200).json({
       status: "success",
       data: {
