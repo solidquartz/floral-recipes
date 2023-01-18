@@ -35,7 +35,3 @@ export const AppContextProvider: React.FC<
     <AppContext.Provider value={ctx}>{children}</AppContext.Provider>
   );
 };
-
-/*
-  React.createElement(Element, props, children)
-*/

@@ -11,9 +11,7 @@ export type ProjectTableItemProps = {
 export const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project }) => {
 
   const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
-  console.log(lastUpdated);
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
-  console.log(lastUpdated);
 
   return (
     <Tr>
