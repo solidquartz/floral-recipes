@@ -1,20 +1,39 @@
-// import { Link } from "react-router-dom";
-
 import { Button, Td, Tr } from "@chakra-ui/react";
 import { Project } from "../../types/projectsTypes";
+import dayjs from 'dayjs';
 
 export type ProjectTableItemProps = {
   project: Project;
 };
 
-export const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project }) => (
-  <Tr>
-    <Td>{project.project_name}</Td>
-    <Td>{project.event_date}</Td>
-    <Td>{project.last_updated}</Td>
-    <Td>{project.active ? '✅' : '❌'}</Td>
-    <Td><Button variant="ghost">View</Button></Td>
-    <Td><Button variant="ghost" colorScheme="cyan">Edit</Button></Td>
-    <Td><Button variant="ghost" colorScheme="red">Delete</Button></Td>
-  </Tr>
-);
+
+
+export const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project }) => {
+
+  const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
+  console.log(lastUpdated);
+  const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
+  console.log(lastUpdated);
+
+  return (
+    <Tr>
+      <Td>{project.project_name}</Td>
+      <Td>{eventDate}</Td>
+      <Td>{lastUpdated}</Td>
+      <Td>{project.active ? "Active" : "Inactive"}</Td>
+      <Td>
+        <Button variant="ghost" size="sm">View</Button>
+      </Td>
+      <Td>
+        <Button variant="ghost" colorScheme="cyan" size="sm">
+          Edit
+        </Button>
+      </Td>
+      <Td>
+        <Button variant="ghost" colorScheme="red" size="sm">
+          Delete
+        </Button>
+      </Td>
+    </Tr>
+  );
+};

@@ -15,12 +15,11 @@ import { useEffect } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
 import api from "../api/api";
-import { useProjectContext } from "../context/ProjectsContext";
+import { useAppContext } from "../context/AppContext";
 import { Header, ProjectTableItem } from "./components";
 
 export const Projects: React.FC = () => {
-
-  const state = useProjectContext();
+  const state = useAppContext();
 
   //get all projects
   useEffect(() => {
@@ -44,7 +43,7 @@ export const Projects: React.FC = () => {
       <Header />
 
       {/* Title and Search */}
-      <Flex m="auto" p="20px" justify="space-around">
+      <Flex m="auto" pr="70px" pl="70px" justify="space-between">
         <Flex>
           <Flex pr="20px" align-items="center">
             <Heading>Projects</Heading>
@@ -86,7 +85,7 @@ export const Projects: React.FC = () => {
             </Thead>
             <Tbody>
               {/* Body */}
-              {state.projects.map(project => (
+              {state.projects.map((project) => (
                 <ProjectTableItem key={project.id} project={project} />
               ))}
             </Tbody>
