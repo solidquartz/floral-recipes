@@ -17,4 +17,12 @@ app.get('/', async (req, res) => {
   }
 });
 
+//delete a flower
+app.delete('/:id', (req, res) => {
+  res.status(204).json({
+    status: "success",
+  });
+});
+
+
 module.exports = app;
