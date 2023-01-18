@@ -1,19 +1,20 @@
 // import { Link } from "react-router-dom";
 
 import { Button, Td, Tr } from "@chakra-ui/react";
+import { Project } from "../../types/projectsTypes";
 
-export const ProjectTableItem: React.FC = () => {
-  return (
-    <>
-      <Tr>
-        <Td>Spock & Tali's Wedding</Td>
-        <Td>2023/04/12</Td>
-        <Td>2023/01/14</Td>
-        <Td>Active</Td>
-        <Td><Button variant="ghost">View</Button></Td>
-        <Td><Button variant="ghost" colorScheme="cyan">Edit</Button></Td>
-        <Td><Button variant="ghost" colorScheme="red">Delete</Button></Td>
-      </Tr>
-    </>
-  );
+export type ProjectTableItemProps = {
+  project: Project;
 };
+
+export const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project }) => (
+  <Tr>
+    <Td>{project.project_name}</Td>
+    <Td>{project.event_date}</Td>
+    <Td>{project.last_updated}</Td>
+    <Td>{project.active ? '✅' : '❌'}</Td>
+    <Td><Button variant="ghost">View</Button></Td>
+    <Td><Button variant="ghost" colorScheme="cyan">Edit</Button></Td>
+    <Td><Button variant="ghost" colorScheme="red">Delete</Button></Td>
+  </Tr>
+);

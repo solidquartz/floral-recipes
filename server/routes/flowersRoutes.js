@@ -1,11 +1,20 @@
-const router = require('express').Router();
-const flowers = require('../db/queries/flowers')
+const app = require('express').Router();
+const db = require('../configs/db.config');
 
-router.get('/', (req, res) => {
-  flowers.getAllFlowers()
-    .then(data => {
-      res.json({ flowers: data });
-  })
+
+//gets all projects with all data
+app.get('/', async (req, res) => {
+  try {
+    const results = await db.query("SELECT * FROM flowers");
+    res.status(200).json({
+      status: "success",
+      data: {
+        projects: results.rows
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-module.exports = router;
+module.exports = app;

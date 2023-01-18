@@ -1,11 +1,9 @@
 // import { Link } from "react-router-dom";
-
 import {
   Button,
   Flex,
   Heading,
   Input,
-  Spacer,
   Table,
   TableContainer,
   Tbody,
@@ -13,11 +11,33 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
+import api from "../api/api";
+import { useProjectContext } from "../context/ProjectsContext";
 import { Header, ProjectTableItem } from "./components";
 
 export const Projects: React.FC = () => {
+
+  const state = useProjectContext();
+
+  //get all projects
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("fetching data");
+      const response = await api.get("/projects");
+      state.setProjects(response.data.data.projects);
+      console.log(response.data.data.projects);
+    };
+
+    if (!state.projects.length) {
+      fetchData().catch(console.error);
+    }
+  }, [state]);
+
+  //my projects are in state.projects
+
   return (
     <>
       {/* Navbar */}
@@ -42,7 +62,11 @@ export const Projects: React.FC = () => {
 
         <Flex>
           <Input type="text" placeholder="Search" />
-          <Button colorScheme="pink" variant="outline" leftIcon={<BiSearchAlt/>}>
+          <Button
+            colorScheme="pink"
+            variant="outline"
+            leftIcon={<BiSearchAlt />}
+          >
             Search
           </Button>
         </Flex>
@@ -62,11 +86,9 @@ export const Projects: React.FC = () => {
             </Thead>
             <Tbody>
               {/* Body */}
-              <ProjectTableItem />
-              <ProjectTableItem />
-              <ProjectTableItem />
-              <ProjectTableItem />
-              <ProjectTableItem />
+              {state.projects.map(project => (
+                <ProjectTableItem key={project.id} project={project} />
+              ))}
             </Tbody>
           </Table>
         </TableContainer>
