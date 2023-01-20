@@ -3,16 +3,10 @@ import { Flower } from "../../types/flowersTypes";
 
 export type FlowerTableItemProps = {
   flower: Flower;
+  handleDelete: (id: number) => Promise<void>;
 };
 
-export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({ flower }) => {
-  const handleDelete = async (id) => {
-    try {
-
-    } catch {
-      
-    }
-  };
+export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({ flower, ...props }) => {
 
   return (
     <Tr>
@@ -29,7 +23,7 @@ export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({ flower }) => {
           variant="ghost"
           colorScheme="red"
           size="sm"
-          onClick={() => handleDelete(flower.id)}
+          onClick={() => props.handleDelete(flower.id)}
         >
           Delete
         </Button>

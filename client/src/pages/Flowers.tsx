@@ -23,10 +23,8 @@ export const Flowers: React.FC = () => {
   //get all flowers
   useEffect(() => {
     const fetchData = async () => {
-      console.log("fetching data");
       const response = await api.get("/flowers");
       state.setFlowers(response.data.data.flowers);
-      console.log(response.data.data.flowers);
     };
 
     if (!state.flowers.length) {
@@ -35,6 +33,14 @@ export const Flowers: React.FC = () => {
   }, [state]);
 
   //my flowers are in state.flowers
+
+  //delete a flower
+    const handleDelete = async (id: number) => {
+      try {
+        const response = await api.delete(`/flowers/${id}`);
+        console.log(response);
+      } catch (err) {}
+    };
 
   return (
     <>
@@ -84,7 +90,7 @@ export const Flowers: React.FC = () => {
             <Tbody>
               {/* Body */}
               {state.flowers.map((flower) => (
-                <FlowerTableItem key={flower.id} flower={flower} />
+                <FlowerTableItem key={flower.id} flower={flower} handleDelete={handleDelete} />
               ))}
             </Tbody>
           </Table>
