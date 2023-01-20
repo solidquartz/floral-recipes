@@ -13,6 +13,7 @@ import {
 import { useEffect } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { GiFlowerPot } from "react-icons/gi";
+import { Link } from "react-router-dom";
 import api from "../api/api";
 import { useAppContext } from "../context/AppContext";
 import { Header, FlowerTableItem } from "./components";
@@ -54,13 +55,15 @@ export const Flowers: React.FC = () => {
             <Heading>Flowers</Heading>
           </Flex>
           <Flex>
-            <Button
-              variant="outline"
-              colorScheme="cyan"
-              leftIcon={<GiFlowerPot />}
-            >
-              Add Flower
-            </Button>
+            <Link to="/flowers/create">
+              <Button
+                variant="outline"
+                colorScheme="cyan"
+                leftIcon={<GiFlowerPot />}
+              >
+                Add Flower
+              </Button>
+            </Link>
           </Flex>
         </Flex>
 
@@ -90,7 +93,11 @@ export const Flowers: React.FC = () => {
             <Tbody>
               {/* Body */}
               {state.flowers.map((flower) => (
-                <FlowerTableItem key={flower.id} flower={flower} handleDelete={handleDelete} />
+                <FlowerTableItem
+                  key={flower.id}
+                  flower={flower}
+                  handleDelete={handleDelete}
+                />
               ))}
             </Tbody>
           </Table>
