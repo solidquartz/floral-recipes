@@ -1,12 +1,6 @@
 import { Button, Td, Tr } from "@chakra-ui/react";
-import { Flower } from "../../types/flowersTypes";
 
-export type FlowerTableItemProps = {
-  flower: Flower;
-  handleDelete: (id: number) => Promise<void>;
-};
-
-export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({ flower, ...props }) => {
+export const FlowerTableItem = ({ flower, ...props }) => {
 
   return (
     <Tr>

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppContextProvider } from "./context/AppContext";
 import { CreateFlower, Dashboard, Flowers, Projects } from "./pages";
 
-export const App: React.FC = () => (
+export const App= () => (
   <AppContextProvider>
     <Router>
       <Routes>

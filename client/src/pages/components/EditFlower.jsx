@@ -1,5 +1,5 @@
 // import { Link } from "react-router-dom";
 
-export const EditFlower: React.FC = () => {
+export const EditFlower = () => {
   return <div>Edit Flower</div>;
 };

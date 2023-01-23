@@ -4,14 +4,9 @@ import { Button, Flex, Heading } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { Header } from "./components";
 
-export const CreateFlower: React.FC = () => {
-  interface FlowerFormValues {
-    name: String;
-    price: String;
-    roundedUp: Number;
-  }
+export const CreateFlower = () => {
 
-  const initialValues: FlowerFormValues = { name: "", price: "", roundedUp: 0 };
+  const initialValues = { name: "", price: "", roundedUp: 0 };
 
   return (
     <>

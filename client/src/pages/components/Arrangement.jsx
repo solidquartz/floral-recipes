@@ -1,5 +1,5 @@
 // import { Link } from "react-router-dom";
 
-export const Arrangement: React.FC = () => {
+export const Arrangement = () => {
   return <div>Arrangement</div>;
 };

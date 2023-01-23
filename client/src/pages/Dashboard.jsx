@@ -15,7 +15,7 @@ import React from "react";
 import { Header, ProjectCard, PinProjectCard } from "./components";
 import { Link } from "react-router-dom";
 
-export const Dashboard: React.FC = () => {
+export const Dashboard = () => {
   return (
     <>
       {/* Navbar */}
