@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Box, Button, ButtonGroup, Flex, Heading, Spacer } from "@chakra-ui/react";
 import React from "react";
 
-export const Header: React.FC = () => {
+export const Header = () => {
   return (
     <Flex
       as="nav"

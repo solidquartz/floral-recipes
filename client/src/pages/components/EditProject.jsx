@@ -1,5 +1,5 @@
 // import { Link } from "react-router-dom";
 
-export const EditProject: React.FC = () => {
+export const EditProject = () => {
   return <div>Edit Project</div>;
 };

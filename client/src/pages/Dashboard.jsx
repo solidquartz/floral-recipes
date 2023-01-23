@@ -13,8 +13,9 @@ import { BiBookAdd } from "react-icons/bi";
 import { GiFlowerPot } from "react-icons/gi";
 import React from "react";
 import { Header, ProjectCard, PinProjectCard } from "./components";
+import { Link } from "react-router-dom";
 
-export const Dashboard: React.FC = () => {
+export const Dashboard = () => {
   return (
     <>
       {/* Navbar */}
@@ -31,9 +32,11 @@ export const Dashboard: React.FC = () => {
             <Button size="lg" colorScheme="pink" leftIcon={<BiBookAdd />}>
               Create a Project
             </Button>
-            <Button size="lg" colorScheme="pink" leftIcon={<GiFlowerPot />}>
-              Add New Florals
-            </Button>
+            <Link to="/flowers/create">
+              <Button size="lg" colorScheme="pink" leftIcon={<GiFlowerPot />}>
+                Add New Flower
+              </Button>
+            </Link>
           </ButtonGroup>
         </Box>
       </Flex>

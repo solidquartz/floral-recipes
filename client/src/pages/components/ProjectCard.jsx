@@ -13,9 +13,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { HiOutlineBookOpen } from "react-icons/hi";
-import { TbEdit } from 'react-icons/tb'
+import { TbEdit } from 'react-icons/tb';
 
-export const ProjectCard: React.FC = () => {
+export const ProjectCard = () => {
   return (
     <Card maxW="md" maxH="md" m="auto">
       <CardHeader>

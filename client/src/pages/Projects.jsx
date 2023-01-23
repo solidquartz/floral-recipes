@@ -1,3 +1,4 @@
+// import { Link } from "react-router-dom";
 import {
   Button,
   Flex,
@@ -11,30 +12,30 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
-import { GiFlowerPot } from "react-icons/gi";
 import api from "../api/api";
 import { useAppContext } from "../context/AppContext";
-import { Header, FlowerTableItem } from "./components";
+import { Header, ProjectTableItem } from "./components";
 
-export const Flowers: React.FC = () => {
+export const Projects = () => {
   const state = useAppContext();
 
-  //get all flowers
+  //get all projects
   useEffect(() => {
     const fetchData = async () => {
       console.log("fetching data");
-      const response = await api.get("/flowers");
-      state.setFlowers(response.data.data.flowers);
-      console.log(response.data.data.flowers);
+      const response = await api.get("/projects");
+      state.setProjects(response.data.data.projects);
+      console.log(response.data.data.projects);
     };
 
-    if (!state.flowers.length) {
+    if (!state.projects.length) {
       fetchData().catch(console.error);
     }
   }, [state]);
 
-  //my flowers are in state.flowers
+  //my projects are in state.projects
 
   return (
     <>
@@ -45,15 +46,15 @@ export const Flowers: React.FC = () => {
       <Flex m="auto" pr="70px" pl="70px" justify="space-between">
         <Flex>
           <Flex pr="20px" align-items="center">
-            <Heading>Flowers</Heading>
+            <Heading>Projects</Heading>
           </Flex>
           <Flex>
             <Button
               variant="outline"
               colorScheme="cyan"
-              leftIcon={<GiFlowerPot />}
+              leftIcon={<BiBookAdd />}
             >
-              Add Flower
+              Create Project
             </Button>
           </Flex>
         </Flex>
@@ -76,15 +77,16 @@ export const Flowers: React.FC = () => {
           <Table variant="simple" size="lg">
             <Thead>
               <Tr>
-                <Th>Flower Name</Th>
-                <Th>Price Per Stem</Th>
-                <Th>Rounded Up</Th>
+                <Th>Project Name</Th>
+                <Th>Event Date</Th>
+                <Th>Last Updated</Th>
+                <Th>Status</Th>
               </Tr>
             </Thead>
             <Tbody>
               {/* Body */}
-              {state.flowers.map((flower) => (
-                <FlowerTableItem key={flower.id} flower={flower} />
+              {state.projects.map((project) => (
+                <ProjectTableItem key={project.id} project={project} />
               ))}
             </Tbody>
           </Table>

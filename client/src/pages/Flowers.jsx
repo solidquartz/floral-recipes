@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import {
   Button,
   Flex,
@@ -12,30 +11,37 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
+import { GiFlowerPot } from "react-icons/gi";
+import { Link } from "react-router-dom";
 import api from "../api/api";
 import { useAppContext } from "../context/AppContext";
-import { Header, ProjectTableItem } from "./components";
+import { Header, FlowerTableItem } from "./components";
 
-export const Projects: React.FC = () => {
+export const Flowers = () => {
   const state = useAppContext();
 
-  //get all projects
+  //get all flowers
   useEffect(() => {
     const fetchData = async () => {
-      console.log("fetching data");
-      const response = await api.get("/projects");
-      state.setProjects(response.data.data.projects);
-      console.log(response.data.data.projects);
+      const response = await api.get("/flowers");
+      state.setFlowers(response.data.data.flowers);
     };
 
-    if (!state.projects.length) {
+    if (!state.flowers.length) {
       fetchData().catch(console.error);
     }
   }, [state]);
 
-  //my projects are in state.projects
+  //my flowers are in state.flowers
+
+  //delete a flower
+  const handleDelete = async (id) => {
+    try {
+      const response = await api.delete(`/flowers/${id}`);
+      console.log(response);
+    } catch (err) { }
+  };
 
   return (
     <>
@@ -46,16 +52,18 @@ export const Projects: React.FC = () => {
       <Flex m="auto" pr="70px" pl="70px" justify="space-between">
         <Flex>
           <Flex pr="20px" align-items="center">
-            <Heading>Projects</Heading>
+            <Heading>Flowers</Heading>
           </Flex>
           <Flex>
-            <Button
-              variant="outline"
-              colorScheme="cyan"
-              leftIcon={<BiBookAdd />}
-            >
-              Create Project
-            </Button>
+            <Link to="/flowers/create">
+              <Button
+                variant="outline"
+                colorScheme="cyan"
+                leftIcon={<GiFlowerPot />}
+              >
+                Add Flower
+              </Button>
+            </Link>
           </Flex>
         </Flex>
 
@@ -77,16 +85,19 @@ export const Projects: React.FC = () => {
           <Table variant="simple" size="lg">
             <Thead>
               <Tr>
-                <Th>Project Name</Th>
-                <Th>Event Date</Th>
-                <Th>Last Updated</Th>
-                <Th>Status</Th>
+                <Th>Flower Name</Th>
+                <Th>Price Per Stem</Th>
+                <Th>Rounded Up</Th>
               </Tr>
             </Thead>
             <Tbody>
               {/* Body */}
-              {state.projects.map((project) => (
-                <ProjectTableItem key={project.id} project={project} />
+              {state.flowers.map((flower) => (
+                <FlowerTableItem
+                  key={flower.id}
+                  flower={flower}
+                  handleDelete={handleDelete}
+                />
               ))}
             </Tbody>
           </Table>

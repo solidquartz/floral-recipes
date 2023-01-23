@@ -1,15 +1,6 @@
 import { Button, Td, Tr } from "@chakra-ui/react";
-import { Flower } from "../../types/flowersTypes";
 
-
-export type FlowerTableItemProps = {
-  flower: Flower;
-};
-
-export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({
-  flower,
-}) => {
-
+export const FlowerTableItem = ({ flower, ...props }) => {
 
   return (
     <Tr>
@@ -22,7 +13,12 @@ export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({
         </Button>
       </Td>
       <Td>
-        <Button variant="ghost" colorScheme="red" size="sm">
+        <Button
+          variant="ghost"
+          colorScheme="red"
+          size="sm"
+          onClick={() => props.handleDelete(flower.id)}
+        >
           Delete
         </Button>
       </Td>
