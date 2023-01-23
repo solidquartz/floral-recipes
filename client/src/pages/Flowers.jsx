@@ -39,7 +39,9 @@ export const Flowers = () => {
   const handleDelete = async (id) => {
     try {
       const response = await api.delete(`/flowers/${id}`);
-      console.log(response);
+      state.setFlowers(state.flowers.filter(flower => {
+        return flower.id !== id;
+      }));
     } catch (err) { }
   };
 
