@@ -29,5 +29,10 @@ app.delete('/:id', async (req, res) => {
   }
 });
 
+//create a flower
+app.post("/", (req, res) => {
+  console.log(req.body);
+})
+
 
 module.exports = app;
