@@ -30,9 +30,23 @@ app.delete('/:id', async (req, res) => {
 });
 
 //create a flower
-app.post("/", (req, res) => {
+app.post('/', async (req, res) => {
   console.log(req.body);
-})
+  try {
+    const results = await db.query("INSERT INTO flowers (flower_name, stem_price, rounded_up) VALUES ($1, $2, $3) returning *",
+      [req.body.flower_name, req.body.stem_price, req.body.rounded_up]
+    );
+    console.log(results);
+    res.status(201).json({
+      status: "success",
+      data: {
+        flower: results.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 
 module.exports = app;

@@ -4,12 +4,11 @@ import { Header } from "./components";
 import * as Yup from 'yup';
 import TextField from "./components/TextField";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import api from "../api/api";
 
 export const CreateFlower = () => {
 
-  const initialValues = { name: "", price: "", rounded_up: 0 };
+  const initialValues = { flower_name: "", stem_price: "", rounded_up: "" };
 
 
   return (
@@ -26,22 +25,21 @@ export const CreateFlower = () => {
 
             validationSchema={
               Yup.object({
-                name: Yup.string()
+                flower_name: Yup.string()
                   .required("Please enter a flower name"),
-                price: Yup.string()
+                stem_price: Yup.string()
                   .required("Please enter a price"),
                 rounded_up: Yup.number()
                   .optional(),
               })}
 
-            onSubmit={(values) => {
-              api.post("/flowers", {
-                name: values.name,
-                price: values.price,
+            onSubmit={async (values) => {
+              const response = await api.post("/flowers", {
+                flower_name: values.flower_name,
+                stem_price: values.stem_price,
                 rounded_up: values.rounded_up,
-              }).then((response) => {
-                console.log(response);
               });
+              console.log(response);
             }}
           >
 
@@ -51,8 +49,8 @@ export const CreateFlower = () => {
                 <Box>
                   <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit}>
 
-                    <TextField name="name" type="text" placeholder="Floral Name" />
-                    <TextField name="price" type="text" placeholder="Price" />
+                    <TextField name="flower_name" type="text" placeholder="Floral Name" />
+                    <TextField name="stem_price" type="text" placeholder="Price" />
                     <TextField name="rounded_up" type="text" placeholder="Rounded Up" />
 
                     {/* Buttons */}
