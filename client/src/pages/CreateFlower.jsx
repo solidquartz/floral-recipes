@@ -53,9 +53,9 @@ export const CreateFlower = () => {
                 <Box>
                   <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit}>
 
-                    <TextField name="flower_name" type="text" placeholder="Floral Name" />
-                    <TextField name="stem_price" type="text" placeholder="Price" />
-                    <TextField name="rounded_up" type="text" placeholder="Rounded Up" />
+                    <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
+                    <TextField name="stem_price" type="text" placeholder="$0.00" label="Price" />
+                    <TextField name="rounded_up" type="text" placeholder="0" label="Rounded Up" />
 
                     {/* Buttons */}
                     <ButtonGroup spacing="6">
