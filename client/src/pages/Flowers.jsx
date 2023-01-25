@@ -13,7 +13,7 @@ import {
 import { useEffect } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { GiFlowerPot } from "react-icons/gi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import { useAppContext } from "../context/AppContext";
 import { Header, FlowerTableItem } from "./components";
@@ -44,6 +44,14 @@ export const Flowers = () => {
       }));
     } catch (err) { }
   };
+
+//edit flower
+  let navigate = useNavigate();
+
+  const handleEdit = (id) => {
+    navigate(`/flowers/${id}/edit`)
+  }
+
 
   return (
     <>
@@ -99,6 +107,7 @@ export const Flowers = () => {
                   key={flower.id}
                   flower={flower}
                   handleDelete={handleDelete}
+                  handleEdit={handleEdit}
                 />
               ))}
             </Tbody>
