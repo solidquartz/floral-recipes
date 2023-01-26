@@ -3,7 +3,7 @@ import {
   FormErrorMessage,
   FormLabel,
 } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputLeftAddon } from "@chakra-ui/input";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/input";
 import { useField } from "formik";
 
 
@@ -15,7 +15,7 @@ export const LeftElementTextField = ({ label, ...props }) => {
     <FormControl isInvalid={meta.error && meta.touched}>
       <FormLabel htmlFor={props.name}>{label}</FormLabel>
       <InputGroup>
-        <InputLeftAddon children={props.element} />
+        <InputLeftElement children={props.element} pointerEvents="none" color="gray.500" />
       <Input
         {...field}
         {...props}
