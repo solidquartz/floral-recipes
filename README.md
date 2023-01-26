@@ -7,5 +7,6 @@ An internal app to make floral orders intended to reduce human error. Features a
 ## Tech Stack
 - React
 - Express
+- PostgreSQL
 - Chakra UI
 - Formik & Yup

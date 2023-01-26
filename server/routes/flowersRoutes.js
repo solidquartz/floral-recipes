@@ -63,5 +63,26 @@ app.post('/', async (req, res) => {
   }
 });
 
+//edit a flower
+app.put('/:id', async (req, res) => {
+  try {
+    const results = await db.query(
+      "UPDATE flowers SET flower_name = $1, stem_price = $2, rounded_up = $3 where id = $4 returning *",
+      [req.body.flower_name, req.body.stem_price, req.body.rounded_up, req.params.id]
+    );
+    res.status(200).json({
+      status: "success",
+      data: {
+        flower: results.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  console.log(req.params.id);
+  console.log(req.body);
+});
+
+
 
 module.exports = app;

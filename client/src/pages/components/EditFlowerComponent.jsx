@@ -40,19 +40,20 @@ export const EditFlowerComponent = (props) => {
           Yup.object({
             flower_name: Yup.string()
               .required("Please enter a flower name"),
-            stem_price: Yup.string()
-              .required("Please enter a price"),
+            stem_price: Yup.number()
+              .required("Please enter a price only using numbers")
+              .typeError("Must be a number"),
             rounded_up: Yup.number()
-              .required("Please enter a whole number"),
+              .required("Please enter a number")
+              .typeError("Must be a number"),
           })}
 
         onSubmit={async (values) => {
-          const response = await api.post("/flowers", {
+          const response = await api.put(`/flowers/${id}`, {
             flower_name: values.flower_name,
             stem_price: values.stem_price,
             rounded_up: values.rounded_up,
           });
-          state.addFlower(response.data.data.flower);
           navigate('/flowers');
         }}
       >
@@ -72,7 +73,7 @@ export const EditFlowerComponent = (props) => {
                   <Link to="/flowers">
                     <Button>Cancel</Button>
                   </Link>
-                  <Button type="submit" colorScheme="pink">Add</Button>
+                  <Button type="submit" colorScheme="pink">Update</Button>
 
                 </ButtonGroup>
               </VStack>
