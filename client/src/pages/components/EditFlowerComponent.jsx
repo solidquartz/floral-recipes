@@ -1,8 +1,8 @@
 import { Box, Button, ButtonGroup, Flex, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { Link, useParams } from 'react-router-dom';
-import TextField from './TextField';
 import * as Yup from 'yup';
+import { TextField } from './TextField';
 
 export const EditFlowerComponent = (props) => {
 

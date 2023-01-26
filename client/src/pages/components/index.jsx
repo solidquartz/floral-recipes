@@ -7,4 +7,5 @@ export * from './ProjectCard';
 export * from './ProjectTableItem';
 export * from './FlowerTableItem';
 export * from './TextField';
-export * from './EditFlowerComponent'
+export * from './EditFlowerComponent';
+export * from './LeftElementTextField';
