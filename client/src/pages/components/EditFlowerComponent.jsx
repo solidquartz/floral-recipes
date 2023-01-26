@@ -1,22 +1,40 @@
 import { Box, Button, ButtonGroup, Flex, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
+import api from '../../api/api';
 import { LeftElementTextField } from './LeftElementTextField';
 import { TextField } from './TextField';
 
 export const EditFlowerComponent = (props) => {
 
   //grab id from url
-  const {id} = useParams();
+  const { id } = useParams();
+
+  //for initial values
+  const [flowerName, setFlowerName] = useState("");
+  const [stemPrice, setStemPrice] = useState("");
+  const [roundedUp, setRoundedUp] = useState("");
+
+  useEffect(() => {
+    const fetchFlower = async () => {
+      const response = await api.get(`/flowers/${id}`);
+      setFlowerName(response.data.data.flower.flower_name);
+      setStemPrice(response.data.data.flower.stem_price);
+      setRoundedUp(response.data.data.flower.rounded_up);
+    };
+    fetchFlower();
+  }, []);
 
 
-  const initialValues = { flower_name: "", stem_price: "", rounded_up: "" };
+  const initialValues = { flower_name: flowerName, stem_price: stemPrice, rounded_up: roundedUp };
 
   return (
     <>
       <Formik
         initialValues={initialValues}
+        enableReinitialize={true}
 
         validationSchema={
           Yup.object({
