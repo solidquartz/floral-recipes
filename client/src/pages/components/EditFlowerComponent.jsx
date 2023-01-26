@@ -1,7 +1,7 @@
 import { Box, Button, ButtonGroup, Flex, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import api from '../../api/api';
 import { useAppContext } from '../../context/AppContext';
@@ -18,7 +18,6 @@ export const EditFlowerComponent = (props) => {
   const [stemPrice, setStemPrice] = useState("");
   const [roundedUp, setRoundedUp] = useState("");
 
-  const navigate = useNavigate();
   const state = useAppContext();
 
   useEffect(() => {

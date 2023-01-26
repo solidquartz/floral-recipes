@@ -2,7 +2,7 @@ import { Button, Flex, Heading, Box, VStack, ButtonGroup } from "@chakra-ui/reac
 import { Formik } from "formik";
 import { Header, LeftElementTextField, TextField } from "./components";
 import * as Yup from 'yup';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../api/api";
 import { useAppContext } from "../context/AppContext";
 
@@ -10,7 +10,6 @@ import { useAppContext } from "../context/AppContext";
 export const CreateFlower = () => {
 
   const state = useAppContext();
-  const navigate = useNavigate();
   const initialValues = { flower_name: "", stem_price: "", rounded_up: "" };
 
 
@@ -43,7 +42,7 @@ export const CreateFlower = () => {
                 rounded_up: values.rounded_up,
               });
               state.upsertFlower(response.data.data.flower);
-              navigate('/flowers');
+              window.location = '/flowers';
             }}
           >
 
