@@ -25,7 +25,7 @@ export const EditFlowerComponent = (props) => {
             stem_price: Yup.string()
               .required("Please enter a price"),
             rounded_up: Yup.number()
-              .optional(),
+              .required("Please enter a whole number"),
           })}
 
         onSubmit={async (values) => {
@@ -43,7 +43,7 @@ export const EditFlowerComponent = (props) => {
         {formik => (
           <Flex align="center">
             <Box>
-              <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit}>
+              <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit} w="350px">
 
                 <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
                 <LeftElementTextField name="stem_price" type="text" placeholder="0.00" label="Price" element="$" />

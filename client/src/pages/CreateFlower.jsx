@@ -30,10 +30,10 @@ export const CreateFlower = () => {
               Yup.object({
                 flower_name: Yup.string()
                   .required("Please enter a flower name"),
-                stem_price: Yup.string()
+                stem_price: Yup.number()
                   .required("Please enter a price"),
                 rounded_up: Yup.number()
-                  .optional(),
+                  .required("Please enter a whole number"),
               })}
 
             onSubmit={async (values) => {
@@ -51,7 +51,7 @@ export const CreateFlower = () => {
             {formik => (
               <Flex align="center">
                 <Box>
-                  <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit}>
+                  <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit} w="350px">
                     
                     <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
                       
