@@ -42,7 +42,7 @@ export const CreateFlower = () => {
                 stem_price: values.stem_price,
                 rounded_up: values.rounded_up,
               });
-              state.addFlower(response.data.data.flower);
+              state.upsertFlower(response.data.data.flower);
               navigate('/flowers');
             }}
           >

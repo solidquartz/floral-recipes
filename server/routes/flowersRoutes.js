@@ -64,7 +64,7 @@ app.post('/', async (req, res) => {
 });
 
 //edit a flower
-app.put('/:id', async (req, res) => {
+app.patch('/:id', async (req, res) => {
   try {
     const results = await db.query(
       "UPDATE flowers SET flower_name = $1, stem_price = $2, rounded_up = $3 where id = $4 returning *",

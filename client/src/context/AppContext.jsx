@@ -8,18 +8,21 @@ export const AppContextProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [flowers, setFlowers] = useState([]);
 
-  const addFlower = (flower) => {
-    setFlowers([...flowers, flower]);
-}
+  const upsertFlower = (flower) => {
+    const newFlowers = [
+      ...flowers.filter(x => x.id !== flower.id), flower,]
+    console.log(newFlowers);
+    setFlowers(newFlowers);
+  };
 
 
-  const ctx = useMemo(() => ({
+  const ctx = {
     projects,
     setProjects,
     flowers,
     setFlowers,
-    addFlower
-  }), [projects, setProjects, flowers, setFlowers, addFlower]);
+    upsertFlower
+  }//, [projects, setProjects, flowers, setFlowers, upsertFlower]);
 
   return (
     <AppContext.Provider value={ctx}>{children}</AppContext.Provider>

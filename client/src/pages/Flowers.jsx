@@ -26,6 +26,7 @@ export const Flowers = () => {
     const fetchData = async () => {
       const response = await api.get("/flowers");
       state.setFlowers(response.data.data.flowers);
+
     };
 
     if (!state.flowers.length) {
@@ -52,7 +53,7 @@ export const Flowers = () => {
     navigate(`/flowers/${id}/edit`)
   }
 
-
+  console.log(state.flowers);
   return (
     <>
       {/* Navbar */}

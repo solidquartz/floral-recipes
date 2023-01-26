@@ -1,9 +1,10 @@
 import { Box, Button, ButtonGroup, Flex, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import api from '../../api/api';
+import { useAppContext } from '../../context/AppContext';
 import { LeftElementTextField } from './LeftElementTextField';
 import { TextField } from './TextField';
 
@@ -16,6 +17,9 @@ export const EditFlowerComponent = (props) => {
   const [flowerName, setFlowerName] = useState("");
   const [stemPrice, setStemPrice] = useState("");
   const [roundedUp, setRoundedUp] = useState("");
+
+  const navigate = useNavigate();
+  const state = useAppContext();
 
   useEffect(() => {
     const fetchFlower = async () => {
@@ -49,12 +53,13 @@ export const EditFlowerComponent = (props) => {
           })}
 
         onSubmit={async (values) => {
-          const response = await api.put(`/flowers/${id}`, {
+          const response = await api.patch(`/flowers/${id}`, {
             flower_name: values.flower_name,
             stem_price: values.stem_price,
             rounded_up: values.rounded_up,
           });
-          navigate('/flowers');
+          state.upsertFlower(response.data.data.flower);
+          window.location = '/flowers';
         }}
       >
 
