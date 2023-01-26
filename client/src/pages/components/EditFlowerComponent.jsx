@@ -2,6 +2,7 @@ import { Box, Button, ButtonGroup, Flex, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { Link, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
+import { LeftElementTextField } from './LeftElementTextField';
 import { TextField } from './TextField';
 
 export const EditFlowerComponent = (props) => {
@@ -45,7 +46,7 @@ export const EditFlowerComponent = (props) => {
               <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit}>
 
                 <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
-                <TextField name="stem_price" type="text" placeholder="$0.00" label="Price" />
+                <LeftElementTextField name="stem_price" type="text" placeholder="0.00" label="Price" element="$" />
                 <TextField name="rounded_up" type="text" placeholder="Rounded Up" label="Rounded Up" />
 
                 {/* Buttons */}
