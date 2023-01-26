@@ -5,3 +5,4 @@ export * from './ProjectDetails';
 export * from './CreateProject';
 export * from './Flowers';
 export * from './CreateFlower';
+export * from './EditFlower'

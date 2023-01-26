@@ -1,13 +1,15 @@
 import { Button, Flex, Heading, Box, VStack, ButtonGroup } from "@chakra-ui/react";
 import { Formik } from "formik";
-import { Header } from "./components";
+import { Header, LeftElementTextField, TextField } from "./components";
 import * as Yup from 'yup';
-import TextField from "./components/TextField";
 import { Link } from "react-router-dom";
 import api from "../api/api";
+import { useAppContext } from "../context/AppContext";
+
 
 export const CreateFlower = () => {
 
+  const state = useAppContext();
   const initialValues = { flower_name: "", stem_price: "", rounded_up: "" };
 
 
@@ -27,10 +29,10 @@ export const CreateFlower = () => {
               Yup.object({
                 flower_name: Yup.string()
                   .required("Please enter a flower name"),
-                stem_price: Yup.string()
+                stem_price: Yup.number()
                   .required("Please enter a price"),
                 rounded_up: Yup.number()
-                  .optional(),
+                  .required("Please enter a whole number"),
               })}
 
             onSubmit={async (values) => {
@@ -39,7 +41,8 @@ export const CreateFlower = () => {
                 stem_price: values.stem_price,
                 rounded_up: values.rounded_up,
               });
-              console.log(response);
+              state.upsertFlower(response.data.data.flower);
+              window.location = '/flowers';
             }}
           >
 
@@ -47,11 +50,15 @@ export const CreateFlower = () => {
             {formik => (
               <Flex align="center">
                 <Box>
-                  <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit}>
-
-                    <TextField name="flower_name" type="text" placeholder="Floral Name" />
-                    <TextField name="stem_price" type="text" placeholder="Price" />
-                    <TextField name="rounded_up" type="text" placeholder="Rounded Up" />
+                  <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit} w="350px">
+                    
+                    <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
+                      
+                      <LeftElementTextField name="stem_price" type="text" placeholder="0.00" label="Price" element="$" />
+                    
+                  
+                      <TextField name="rounded_up" type="text" placeholder="0" label="Rounded Up" />
+                    
 
                     {/* Buttons */}
                     <ButtonGroup spacing="6">

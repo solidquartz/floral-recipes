@@ -8,7 +8,11 @@ export const FlowerTableItem = ({ flower, ...props }) => {
       <Td>${flower.stem_price}</Td>
       <Td>{flower.rounded_up}</Td>
       <Td>
-        <Button variant="ghost" colorScheme="cyan" size="sm">
+        <Button
+          variant="ghost"
+          colorScheme="cyan"
+          size="sm"
+          onClick={() => props.handleEdit(flower.id)}>
           Edit
         </Button>
       </Td>

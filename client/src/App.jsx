@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppContextProvider } from "./context/AppContext";
-import { CreateFlower, Dashboard, Flowers, Projects } from "./pages";
+import { CreateFlower, Dashboard, EditFlower, Flowers, Projects } from "./pages";
 
 export const App= () => (
   <AppContextProvider>
@@ -12,6 +12,7 @@ export const App= () => (
           <Route path="/projects" element={<Projects />} />
           <Route path="/flowers" element={<Flowers />} />
           <Route path="/flowers/create" element={<CreateFlower />} />
+          <Route path="/flowers/:id/edit" element={<EditFlower />} />
         </Route>
       </Routes>
     </Router>
