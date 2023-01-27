@@ -9,3 +9,4 @@ export * from './FlowerTableItem';
 export * from './TextField';
 export * from './EditFlowerComponent';
 export * from './LeftElementTextField';
+export * from './ProjectDetailsComponent';

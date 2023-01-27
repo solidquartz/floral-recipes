@@ -25,7 +25,7 @@ app.get("/:id", async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        project: results.rows
+        project: results.rows[0]
       },
     });
   } catch (err) {
