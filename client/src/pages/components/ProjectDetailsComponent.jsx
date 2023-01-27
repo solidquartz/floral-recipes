@@ -10,24 +10,69 @@ export const ProjectDetailsComponent = () => {
   const { id } = useParams();
 
   // //for project info
-  const [projectName, setProjectName] = useState("");
-
+  const [project, setProject] = useState(null);
+  const [arrangements, setArrangements] = useState();
 
   // const state = useAppContext();
 
   useEffect(() => {
     const fetchProject = async () => {
       const response = await api.get(`/projects/${id}`);
-      setProjectName(response.data.data.project.project_name);
+      setProject(response.data.data.project);
 
     };
-    fetchProject();
+
+    if (!project) {
+      fetchProject();
+    }
   }, []);
 
 
   return (
     <>
       <Heading>{projectName}</Heading>
+
+      <table>
+        <tbody>
+          {project.arrangements.map((a, idx) => (
+            <tr key={idx}>
+              <td>{a.name}</td>
+              <td>{a.quantity}</td>
+              <td>
+                <ul>
+                  {a.flowers.map((flower, flower_idx) => (
+                    <li>
+                      {/* name - quantity */}
+                      {state.flowers.find(x => x.id === flower.id)?.name} - {flower.quantity}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
+
+/*
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case 'changeProjectName':
+        return {
+          ...state,
+          name: action.payload
+        }
+      default:
+        return state;
+    }
+  }
+
+  dispatch({
+    type: 'changeProjectName',
+    payload: {
+      name: 'something'
+    }
+  });
+*/
