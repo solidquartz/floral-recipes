@@ -13,6 +13,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { Arrangement } from "./Arrangement";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import api from "../../api/api";
@@ -62,13 +63,13 @@ export const ProjectDetailsComponent = () => {
         </Flex>
         {/* Floral Order Table */}
 
-        <Flex p="25px" width="max" m="auto">
+        <Flex p="25px" width="100%" m="auto" flexDirection="column">
           <TableContainer>
             <Heading size="lg">Floral Order</Heading>
             <Table size="lg">
               <Thead>
                 <Tr>
-                  <Th>Floral Type</Th>
+                  <Th>Item</Th>
                   <Th>Stems</Th>
                   <Th>Rounded Up</Th>
                   <Th>Price per Stem</Th>
@@ -88,19 +89,27 @@ export const ProjectDetailsComponent = () => {
               </Tbody>
             </Table>
           </TableContainer>
-        </Flex>
-        <Flex justifyContent="right" pr="40px">
-          <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
-            Floral Budget: $30
-          </Text>
-        </Flex>
-        <Flex justifyContent="right" pr="40px" pt="20px">
-          <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
-            With Markup: $75
-          </Text>
+          <Flex justifyContent="right" pr="40px">
+            <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
+              Floral Budget: $30
+            </Text>
+          </Flex>
+          <Flex justifyContent="right" pr="40px" pt="20px">
+            <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
+              With Markup: $75
+            </Text>
+          </Flex>
         </Flex>
 
         {/* Arrangements*/}
+        <Flex p="25px" flexDirection="column">
+          <Flex>
+            <Heading size="lg">Arrangements</Heading>
+          </Flex>
+          <Flex>
+            <Arrangement />
+          </Flex>
+        </Flex>
       </Flex>
 
       {/* <table>
