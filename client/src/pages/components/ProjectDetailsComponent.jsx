@@ -1,5 +1,7 @@
 import {
   Box,
+  Button,
+  ButtonGroup,
   Flex,
   Heading,
   Table,
@@ -17,10 +19,9 @@ import api from "../../api/api";
 import { useAppContext } from "../../context/AppContext";
 
 export const ProjectDetailsComponent = () => {
-  //grab id from url
+
   const { id } = useParams();
 
-  // //for project info
   const [project, setProject] = useState(null);
   const [arrangements, setArrangements] = useState();
 
@@ -39,11 +40,28 @@ export const ProjectDetailsComponent = () => {
 
   return (
     <>
-      <Heading>Project Details</Heading>
-
-      {/* Floral Order Table */}
-
       <Flex flexDirection="column">
+        <Flex
+          flexDirection="row"
+          alignItems="baseline"
+          justifyContent="space-between"
+        >
+          <Flex>
+            <Heading>Project</Heading>
+          </Flex>
+
+          {/* Buttons */}
+          <Flex pt="20px">
+            <ButtonGroup>
+              <Link to="/projects">
+                <Button>Back</Button>
+              </Link>
+              <Button colorScheme="blue">Edit Project</Button>
+            </ButtonGroup>
+          </Flex>
+        </Flex>
+        {/* Floral Order Table */}
+
         <Flex p="25px" width="max" m="auto">
           <TableContainer>
             <Heading size="lg">Floral Order</Heading>
@@ -83,10 +101,6 @@ export const ProjectDetailsComponent = () => {
         </Flex>
 
         {/* Arrangements*/}
-
-
-
-        
       </Flex>
 
       {/* <table>
