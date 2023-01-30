@@ -41,7 +41,7 @@ export const ProjectDetailsComponent = () => {
 
   return (
     <>
-      <Flex flexDirection="column">
+      <Flex flexDirection="column" maxW="1080px">
         <Flex
           flexDirection="row"
           alignItems="baseline"
@@ -64,7 +64,7 @@ export const ProjectDetailsComponent = () => {
         {/* Floral Order Table */}
 
         <Flex p="25px" width="100%" m="auto" flexDirection="column">
-          <TableContainer>
+          <TableContainer whiteSpace="normal" maxW="1080px">
             <Heading size="lg">Floral Order</Heading>
             <Table size="lg">
               <Thead>
@@ -89,7 +89,7 @@ export const ProjectDetailsComponent = () => {
               </Tbody>
             </Table>
           </TableContainer>
-          <Flex justifyContent="right" pr="40px">
+          <Flex justifyContent="right" pr="40px" pt="20px">
             <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
               Floral Budget: $30
             </Text>
@@ -110,6 +110,8 @@ export const ProjectDetailsComponent = () => {
             <Arrangement />
           </Flex>
         </Flex>
+
+        
       </Flex>
 
       {/* <table>
