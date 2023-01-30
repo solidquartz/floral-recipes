@@ -6,3 +6,4 @@ CREATE TABLE arranged_flowers (
   flower_id INT REFERENCES flowers(id) ON DELETE CASCADE,
   stem_quantity INT NOT NULL
 );
+
