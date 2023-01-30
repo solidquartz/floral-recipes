@@ -46,7 +46,7 @@ export const Flowers = () => {
     } catch (err) { }
   };
 
-//edit flower
+//edit flower link
   let navigate = useNavigate();
 
   const handleEdit = (id) => {
