@@ -32,6 +32,8 @@ export const ProjectDetailsComponent = () => {
     const fetchProject = async () => {
       const response = await api.get(`/projects/${id}`);
       setProject(response.data.data.project);
+      console.log(response);
+      console.log(project);
     };
 
     if (!project) {
