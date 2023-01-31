@@ -5,8 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 import api from '../../api/api';
 import { useAppContext } from '../../context/AppContext';
-import { LeftElementTextField } from './LeftElementTextField';
-import { TextField } from './TextField';
+import { LeftElementTextField, TextField } from '../shared';
+
 
 export const EditFlowerComponent = (props) => {
 

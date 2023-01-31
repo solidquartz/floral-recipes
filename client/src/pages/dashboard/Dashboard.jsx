@@ -12,8 +12,9 @@ import {
 import { BiBookAdd } from "react-icons/bi";
 import { GiFlowerPot } from "react-icons/gi";
 import React from "react";
-import { Header, ProjectCard, PinProjectCard } from "./components";
+
 import { Link } from "react-router-dom";
+import { Header } from "../shared";
 
 export const Dashboard = () => {
   return (

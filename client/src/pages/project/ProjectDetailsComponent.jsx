@@ -13,33 +13,31 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Arrangement } from "./Arrangement";
-import { useEffect, useState } from "react";
+import { Arrangement } from "../project/Arrangement";
 import { Link, useParams } from "react-router-dom";
-import api from "../../api/api";
-import { useAppContext } from "../../context/AppContext";
+import { useGetProjectByIdQuery } from "./projectApi";
+import { FloralOrderItem } from "./FloralOrderItem";
 
 export const ProjectDetailsComponent = () => {
-
   const { id } = useParams();
+  const { data, error, isLoading } = useGetProjectByIdQuery(id);
 
-  const [project, setProject] = useState(null);
-  const [arrangements, setArrangements] = useState();
+  if (isLoading) {
+    return (
+      <div>loading...........</div>
+    );
+  }
 
-  // const state = useAppContext();
+  if (error) {
+    return (
+      <div>Something went wrong. Please try again later.</div>
+    );
+  }
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      const response = await api.get(`/projects/${id}`);
-      setProject(response.data.data.project);
-      console.log(response);
-      console.log(project);
-    };
+  const { project } = data.data;
+  console.log(project);
 
-    if (!project) {
-      fetchProject();
-    }
-  }, []);
+  // download project data from api -> put into formik initial values -> (formik -> api) -> redownload from api
 
   return (
     <>
@@ -50,7 +48,7 @@ export const ProjectDetailsComponent = () => {
           justifyContent="space-between"
         >
           <Flex>
-            <Heading>Project</Heading>
+            <Heading>{project.name}</Heading>
           </Flex>
 
           {/* Buttons */}
@@ -80,14 +78,10 @@ export const ProjectDetailsComponent = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>Lilac</Td>
-                  <Td>7</Td>
-                  <Td>10</Td>
-                  <Td>$3</Td>
-                  <Td>$30</Td>
-                  <Td>$75</Td>
-                </Tr>
+                {/* {project.map((project) => (
+                <FloralOrderItem
+                    project={project} />
+                ))} */}
               </Tbody>
             </Table>
           </TableContainer>
@@ -112,30 +106,9 @@ export const ProjectDetailsComponent = () => {
             <Arrangement />
           </Flex>
         </Flex>
-
-        
       </Flex>
 
-      {/* <table>
-        <tbody>
-          {project.arrangements.map((a, idx) => (
-            <tr key={idx}>
-              <td>{a.name}</td>
-              <td>{a.quantity}</td>
-              <td>
-                <ul>
-                  {a.flowers.map((flower, flower_idx) => (
-                    <li>
-                      {/* name - quantity */}
-      {/* {state.flowers.find(x => x.id === flower.id)?.name} - {flower.quantity}
-                    </li>
-                  ))}
-                </ul>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      // </table> */}
+
     </>
   );
 };
