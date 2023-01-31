@@ -1,7 +1,8 @@
 // import { Link } from "react-router-dom";
 
 import { Flex, Heading } from "@chakra-ui/react";
-import { Header, EditFlowerComponent } from "./components";
+import { Header } from "../shared";
+import { EditFlowerComponent } from "./EditFlowerComponent";
 
 export const EditFlower = () => {
   return (

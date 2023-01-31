@@ -1,10 +1,10 @@
 import { Button, Flex, Heading, Box, VStack, ButtonGroup } from "@chakra-ui/react";
 import { Formik } from "formik";
-import { Header, LeftElementTextField, TextField } from "./components";
 import * as Yup from 'yup';
 import { Link } from "react-router-dom";
-import api from "../api/api";
-import { useAppContext } from "../context/AppContext";
+import api from "../../api/api";
+import { useAppContext } from "../../context/AppContext";
+import { Header, LeftElementTextField, TextField } from "../shared";
 
 
 export const CreateFlower = () => {
@@ -51,14 +51,14 @@ export const CreateFlower = () => {
               <Flex align="center">
                 <Box>
                   <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit} w="350px">
-                    
+
                     <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
-                      
-                      <LeftElementTextField name="stem_price" type="text" placeholder="0.00" label="Price" element="$" />
-                    
-                  
-                      <TextField name="rounded_up" type="text" placeholder="0" label="Rounded Up" />
-                    
+
+                    <LeftElementTextField name="stem_price" type="text" placeholder="0.00" label="Price" element="$" />
+
+
+                    <TextField name="rounded_up" type="text" placeholder="0" label="Rounded Up" />
+
 
                     {/* Buttons */}
                     <ButtonGroup spacing="6">

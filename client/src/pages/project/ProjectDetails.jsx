@@ -1,7 +1,9 @@
 // import { Link } from "react-router-dom";
 
 import { Flex, Heading } from "@chakra-ui/react";
-import { Header, ProjectDetailsComponent } from "./components";
+import { Header } from "../shared";
+import { ProjectDetailsComponent } from "./ProjectDetailsComponent";
+
 
 export const ProjectDetails = () => {
   return (
@@ -9,8 +11,8 @@ export const ProjectDetails = () => {
       <Header />
 
       <Flex justify="center" direction="column" align="center">
-          <ProjectDetailsComponent />
-        </Flex>
+        <ProjectDetailsComponent />
+      </Flex>
     </>
   );
 };

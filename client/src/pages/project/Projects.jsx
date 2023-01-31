@@ -15,9 +15,11 @@ import { useEffect } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import api from "../api/api";
-import { useAppContext } from "../context/AppContext";
-import { Header, ProjectTableItem } from "./components";
+import api from "../../api/api";
+import { useAppContext } from "../../context/AppContext";
+import { Header } from "../shared";
+import { ProjectTableItem } from "./ProjectTableItem";
+
 
 export const Projects = () => {
   const state = useAppContext();
@@ -43,7 +45,7 @@ export const Projects = () => {
 
   const handleDetails = (id) => {
     navigate(`/projects/${id}/details`);
-  }
+  };
 
   return (
     <>
@@ -97,8 +99,8 @@ export const Projects = () => {
                 <ProjectTableItem
                   key={project.id}
                   project={project}
-                  handleDetails={handleDetails} 
-                  />
+                  handleDetails={handleDetails}
+                />
               ))}
             </Tbody>
           </Table>

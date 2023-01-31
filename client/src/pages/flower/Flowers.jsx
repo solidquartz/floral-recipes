@@ -14,9 +14,10 @@ import { useEffect } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { GiFlowerPot } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api/api";
-import { useAppContext } from "../context/AppContext";
-import { Header, FlowerTableItem } from "./components";
+import api from "../../api/api";
+import { useAppContext } from "../../context/AppContext";
+import { Header } from "../shared";
+import { FlowerTableItem } from "./FlowerTableItem";
 
 export const Flowers = () => {
   const state = useAppContext();
@@ -46,12 +47,12 @@ export const Flowers = () => {
     } catch (err) { }
   };
 
-//edit flower link
+  //edit flower link
   let navigate = useNavigate();
 
   const handleEdit = (id) => {
-    navigate(`/flowers/${id}/edit`)
-  }
+    navigate(`/flowers/${id}/edit`);
+  };
 
   console.log(state.flowers);
   return (
