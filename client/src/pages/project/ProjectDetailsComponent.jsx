@@ -1,22 +1,13 @@
 import {
-  Box,
   Button,
   ButtonGroup,
   Flex,
   Heading,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
 } from "@chakra-ui/react";
 import { Arrangement } from "../project/Arrangement";
 import { Link, useParams } from "react-router-dom";
 import { useGetProjectByIdQuery } from "./projectApi";
-import { FloralOrderItem } from "./FloralOrderItem";
+import { FloralOrder } from "./FloralOrder";
 
 export const ProjectDetailsComponent = () => {
   const { id } = useParams();
@@ -63,39 +54,7 @@ export const ProjectDetailsComponent = () => {
         </Flex>
         {/* Floral Order Table */}
 
-        <Flex p="25px" width="100%" m="auto" flexDirection="column">
-          <TableContainer whiteSpace="normal" maxW="1080px">
-            <Heading size="lg">Floral Order</Heading>
-            <Table size="lg">
-              <Thead>
-                <Tr>
-                  <Th>Item</Th>
-                  <Th>Stems</Th>
-                  <Th>Rounded Up</Th>
-                  <Th>Price per Stem</Th>
-                  <Th>Total</Th>
-                  <Th>Marked Up Total</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {/* {project.map((project) => (
-                <FloralOrderItem
-                    project={project} />
-                ))} */}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <Flex justifyContent="right" pr="40px" pt="20px">
-            <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
-              Floral Budget: $30
-            </Text>
-          </Flex>
-          <Flex justifyContent="right" pr="40px" pt="20px">
-            <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
-              With Markup: $75
-            </Text>
-          </Flex>
-        </Flex>
+        <FloralOrder project={project} />
 
         {/* Arrangements*/}
         <Flex p="25px" flexDirection="column">

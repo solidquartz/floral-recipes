@@ -26,7 +26,7 @@ type Project = {
 
 class ArrangedFlower {
   constructor(flower) {
-    this.id = flower.arrangement_id;
+    this.id = flower.id;
     this.flower_id = flower.flower_id;
     this.stem_quantity = flower.stem_quantity;
   }
@@ -67,13 +67,13 @@ app.get("/:id", async (req, res) => {
     const arrangementsResult = await db.query(`
       SELECT *
       FROM arrangements
-      WHERE id = $1
+      WHERE project_id = $1
     `, [req.params.id]);
 
     const flowerArrangementResult = await db.query(`
       SELECT af.*
       FROM arrangements a
-      JOIN arranged_flowers af ON (a.id = af.id)
+      JOIN arranged_flowers af ON (a.id = af.arrangement_id)
       WHERE a.project_id = $1
     `, [req.params.id]);
 

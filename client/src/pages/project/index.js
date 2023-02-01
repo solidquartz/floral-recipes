@@ -2,7 +2,7 @@ export * from './Arrangement';
 export * from './CreateProject';
 export * from './EditArrangement';
 export * from './EditProject';
-export * from './FloralOrderItem';
+export * from './FloralOrder';
 export * from './projectApi';
 export * from './ProjectDetails';
 export * from './ProjectDetailsComponent';
