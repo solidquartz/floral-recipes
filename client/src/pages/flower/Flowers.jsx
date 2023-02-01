@@ -22,18 +22,6 @@ import { FlowerTableItem } from "./FlowerTableItem";
 export const Flowers = () => {
   const state = useAppContext();
 
-  //get all flowers
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get("/flowers");
-      state.setFlowers(response.data.data.flowers);
-
-    };
-
-    if (!state.flowers.length) {
-      fetchData().catch(console.error);
-    }
-  }, [state]);
 
   //my flowers are in state.flowers
 
