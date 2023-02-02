@@ -4,17 +4,7 @@ import { useAppContext } from "../../context/AppContext";
 export const FloralOrder = ({ project }) => {
   const { flowers } = useAppContext();
 
-  /**
-   * @type {{
-   *  id: number,
-   *  name: string,
-   *  quantity: number,
-   *  roundedUp: number,
-   *  pricePerStem: number,
-   *  total: number,
-   *  markedUp: number
-   * }}[]
-   */
+
   const flowerOrders = project.arrangements 
     .map(x => x.flowers)
     .flat()
