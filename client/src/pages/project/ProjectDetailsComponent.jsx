@@ -65,12 +65,11 @@ export const ProjectDetailsComponent = () => {
           <Flex>
             <Flex pt="20px" flexDirection="column" w="100%">
               <Flex flexDirection="column">
-                {project.arrangements.map((x => (
+                {project.arrangements.map((arrangement => (
                   <Arrangement
                     project={project}
-                    key={x.id}
-                    arrangement_name={x.arrangement_name}
-                    arrangement_quantity={x.arrangement_quantity}
+                    key={arrangement.id}
+                    arrangement={arrangement}
                     />
                 )))}
               </Flex>
