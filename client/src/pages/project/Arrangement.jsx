@@ -1,98 +1,127 @@
 import {
-  Box,
-  Flex,
-  Heading,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr
+	Box,
+	Flex,
+	Heading,
+	Table,
+	TableContainer,
+	Tbody,
+	Td,
+	Text,
+	Th,
+	Thead,
+	Tr,
 } from "@chakra-ui/react";
 import { useAppContext } from "../../context/AppContext";
-
+import { FiInfo } from "react-icons/fi";
+import { Icon } from "../shared";
+import { useMemo } from "react";
+import { getOrderSize } from "./helpers";
 
 export const Arrangement = ({ arrangement }) => {
-  const { flowers } = useAppContext();
-  
-  console.log('arrangement in arrangement', arrangement)
+	const { flowers } = useAppContext();
 
+	const flowersInArrangement = useMemo(() => {
+		if (!flowers) {
+			return [];
+		}
 
-  //working here to get flowers to map over in ArrangementItem
-  const flowersInArrangement = arrangement.flowers
-    .map(x => x.flowers)
-    .flat()
-    .reduce((acc, cur) => {
-      const flower = flowers.find((x) => x.flower_id === cur.flower_id);
+		return arrangement.flowers.map((x) => {
+			const flower = flowers.find((f) => f.id === x.flower_id);
 
-      acc.push({
-        id: cur.flower_id,
-        flower_name: flower.flower_name,
-        stem_quantity: cur.stem_quantity,
-      })
-      return acc;
-    }, [])
-  
+			const rounded = getOrderSize(x.stem_quantity, flower.rounded_up);
+			const cost = rounded * flower.stem_price;
 
-  return (
-    <Box>
-      <Flex flexDirection="row" alignItems="center">
-        <Flex pr="35px">
-          <Heading size="md">{arrangement.arrangement_name}</Heading>
-          <Text>Qty: {arrangement.arrangement_quantity}</Text>
-        </Flex>
-        <TableContainer whiteSpace="normal" maxW="1080px">
-          <Table size="lg">
-            <Thead>
-              <Tr>
-                <Th>Flowers</Th>
-                <Th>Stems per Piece</Th>
-                <Th>Total Stems</Th>
-                <Th>Total Cost</Th>
-                <Th>MarkUp 200%</Th>
-                <Th>MarkUp 250%</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
+			return {
+				name: flower.flower_name,
+				price: flower.stem_price,
+				quantity: x.stem_quantity,
+				rounded,
+				cost,
+				markup200: cost * 2,
+				markup250: cost * 2.5,
+				total_cost: cost * arrangement.quantity,
+			};
+		});
+	}, [flowers]);
 
-              {flowersInArrangement.map((x) => (
-                <ArrangementItem
-                  key={x.id}
-                  arrangement_quantity={x.arrangement_quantity}
-                  flowers={x.flowers} />
-              ))}
-            
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Flex>
-      <Flex justifyContent="right" pr="40px" pt="20px">
-        <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
-          Cost per Arrangement: $200
-        </Text>
-      </Flex>
-      <Flex justifyContent="right" pr="40px" pt="20px">
-        <Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
-          Total: $400
-        </Text>
-      </Flex>
-    </Box>
-
-
-  );
+	return (
+		<Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
+			<Flex flexDirection="column">
+				<Heading size="md" textTransform="capitalize">
+					{arrangement.arrangement_name}
+				</Heading>
+				<TableContainer whiteSpace="normal" maxW="1080px">
+					<Table size="lg">
+						<Thead>
+							<Tr>
+								<Th>Flower</Th>
+								<Th>Avg. Price/Stem</Th>
+								<Th>Stems per Piece</Th>
+								<Th>Rounded up</Th>
+								<Th>
+									<Icon
+										icon={<FiInfo />}
+										placement="end"
+										tooltipText="Avg. price per stem * num stems"
+									>
+										Totals
+									</Icon>
+								</Th>
+								<Th>Markup</Th>
+								<Th />
+							</Tr>
+						</Thead>
+						<Tbody>
+							{flowersInArrangement.map((x, idx) => (
+								<Tr key={idx}>
+									<Td>{x.name}</Td>
+									<Td>${x.price}</Td>
+									<Td>{x.quantity}</Td>
+									<Td>{x.rounded}</Td>
+									<Td>
+										Base: ${(2.22 * 18).toFixed(2)}
+										<br />
+										With round up: ${(2.22 * 20).toFixed(2)}
+									</Td>
+									<Td>
+										200%: ${(2.22 * 20 * 5 * 1.5).toFixed(2)}
+										<br />
+										250%: ${(2.22 * 20 * 5 * 2).toFixed(2)}
+									</Td>
+								</Tr>
+							))}
+						</Tbody>
+					</Table>
+				</TableContainer>
+			</Flex>
+			<Flex flexDirection="column" alignItems="flex-end" pr="40px" pt="20px">
+				<Text fontSize="md" textTransform="uppercase">
+					<b>Cost per Arrangement</b>: $200
+				</Text>
+				<Text fontSize="md" textTransform="uppercase">
+					<b>Quantity</b>: 5
+				</Text>
+				<Text fontSize="md" textTransform="uppercase">
+					<b>Total (no markup)</b>: $1000
+				</Text>
+				<Text fontSize="md" textTransform="uppercase">
+					<b>Total (200% markup)</b>: ${1000 * 2}
+				</Text>
+				<Text fontSize="md" textTransform="uppercase">
+					<b>Total (250% markup)</b>: ${1000 * 2.5}
+				</Text>
+			</Flex>
+		</Box>
+	);
 };
 
-export const ArrangementItem = ({
-
-}) => (
-  <Tr>
-    <Td>Lilac</Td>
-    <Td>7</Td>
-    <Td>14</Td>
-    <Td>$60</Td>
-    <Td>$150</Td>
-    <Td>$200</Td>
-  </Tr>
-);
+// export const ArrangementItem = ({ }) => (
+// 	<Tr>
+// 		<Td>Lilac</Td>
+// 		<Td>7</Td>
+// 		<Td>14</Td>
+// 		<Td>$60</Td>
+// 		<Td>$150</Td>
+// 		<Td>$200</Td>
+// 	</Tr>
+// );
