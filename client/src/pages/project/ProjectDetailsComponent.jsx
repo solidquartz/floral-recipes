@@ -27,7 +27,7 @@ export const ProjectDetailsComponent = () => {
   }
 
   const { project } = data.data;
-  console.log(project);
+  // console.log(project);
 
   // download project data from api -> put into formik initial values -> (formik -> api) -> redownload from api
 

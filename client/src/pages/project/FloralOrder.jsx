@@ -97,7 +97,7 @@ const FloralOrderItem = ({
 	markedUp,
 }) => (
 	<Tr>
-		<Td>{name}</Td>
+		<Td textTransform="capitalize">{name}</Td>
 		<Td>{quantity}</Td>
 		<Td>{roundedUp}</Td>
 		<Td>${pricePerStem.toFixed(2)}</Td>
