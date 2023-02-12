@@ -5,6 +5,7 @@ import { getOrderSize } from "./helpers";
 export const FloralOrder = ({ project }) => {
 	const { flowers } = useAppContext();
 
+	//!!!! these are NOT taking into account the amount of arrangements. needs to be fixed !!!! //
 
 	const flowerOrders = project.arrangements
 		.map(x => x.flowers)

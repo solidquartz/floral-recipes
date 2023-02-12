@@ -106,6 +106,9 @@ export const Arrangement = ({ arrangement }) => {
 					<b>Cost per Arrangement</b>: ${totalCost.toFixed(2)}
 				</Text>
 				<Text fontSize="md" textTransform="uppercase" textAlign="right">
+					<b>Arrangement Quantity</b>: {arrangement.arrangement_quantity}
+				</Text>
+				<Text fontSize="md" textTransform="uppercase" textAlign="right">
 					<b>Total (All Arrangements)</b>: ${costAllArrangements.toFixed(2)}
 				</Text>
 
@@ -121,13 +124,3 @@ export const Arrangement = ({ arrangement }) => {
 	);
 };
 
-// export const ArrangementItem = ({ }) => (
-// 	<Tr>
-// 		<Td>Lilac</Td>
-// 		<Td>7</Td>
-// 		<Td>14</Td>
-// 		<Td>$60</Td>
-// 		<Td>$150</Td>
-// 		<Td>$200</Td>
-// 	</Tr>
-// );
