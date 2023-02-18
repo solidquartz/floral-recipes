@@ -8,35 +8,37 @@ export const FloralOrder = ({ project }) => {
 	//!!!! these are NOT taking into account the amount of arrangements. needs to be fixed !!!! //
 
 	const flowerOrders = project.arrangements
-		.map(x => x.flowers)
-		.flat()
 		.reduce((acc, cur) => {
-			const order = acc.find((x) => x.id === cur.flower_id); // see if the acc object already has an entry for this flower_id
-			const flower = flowers.find((x) => x.id === cur.flower_id); // look up the flower
-			const stemPrice = parseFloat(flower.stem_price); // pre-calculate stem price because easier
+			cur.flowers.forEach(c => {
+				const order = acc.find((x) => x.id === c.flower_id); // see if the acc object already has an entry for this flower_id
+				const flower = flowers.find((x) => x.id === c.flower_id); // look up the flower
+				const stemPrice = parseFloat(flower.stem_price); // pre-calculate stem price
 
-			if (order) { // if there's an order for cur.flower_id
-				order.quantity += cur.stem_quantity;
-				order.total = order.quantity * stemPrice;
-				order.markedUp = order.total * 1.25;
+				if (order) { // if there's an order for cur.flower_id
+					order.quantity += c.stem_quantity * cur.arrangement_quantity;
+					order.total = order.quantity * stemPrice;
+					order.markedUp = order.total * 2.50;
 
-				order.roundedUp = getOrderSize(order.quantity, flower.rounded_up);
-			} else { // make a new order entry
-				const rounded = getOrderSize(cur.stem_quantity, flower.rounded_up);
+					order.roundedUp = getOrderSize(order.quantity, flower.rounded_up);
+				} else { // make a new order entry
+					const rounded = getOrderSize(c.stem_quantity, flower.rounded_up);
 
-				acc.push({
-					id: cur.flower_id,
-					name: flower.flower_name,
-					quantity: cur.stem_quantity,
-					roundedUp: rounded,
-					pricePerStem: stemPrice,
-					total: rounded * stemPrice,
-					markedUp: (rounded * stemPrice) * 2.50,
-				});
-			}
+					acc.push({
+						id: c.flower_id,
+						name: flower.flower_name,
+						quantity: c.stem_quantity * cur.arrangement_quantity,
+						roundedUp: rounded,
+						pricePerStem: stemPrice,
+						total: rounded * stemPrice,
+						markedUp: (rounded * stemPrice) * 2.50,
+					});
+				}
+			});
 
 			return acc;
 		}, []);
+	
+	
 
 	const { total, withMarkup } = flowerOrders.reduce((acc, cur) => {
 		acc.total += cur.total;
@@ -44,6 +46,9 @@ export const FloralOrder = ({ project }) => {
 
 		return acc;
 	}, { total: 0, withMarkup: 0 });
+
+	console.log("flowerOrders", flowerOrders);
+
 
 	return (
 		<Flex p="25px" width="100%" m="auto" flexDirection="column">
@@ -88,6 +93,8 @@ export const FloralOrder = ({ project }) => {
 		</Flex>
 	);
 };
+
+
 
 const FloralOrderItem = ({
 	name,

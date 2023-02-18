@@ -17,6 +17,8 @@ import { Icon } from "../shared";
 import { useMemo } from "react";
 import { getOrderSize, getTotalCost } from "./helpers";
 
+
+
 export const Arrangement = ({ arrangement }) => {
 	const { flowers } = useAppContext();
 
@@ -29,7 +31,6 @@ export const Arrangement = ({ arrangement }) => {
 			const flower = flowers.find((f) => f.id === x.flower_id);
 			const stemPrice = parseFloat(flower.stem_price);
 			const stemQuantity = parseFloat(x.stem_quantity);
-
 			const rounded = getOrderSize(stemQuantity, flower.rounded_up);
 			const baseCost = stemPrice * x.stem_quantity;
 			const roundedCost = rounded * stemPrice;
@@ -47,8 +48,6 @@ export const Arrangement = ({ arrangement }) => {
 			};
 		});
 	}, [flowers]);
-
-	console.log("arrangement", arrangement)
 
 	const totalCost = getTotalCost(flowersInArrangement);
 	const costAllArrangements = totalCost * arrangement.arrangement_quantity;

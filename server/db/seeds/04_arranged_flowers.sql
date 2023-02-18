@@ -41,6 +41,10 @@ INSERT INTO arranged_flowers
 (arrangement_id, flower_id, stem_quantity)
 VALUES (5, 2, 30);
 
+INSERT INTO arranged_flowers
+(arrangement_id, flower_id, stem_quantity)
+VALUES (5, 5, 37);
+
 
 -- seed project 3 bridal bouquet (id 6)
 INSERT INTO arranged_flowers
