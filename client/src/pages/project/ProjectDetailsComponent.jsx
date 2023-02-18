@@ -3,6 +3,7 @@ import {
   ButtonGroup,
   Flex,
   Heading,
+  Text,
 } from "@chakra-ui/react";
 import { Arrangement } from "../project/Arrangement";
 import { Link, useParams } from "react-router-dom";
@@ -15,13 +16,13 @@ export const ProjectDetailsComponent = () => {
 
   if (isLoading) {
     return (
-      <div>loading...........</div>
+      <Text>loading...........</Text>
     );
   }
 
   if (error) {
     return (
-      <div>Something went wrong. Please try again later.</div>
+      <Text>Something went wrong! Please try again later.</Text>
     );
   }
 
@@ -54,7 +55,8 @@ export const ProjectDetailsComponent = () => {
         </Flex>
         {/* Floral Order Table */}
 
-        <FloralOrder project={project} />
+				<FloralOrder
+					project={project}/>
 
         {/* Arrangements*/}
         <Flex p="25px" flexDirection="column">
@@ -62,8 +64,19 @@ export const ProjectDetailsComponent = () => {
             <Heading size="lg">Arrangements</Heading>
           </Flex>
           <Flex>
-            <Arrangement />
+            <Flex pt="20px" flexDirection="column" w="100%">
+              <Flex flexDirection="column">
+                {project.arrangements.map((arrangement => (
+                  <Arrangement
+                    project={project}
+                    key={arrangement.id}
+                    arrangement={arrangement}
+                    />
+                )))}
+              </Flex>
+            </Flex>
           </Flex>
+
         </Flex>
       </Flex>
 
