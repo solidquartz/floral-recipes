@@ -11,7 +11,6 @@ import {
 	Thead,
 	Tr,
 } from "@chakra-ui/react";
-import { useAppContext } from "../../context/AppContext";
 import { FiInfo } from "react-icons/fi";
 import { Icon } from "../shared";
 import { useMemo } from "react";
@@ -19,14 +18,12 @@ import { getOrderSize, getTotalCost } from "./helpers";
 
 
 
-export const Arrangement = ({ arrangement }) => {
-	const { flowers } = useAppContext();
+export const Arrangement = ({ arrangement, flowers }) => {
 
 	const flowersInArrangement = useMemo(() => {
 		if (!flowers) {
 			return [];
 		}
-
 		return arrangement.flowers.map((x) => {
 			const flower = flowers.find((f) => f.id === x.flower_id);
 			const stemPrice = parseFloat(flower.stem_price);
@@ -34,7 +31,6 @@ export const Arrangement = ({ arrangement }) => {
 			const rounded = getOrderSize(stemQuantity, flower.rounded_up);
 			const baseCost = stemPrice * x.stem_quantity;
 			const roundedCost = rounded * stemPrice;
-
 
 			return {
 				name: flower.flower_name,
@@ -55,14 +51,19 @@ export const Arrangement = ({ arrangement }) => {
 	const totalMarkup250 = costAllArrangements * 2.5;
 
 
+
 	return (
 		<Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
 			<Flex flexDirection="column">
+				
 				<Heading size="md" textTransform="capitalize">
 					{arrangement.arrangement_name}
 				</Heading>
+
+				{/* Arrangement Table */}
 				<TableContainer whiteSpace="normal" maxW="1080px">
 					<Table size="lg">
+						
 						<Thead>
 							<Tr>
 								<Th>Flower Type</Th>
@@ -83,6 +84,7 @@ export const Arrangement = ({ arrangement }) => {
 								<Th>Markup 250%</Th>
 							</Tr>
 						</Thead>
+
 						<Tbody>
 							{flowersInArrangement.map((x, idx) => (
 								<Tr key={idx}>
@@ -97,9 +99,12 @@ export const Arrangement = ({ arrangement }) => {
 								</Tr>
 							))}
 						</Tbody>
+
 					</Table>
 				</TableContainer>
 			</Flex>
+
+			{/* Totals */}
 			<Flex flexDirection="column" alignItems="flex-end" pr="30px" pt="20px">
 				<Text fontSize="md" textTransform="uppercase" textAlign="right">
 					<b>Cost per Arrangement</b>: ${totalCost.toFixed(2)}
