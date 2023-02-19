@@ -3,33 +3,17 @@ import {
   ButtonGroup,
   Flex,
   Heading,
-  Text,
 } from "@chakra-ui/react";
 import { Arrangement } from "../project/Arrangement";
-import { Link, useParams } from "react-router-dom";
-import { useGetProjectByIdQuery } from "./projectApi";
+import { Link } from "react-router-dom";
 import { FloralOrder } from "./FloralOrder";
+import { useAppContext } from "../../context/AppContext";
 
-export const ProjectDetailsComponent = () => {
-  const { id } = useParams();
-  const { data, error, isLoading } = useGetProjectByIdQuery(id);
-
-  if (isLoading) {
-    return (
-      <Text>loading...........</Text>
-    );
-  }
-
-  if (error) {
-    return (
-      <Text>Something went wrong! Please try again later.</Text>
-    );
-  }
-
-  const { project } = data.data;
-  console.log(project);
+export const ProjectDetailsComponent = ({ project}) => {
 
   // download project data from api -> put into formik initial values -> (formik -> api) -> redownload from api
+
+	const { flowers } = useAppContext();
 
   return (
     <>
@@ -52,11 +36,13 @@ export const ProjectDetailsComponent = () => {
               <Button colorScheme="blue">Edit Project</Button>
             </ButtonGroup>
           </Flex>
-        </Flex>
+				</Flex>
+				
         {/* Floral Order Table */}
-
 				<FloralOrder
-					project={project}/>
+					project={project}
+					flowers={flowers}
+					/>
 
         {/* Arrangements*/}
         <Flex p="25px" flexDirection="column">
@@ -70,38 +56,15 @@ export const ProjectDetailsComponent = () => {
                   <Arrangement
                     project={project}
                     key={arrangement.id}
-                    arrangement={arrangement}
+										arrangement={arrangement}
+										flowers={flowers}
                     />
                 )))}
               </Flex>
             </Flex>
           </Flex>
-
         </Flex>
       </Flex>
-
-
     </>
   );
 };
-
-/*
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case 'changeProjectName':
-        return {
-          ...state,
-          name: action.payload
-        }
-      default:
-        return state;
-    }
-  }
-
-  dispatch({
-    type: 'changeProjectName',
-    payload: {
-      name: 'something'
-    }
-  });
-*/

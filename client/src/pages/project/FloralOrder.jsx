@@ -1,11 +1,8 @@
 import { Flex, Heading, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import { useAppContext } from "../../context/AppContext";
 import { getOrderSize } from "./helpers";
 
-export const FloralOrder = ({ project }) => {
-	const { flowers } = useAppContext();
+export const FloralOrder = ({ project, flowers }) => {
 
-	//!!!! these are NOT taking into account the amount of arrangements. needs to be fixed !!!! //
 
 	const flowerOrders = project.arrangements
 		.reduce((acc, cur) => {
@@ -18,7 +15,6 @@ export const FloralOrder = ({ project }) => {
 					order.quantity += c.stem_quantity * cur.arrangement_quantity;
 					order.total = order.quantity * stemPrice;
 					order.markedUp = order.total * 2.50;
-
 					order.roundedUp = getOrderSize(order.quantity, flower.rounded_up);
 				} else { // make a new order entry
 					const rounded = getOrderSize(c.stem_quantity, flower.rounded_up);
@@ -34,26 +30,22 @@ export const FloralOrder = ({ project }) => {
 					});
 				}
 			});
-
 			return acc;
 		}, []);
 	
-	
-
 	const { total, withMarkup } = flowerOrders.reduce((acc, cur) => {
 		acc.total += cur.total;
 		acc.withMarkup += cur.markedUp;
-
 		return acc;
 	}, { total: 0, withMarkup: 0 });
-
-	console.log("flowerOrders", flowerOrders);
 
 
 	return (
 		<Flex p="25px" width="100%" m="auto" flexDirection="column">
 			<TableContainer whiteSpace="normal" maxW="1080px">
 				<Heading size="lg">Floral Order</Heading>
+
+				{/* Floral Order Table */}
 				<Table size="lg">
 					<Thead>
 						<Tr>
@@ -65,6 +57,7 @@ export const FloralOrder = ({ project }) => {
 							<Th>Marked Up Total</Th>
 						</Tr>
 					</Thead>
+
 					<Tbody>
 						{flowerOrders.map((x, idx) => (
 							<FloralOrderItem
@@ -80,6 +73,8 @@ export const FloralOrder = ({ project }) => {
 					</Tbody>
 				</Table>
 			</TableContainer>
+
+			{/* Totals */}
 			<Flex justifyContent="right" pr="40px" pt="20px">
 				<Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
 					Floral Budget: ${total.toFixed(2)}
@@ -95,7 +90,7 @@ export const FloralOrder = ({ project }) => {
 };
 
 
-
+// Flower rows
 const FloralOrderItem = ({
 	name,
 	quantity,
