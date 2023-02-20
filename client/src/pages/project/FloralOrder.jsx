@@ -1,9 +1,12 @@
 import { Flex, Heading, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import { getOrderSize } from "./helpers";
 
-export const FloralOrder = ({ project, flowers }) => {
+export const FloralOrder = ({
+	project,
+	flowers
+}) => {
 
-
+	//shape data
 	const flowerOrders = project.arrangements
 		.reduce((acc, cur) => {
 			cur.flowers.forEach(c => {
@@ -32,7 +35,8 @@ export const FloralOrder = ({ project, flowers }) => {
 			});
 			return acc;
 		}, []);
-	
+
+	//calculate totals
 	const { total, withMarkup } = flowerOrders.reduce((acc, cur) => {
 		acc.total += cur.total;
 		acc.withMarkup += cur.markedUp;
