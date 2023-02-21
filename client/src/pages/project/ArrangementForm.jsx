@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Flex,
 	Heading,
 	Table,
@@ -12,7 +13,7 @@ import {
 	Tr,
 } from "@chakra-ui/react";
 import { FiInfo } from "react-icons/fi";
-import { Icon } from "../shared";
+import { Dropdown, Icon } from "../shared";
 import { useMemo } from "react";
 import { getOrderSize, getTotalCost } from "./helpers";
 import { Formik } from 'formik';
@@ -71,15 +72,29 @@ export const ArrangementForm = ({
 			>
 				{formik => (
 					<>
-						<Flex flexDirection="column">
+						<Flex
+							flexDirection="column"
+						>
 							<Heading size="md" textTransform="capitalize">
-								<TextField 
+								Arrangement name (take from state)
+							</Heading>
+							<Flex
+								flexDirection="column"
+								paddingTop="5px"
+								width="500px"
+							>
+								<TextField
 									name="arrangement_name"
 									type="text"
-									placeholder="Arrangement Name"
-									label="Arrangement Name"
+									placeholder="Enter Name"
 								/>
-							</Heading>
+								<TextField
+									name="arrangement_quantity"
+									type="text"
+									placeholder="0"
+									label="Quantity"
+								/>
+							</Flex>
 
 
 							<TableContainer whiteSpace="normal" maxW="1080px">
@@ -88,6 +103,7 @@ export const ArrangementForm = ({
 									<Thead>
 										<Tr>
 											<Th>Flower Type</Th>
+											<Th></Th>
 											<Th>Price per Stem</Th>
 											<Th>Stems per Piece</Th>
 											<Th>Min Order Size</Th>
@@ -108,26 +124,35 @@ export const ArrangementForm = ({
 
 									<Tbody>
 										{/* {flowersInArrangement.map((x, idx) => ( */}
-											<Tr>
-												<Td textTransform="capitalize">Name</Td>
-												<Td textAlign="right">$1.00</Td>
+										<Tr>
+											<Td colSpan="2">
+												<Dropdown name="flowerName" placeholder="Flower">
+													<option value="rose">Rose</option>
+												</Dropdown>
+											</Td>
+											<Td textAlign="right">$1.00</Td>
 											<Td>
 												<TextField
 													name="stem_quantity"
 													type="text"
 												/>
-												</Td>
-												<Td>5</Td>
-												<Td textAlign="right">$2.00</Td>
-												<Td textAlign="right">$5.00</Td>
-												<Td textAlign="right">$00</Td>
-												<Td textAlign="right">$00</Td>
-											</Tr>
+											</Td>
+											<Td>5</Td>
+											<Td textAlign="right">$2.00</Td>
+											<Td textAlign="right">$5.00</Td>
+											<Td textAlign="right">$00</Td>
+											<Td textAlign="right">$00</Td>
+										</Tr>
 										{/* ))} */}
 									</Tbody>
 
 								</Table>
 							</TableContainer>
+							<Flex paddingTop="10px">
+								<Button colorScheme="pink">
+									Add Flower
+								</Button>
+							</Flex>
 						</Flex>
 
 						<Flex flexDirection="column" alignItems="flex-end" pr="30px" pt="20px">

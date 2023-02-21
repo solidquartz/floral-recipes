@@ -43,7 +43,7 @@ export const ProjectDetailsComponent = ({
 
 	return (
 		<>
-			<Flex flexDirection="column" maxW="1080px">
+			<Flex flexDirection="column" maxW="1200px">
 				<Flex
 					flexDirection="row"
 					alignItems="baseline"
@@ -100,8 +100,15 @@ export const ProjectDetailsComponent = ({
 								}
 							</Flex>
 						</Flex>
+
+					</Flex>
+					<Flex paddingTop="10px">
+					<Button colorScheme="teal">
+						Add Arrangement
+						</Button>
 					</Flex>
 				</Flex>
+
 			</Flex>
 		</>
 	);
