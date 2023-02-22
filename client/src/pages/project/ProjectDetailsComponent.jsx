@@ -3,12 +3,14 @@ import {
 	ButtonGroup,
 	Flex,
 	Heading,
+	Text,
 } from "@chakra-ui/react";
 import { Arrangement } from "../project/Arrangement";
 import { Link } from "react-router-dom";
 import { FloralOrder } from "./FloralOrder";
 import { useState } from "react";
 import { ArrangementForm } from "./ArrangementForm";
+import dayjs from "dayjs";
 
 
 export const ProjectDetailsComponent = ({
@@ -18,8 +20,8 @@ export const ProjectDetailsComponent = ({
 
 	//app state
 	const [viewing, setViewing] = useState(false);
-	const [editing, setEditing] = useState(true);
-	const [creating, setCreating] = useState(false);
+	const [editing, setEditing] = useState(false);
+	const [creating, setCreating] = useState(true);
 
 
 	//navigation
@@ -39,32 +41,50 @@ export const ProjectDetailsComponent = ({
 		setViewing(true);
 	};
 
+	//date format
+	const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
+	const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
+
 	// download project data from api -> put into formik initial values -> (formik -> api) -> redownload from api
 
 	return (
 		<>
 			<Flex flexDirection="column" maxW="1200px">
+				
+				
 				<Flex
 					flexDirection="row"
 					alignItems="baseline"
 					justifyContent="space-between"
 				>
-					<Flex>
-						<Heading>{project.name}</Heading>
+				
+					<Flex flexDirection="column">
+						<Flex paddingBottom="10px">
+							<Heading>{project.name}</Heading>
+						</Flex>
+						<Flex>
+							<Text>Event Date: {eventDate}</Text>
+						</Flex>
 					</Flex>
 
 					{/* Buttons */}
-					<Flex pt="20px">
+					<Flex
+						pb="20px"
+						justifyContent="flex-end">
 						<ButtonGroup>
 							<Link to="/projects">
 								<Button>Back</Button>
 							</Link>
-							<Button
-								colorScheme="blue"
-								onClick={setEditingHandler}>Edit Project</Button>
-							<Button
-								colorScheme="teal"
-								onClick={setCreatingHandler}>Create Project</Button>
+							{!editing &&
+								<Button
+									colorScheme="blue"
+									onClick={setEditingHandler}>Edit Project</Button>
+							}
+							{viewing &&
+								<Button
+									colorScheme="teal"
+									onClick={setCreatingHandler}>Create Project</Button>
+							}
 						</ButtonGroup>
 					</Flex>
 				</Flex>
@@ -96,15 +116,15 @@ export const ProjectDetailsComponent = ({
 									)))
 								}
 								{editing &&
-								<ArrangementForm />
+									<ArrangementForm />
 								}
 							</Flex>
 						</Flex>
 
 					</Flex>
 					<Flex paddingTop="10px">
-					<Button colorScheme="teal">
-						Add Arrangement
+						<Button colorScheme="teal">
+							Add Arrangement
 						</Button>
 					</Flex>
 				</Flex>
