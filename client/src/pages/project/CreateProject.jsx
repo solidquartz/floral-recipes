@@ -3,6 +3,8 @@ import { Formik } from "formik";
 import { Header, TextField } from "../shared";
 import * as Yup from 'yup';
 import { Link } from "react-router-dom";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 
 export const CreateProject = () => {
 
@@ -26,10 +28,8 @@ export const CreateProject = () => {
 						Yup.object({
 							project_name: Yup.string()
 								.required("Please enter a name for this project"),
-							event_date: Yup.number()
-								.required("Please enter a price"),
-							rounded_up: Yup.number()
-								.required("Please enter a whole number"),
+							event_date: Yup.date()
+								.required("Please enter a date"),
 						})}
 
 				// onSubmit={async (values) => {
@@ -50,7 +50,18 @@ export const CreateProject = () => {
 
 									<TextField name="project_name" type="text" placeholder="Name" label="Project Name" />
 
-									<TextField name="event_date" type="text" placeholder="0" label="Event Date" />
+									<TextField name="event_date" type="text" placeholder="DDMMYYY" label="Event Date" />
+
+									{/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+										<DatePicker
+											label="Basic example"
+											value=""
+											// onChange={(newValue) => {
+											// 	setValue(newValue);
+											// }}
+											// renderInput={(params) => <TextField {...params} />}
+										/>
+									</LocalizationProvider> */}
 
 
 									{/* Buttons */}
