@@ -1,4 +1,5 @@
 export * from './Arrangement';
+export * from './ArrangementForm';
 export * from './CreateProject';
 export * from './EditArrangement';
 export * from './EditProject';

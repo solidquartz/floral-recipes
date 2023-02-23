@@ -17,9 +17,12 @@ import { useMemo } from "react";
 import { getOrderSize, getTotalCost } from "./helpers";
 
 
+export const Arrangement = ({
+	arrangement,
+	flowers 
+}) => {
 
-export const Arrangement = ({ arrangement, flowers }) => {
-
+	//shape data
 	const flowersInArrangement = useMemo(() => {
 		if (!flowers) {
 			return [];

@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
+    "@date-io/jalaali": "^2.16.1",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.10",
+    "@mui/x-date-pickers": "^5.0.19",
     "@reduxjs/toolkit": "^1.9.2",
     "axios": "^1.2.3",
     "dayjs": "^1.11.7",

@@ -14,7 +14,7 @@ import {
 import { useEffect } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { BiSearchAlt } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/api";
 import { useAppContext } from "../../context/AppContext";
 import { Header } from "../shared";
@@ -38,14 +38,14 @@ export const Projects = () => {
     }
   }, [state]);
 
-  //my projects are in state.projects
 
   //view project link
   let navigate = useNavigate();
 
   const handleDetails = (id) => {
     navigate(`/projects/${id}/details`);
-  };
+	};
+
 
   return (
     <>
@@ -58,14 +58,16 @@ export const Projects = () => {
           <Flex pr="20px" align-items="center">
             <Heading>Projects</Heading>
           </Flex>
-          <Flex>
+					<Flex>
+						<Link to="/projects/create">
             <Button
               variant="outline"
               colorScheme="cyan"
               leftIcon={<BiBookAdd />}
             >
               Create Project
-            </Button>
+							</Button>
+						</Link>
           </Flex>
         </Flex>
 

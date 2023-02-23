@@ -9,5 +9,6 @@ An internal app to make floral orders intended to reduce human error. Features a
 - Express
 - PostgreSQL
 - Chakra UI
+- MUI Date Picker
 - Formik & Yup
 - Redux Toolkit 
