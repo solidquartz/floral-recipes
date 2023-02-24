@@ -107,5 +107,24 @@ app.get('/', async (req, res) => {
   }
 });
 
+//create a project
+app.post('/', async (req, res) => {
+	console.log(req.body);
+	try {
+		const results = await db.query("INSERT INTO projects (project_name, event_date) VALUES ($1, $2) returning *",
+			[req.body.project_name, req.body.event_date]
+		);
+		console.log(results);
+		res.status(201).json({
+			status: "success",
+			data: {
+				project: results.rows[0],
+			},
+		});
+	} catch (err) {
+		console.log(err);
+	}
+});
+
 
 module.exports = app;

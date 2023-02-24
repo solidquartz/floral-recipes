@@ -19,24 +19,24 @@ export const ProjectDetailsComponent = ({
 }) => {
 
 	//app state
-	const [viewing, setViewing] = useState(false);
+	const [viewing, setViewing] = useState(true);
 	const [editing, setEditing] = useState(false);
-	const [creating, setCreating] = useState(true);
+	// const [creating, setCreating] = useState(true);
 
 
 	//navigation
 	const setEditingHandler = () => {
 		setViewing(false);
-		setCreating(false);
+		// setCreating(false);
 		setEditing(true);
 	};
-	const setCreatingHandler = () => {
-		setViewing(false);
-		setEditing(false);
-		setCreating(true);
-	};
+	// const setCreatingHandler = () => {
+	// 	setViewing(false);
+	// 	setEditing(false);
+	// 	setCreating(true);
+	// };
 	const setViewingHandler = () => {
-		setCreating(false);
+		// setCreating(false);
 		setEditing(false);
 		setViewing(true);
 	};
@@ -50,14 +50,14 @@ export const ProjectDetailsComponent = ({
 	return (
 		<>
 			<Flex flexDirection="column" maxW="1200px">
-				
-				
+
+
 				<Flex
 					flexDirection="row"
 					alignItems="baseline"
 					justifyContent="space-between"
 				>
-				
+
 					<Flex flexDirection="column">
 						<Flex paddingBottom="10px">
 							<Heading>{project.name}</Heading>
@@ -72,18 +72,23 @@ export const ProjectDetailsComponent = ({
 						pb="20px"
 						justifyContent="flex-end">
 						<ButtonGroup>
-							<Link to="/projects">
-								<Button>Back</Button>
-							</Link>
+							{!editing &&
+								<Link to="/projects">
+									<Button>Back</Button>
+								</Link>
+							}
 							{!editing &&
 								<Button
 									colorScheme="blue"
 									onClick={setEditingHandler}>Edit Project</Button>
 							}
 							{viewing &&
-								<Button
-									colorScheme="teal"
-									onClick={setCreatingHandler}>Create Project</Button>
+								<Link to="/projects/create">
+									<Button colorScheme="teal">Create Project</Button>
+								</Link>
+							}
+							{editing &&
+								<Button onClick={setViewingHandler}>Cancel</Button>
 							}
 						</ButtonGroup>
 					</Flex>

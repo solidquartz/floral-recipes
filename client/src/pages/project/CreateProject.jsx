@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 import { Link } from "react-router-dom";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import dayjs from "dayjs";
+import api from "../../api/api";
 
 export const CreateProject = () => {
 
@@ -12,6 +14,7 @@ export const CreateProject = () => {
 		project_name: "",
 		event_date: "",
 	};
+
 
 	return <>
 		{/* Navbar */}
@@ -29,17 +32,18 @@ export const CreateProject = () => {
 							project_name: Yup.string()
 								.required("Please enter a name for this project"),
 							event_date: Yup.date()
-								.required("Please enter a date"),
+								.required("Please enter a date in the format YYYYMMDD"),
 						})}
 
-				// onSubmit={async (values) => {
-				// 	const response = await api.post("/projects", {
-				// 		project_name: values.project_name,
-				// 		event_date: values.event_date,
-				// 	});
-				// 	state.upsertDate(response.data.data.project);
-				// 	window.location = '/project/:id';
-				// }}
+				onSubmit={async (values) => {
+					const response = await api.post("/projects", {
+						project_name: values.project_name,
+						event_date: dayjs(values.event_date).format(),
+					});
+					console.log(response);
+					// state.upsertProject(response.data.data.project);
+					// window.location = '/project/:id';
+				}}
 				>
 
 					{/* Form */}
@@ -50,7 +54,7 @@ export const CreateProject = () => {
 
 									<TextField name="project_name" type="text" placeholder="Name" label="Project Name" />
 
-									<TextField name="event_date" type="text" placeholder="DDMMYYY" label="Event Date" />
+									<TextField name="event_date" type="text" placeholder="YYYYMMDD" label="Event Date" />
 
 									{/* <LocalizationProvider dateAdapter={AdapterDayjs}>
 										<DatePicker
