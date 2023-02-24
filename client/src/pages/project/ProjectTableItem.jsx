@@ -14,17 +14,13 @@ export const ProjectTableItem = ({ project, ...props }) => {
       <Td>{lastUpdated}</Td>
       <Td>{project.active ? "Active" : "Inactive"}</Td>
       <Td>
-        <Button variant="ghost" size="sm" onClick={() => props.handleDetails(project.id)}>View</Button>
-      </Td>
-      <Td>
-        <Button variant="ghost" colorScheme="cyan" size="sm">
-          Edit
-        </Button>
-      </Td>
-      <Td>
-        <Button variant="ghost" colorScheme="red" size="sm">
-          Delete
-        </Button>
+        <Button
+          size="sm"
+          onClick={() => props.handleDetails(project.id)}
+          colorScheme="teal"
+          variant="outline"
+        >
+          View</Button>
       </Td>
     </Tr>
   );
