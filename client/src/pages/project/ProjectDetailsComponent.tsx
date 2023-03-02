@@ -6,7 +6,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Arrangement } from "../project/Arrangement";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FloralOrder } from "./FloralOrder";
 import { useState } from "react";
 import { ArrangementForm } from "./ArrangementForm";
@@ -41,6 +41,12 @@ export const ProjectDetailsComponent = ({
     setViewing(true);
   };
 
+    //edit project link
+  let navigate = useNavigate();
+  const handleEditProject = (id) => {
+    navigate(`/projects/${id}/edit`);
+  };
+
   //date format
   const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
@@ -50,14 +56,11 @@ export const ProjectDetailsComponent = ({
   return (
     <>
       <Flex flexDirection="column" maxW="1200px">
-
-
         <Flex
           flexDirection="row"
           alignItems="baseline"
           justifyContent="space-between"
         >
-
           <Flex flexDirection="column">
             <Flex paddingBottom="10px">
               <Heading>{project.name}</Heading>
@@ -68,44 +71,46 @@ export const ProjectDetailsComponent = ({
           </Flex>
 
           {/* Buttons */}
-          <Flex
-            pb="20px"
-            justifyContent="flex-end">
+          <Flex pb="20px" justifyContent="flex-end">
             <ButtonGroup>
-              {!editing &&
+              {!editing && (
                 <Link to="/projects">
                   <Button>Back</Button>
                 </Link>
-              }
-              {!editing &&
-                <Button
-                  colorScheme="blue"
-                  onClick={setEditingHandler}>Edit Project</Button>
-              }
-              {viewing &&
+              )}
+              {!editing && (
+                <Button colorScheme="blue" onClick={setEditingHandler}>
+                  Edit Project
+                </Button>
+              )}
+              {viewing && (
                 <Link to="/projects/create">
                   <Button colorScheme="teal">Create Project</Button>
                 </Link>
-              }
-              {editing &&
+              )}
+              {editing && (
                 <>
+                  <Button
+                    variant="outline"
+                    colorScheme="blue"
+                  onClick={() => handleEditProject(project.id)}>
+                      Edit Name & Date
+                    </Button>
                   <Button
                     variant="outline"
                     colorScheme="red"
                     onClick={setViewingHandler}
                   >
-                    Cancel</Button>
+                    Cancel
+                  </Button>
                 </>
-              }
+              )}
             </ButtonGroup>
           </Flex>
         </Flex>
 
         {/* Floral Order Table */}
-        <FloralOrder
-          project={project}
-          flowers={flowers}
-        />
+        <FloralOrder project={project} flowers={flowers} />
 
         {/* Arrangements*/}
         <Flex p="25px" flexDirection="column">
@@ -116,7 +121,7 @@ export const ProjectDetailsComponent = ({
             <Flex pt="20px" flexDirection="column" w="100%">
               <Flex flexDirection="column">
                 {viewing &&
-                  project.arrangements.map((arrangement => (
+                  project.arrangements.map((arrangement) => (
                     <Arrangement
                       project={project}
                       key={arrangement.id}
@@ -125,26 +130,19 @@ export const ProjectDetailsComponent = ({
                       viewing={viewing}
                       editing={editing}
                     />
-                  )))
-                }
-                {editing &&
-                  <ArrangementForm />
-                }
+                  ))}
+                {editing && <ArrangementForm />}
               </Flex>
             </Flex>
           </Flex>
-          {editing &&
+          {editing && (
             <Flex paddingTop="10px">
-              <Button
-                colorScheme="teal"
-                variant="outline"
-              >
+              <Button colorScheme="teal" variant="outline">
                 Add Arrangement
               </Button>
             </Flex>
-          }
+          )}
         </Flex>
-
       </Flex>
     </>
   );

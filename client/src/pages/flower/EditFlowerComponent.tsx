@@ -8,7 +8,7 @@ import { useAppContext } from '../../context/AppContext';
 import { LeftElementTextField, TextField } from '../shared';
 
 
-export const EditFlowerComponent = (props) => {
+export const EditFlowerComponent = () => {
 
   //grab id from url
   const { id } = useParams();
@@ -58,7 +58,7 @@ export const EditFlowerComponent = (props) => {
             rounded_up: values.rounded_up,
           });
           state.upsertFlower(response.data.data.flower);
-          window.location = '/flowers';
+          window.location.href = '/flowers';
         }}
       >
 

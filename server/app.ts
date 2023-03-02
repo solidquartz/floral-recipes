@@ -1,5 +1,5 @@
-require('dotenv').config();
-const express = require("express");
+require("dotenv").config();
+import express from "express";
 
 const app = express();
 
@@ -14,8 +14,8 @@ app.listen(PORT, () => {
 });
 
 //routes import
-const flowersRoutes = require('./routes/flowersRoutes');
-const projectsRoutes = require('./routes/projectsRoutes');
+import { registerFlowers } from "./routes/flowersRoutes";
+import { registerProjects } from "./routes/projectsRoutes";
 
 //middleware
 app.use(cors());
@@ -24,9 +24,9 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 //routes
-app.use('/flowers', flowersRoutes);
-app.use('/projects', projectsRoutes);
+registerFlowers(app);
+registerProjects(app);
 
-app.get('/', (req, res) => {
-  res.json({ greetings: 'hello world' });
-})
+app.get("/", (req, res) => {
+  res.json({ greetings: "hello world" });
+});

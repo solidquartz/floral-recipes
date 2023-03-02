@@ -22,11 +22,8 @@ import { FlowerTableItem } from "./FlowerTableItem";
 export const Flowers = () => {
   const state = useAppContext();
 
-
-  //my flowers are in state.flowers
-
   //delete a flower
-  const handleDelete = async (id) => {
+  const handleDeleteFlower = async (id) => {
     try {
       const response = await api.delete(`/flowers/${id}`);
       state.setFlowers(state.flowers.filter(flower => {
@@ -37,8 +34,7 @@ export const Flowers = () => {
 
   //edit flower link
   let navigate = useNavigate();
-
-  const handleEdit = (id) => {
+  const handleEditFlower = (id) => {
     navigate(`/flowers/${id}/edit`);
   };
 
@@ -96,8 +92,8 @@ export const Flowers = () => {
                 <FlowerTableItem
                   key={flower.id}
                   flower={flower}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit}
+                  handleDeleteFlower={handleDeleteFlower}
+                  handleEditFlower={handleEditFlower}
                 />
               ))}
             </Tbody>
