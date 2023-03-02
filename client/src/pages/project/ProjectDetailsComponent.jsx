@@ -91,12 +91,6 @@ export const ProjectDetailsComponent = ({
                 <>
                   <Button
                     variant="outline"
-                    colorScheme="blue"
-                    onClick={setViewingHandler}
-                  >
-                    Edit Name & Date</Button>
-                  <Button
-                    variant="outline"
                     colorScheme="red"
                     onClick={setViewingHandler}
                   >

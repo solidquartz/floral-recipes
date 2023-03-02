@@ -16,6 +16,16 @@ export const AppContextProvider = ({ children }) => {
     setFlowers(newFlowers);
   };
 
+  const upsertProject = (project) => {
+    const newProjects = [
+      ...projects.filter(x => x.id !== project.id),
+      project
+    ];
+
+    console.log(newProjects);
+    setProjects(newProjects);
+  };
+
   //get all flowers
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +46,8 @@ export const AppContextProvider = ({ children }) => {
     setProjects,
     flowers,
     setFlowers,
-    upsertFlower
+    upsertFlower,
+    upsertProject
   };//, [projects, setProjects, flowers, setFlowers, upsertFlower]);
 
   return (
