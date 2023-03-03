@@ -47,6 +47,7 @@ export const ProjectDetailsComponent = ({
     navigate(`/projects/${id}/edit`);
   };
 
+  console.log(project);
 
   //date format
   const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");

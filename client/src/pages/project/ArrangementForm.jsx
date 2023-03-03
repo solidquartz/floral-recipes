@@ -59,7 +59,16 @@ export const ArrangementForm = ({
   // const totalMarkup250 = costAllArrangements * 2.5;
 
   //initial values
-  const initialValues = {};
+  const initialValues = {
+    arrangements: [{
+      arrangement_name: "",
+      arrangement_quantity: "",
+      flowers: [{
+        flower_id: "",
+        stem_quantity: "",
+      }]
+    }]
+  };
 
   return (
     <Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
@@ -124,13 +133,6 @@ export const ArrangementForm = ({
                   <Tbody>
                     <Tr>
                       <Td colSpan="2">
-                        {/* <Select name={`guests.${index}.meal_id`} placeholder="Meal Selection" isDisabled={values.guests[index].is_attending === 'false'}>
-                          {mealOptions?.data.map((opt) => (
-                            <option value={opt.meal_id} key={`option-${opt.meal_id}`}>
-                              {opt.name}
-                            </option>
-                          ))}
-                        </Select> */}
                         <Select name={"flowers.flower_name"} placeholder="Flower">
                           {flowers.map((flower) => (
                             <option value={flower.flower_name} key={flower.id}>
