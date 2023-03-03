@@ -32,7 +32,7 @@ export const CreateProject = () => {
                 project_name: Yup.string()
                   .required("Please enter a name for this project"),
                 event_date: Yup.date()
-                  .required("Please enter a date in the format YYYYMMDD"),
+                  .required("Please select an event date"),
               })}
 
             onSubmit={async (values) => {
@@ -50,30 +50,41 @@ export const CreateProject = () => {
             {formik => (
               <Flex align="center">
                 <Box>
-                  <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit} w="350px">
+                  <VStack
+                    as="form"
+                    mx="auto"
+                    spacing="5"
+                    justifyContent="center"
+                    onSubmit={formik.handleSubmit}
+                    w="350px"
+                  >
 
-                    <TextField name="project_name" type="text" placeholder="Name" label="Project Name" />
+                    <TextField
+                      name="project_name"
+                      type="text"
+                      placeholder="Name"
+                      label="Project Name" 
+                      />
 
-                    <TextField name="event_date" type="date" placeholder="YYYYMMDD" label="Event Date" />
-
-                    {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      label="Basic example"
-                      value=""
-                      // onChange={(newValue) => {
-                      // 	setValue(newValue);
-                      // }}
-                      // renderInput={(params) => <TextField {...params} />}
-                    />
-                  </LocalizationProvider> */}
-
+                    <TextField
+                      name="event_date"
+                      type="date"
+                      placeholder="Date"
+                      label="Event Date" 
+                      />
 
                     {/* Buttons */}
                     <ButtonGroup spacing="6">
                       <Link to="/projects">
-                        <Button>Cancel</Button>
+                        <Button>
+                          Cancel
+                        </Button>
                       </Link>
-                      <Button type="submit" colorScheme="pink">Create Project</Button>
+                      <Button
+                        type="submit"
+                        colorScheme="pink">
+                        Create Project
+                      </Button>
 
                     </ButtonGroup>
                   </VStack>
