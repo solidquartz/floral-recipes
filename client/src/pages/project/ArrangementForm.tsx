@@ -61,27 +61,19 @@ export const ArrangementForm = ({
 
   return (
     <Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
-
-
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
-      // validationSchema={}
-      // onSubmit={}
+        // validationSchema={}
+        // onSubmit={}
       >
-        {formik => (
+        {(formik) => (
           <>
-            <Flex
-              flexDirection="column"
-            >
+            <Flex flexDirection="column">
               <Heading size="md" textTransform="capitalize">
                 Arrangement name (take from state)
               </Heading>
-              <Flex
-                flexDirection="column"
-                paddingTop="5px"
-                width="500px"
-              >
+              <Flex flexDirection="column" paddingTop="5px" width="500px">
                 <TextField
                   name="arrangement_name"
                   type="text"
@@ -95,16 +87,14 @@ export const ArrangementForm = ({
                 />
               </Flex>
 
-
               <TableContainer whiteSpace="normal" maxW="1080px">
                 <Table size="lg">
-
                   <Thead>
                     <Tr>
                       <Th>Flower Type</Th>
                       <Th></Th>
-                      <Th>Price per Stem</Th>
                       <Th>Stems per Piece</Th>
+                      <Th>Price per Stem</Th>
                       <Th>Min Order Size</Th>
                       <Th>
                         <Icon
@@ -122,20 +112,18 @@ export const ArrangementForm = ({
                   </Thead>
 
                   <Tbody>
-                    {/* {flowersInArrangement.map((x, idx) => ( */}
+                    {/* {flowersInArrangement.map((x, idx) => ( 
+                      formik with field array*/}
                     <Tr>
                       <Td colSpan="2">
                         <Dropdown name="flowerName" placeholder="Flower">
                           <option value="rose">Rose</option>
                         </Dropdown>
                       </Td>
-                      <Td textAlign="right">$1.00</Td>
                       <Td>
-                        <TextField
-                          name="stem_quantity"
-                          type="text"
-                        />
+                        <TextField name="stem_quantity" type="text" />
                       </Td>
+                      <Td textAlign="right">$1.00</Td>
                       <Td>5</Td>
                       <Td textAlign="right">$2.00</Td>
                       <Td textAlign="right">$5.00</Td>
@@ -144,20 +132,21 @@ export const ArrangementForm = ({
                     </Tr>
                     {/* ))} */}
                   </Tbody>
-
                 </Table>
               </TableContainer>
               <Flex paddingTop="10px">
-                <Button
-                  colorScheme="pink"
-                  variant="outline"
-                >
+                <Button colorScheme="pink" variant="outline">
                   Add Flower
                 </Button>
               </Flex>
             </Flex>
 
-            <Flex flexDirection="column" alignItems="flex-end" pr="30px" pt="20px">
+            <Flex
+              flexDirection="column"
+              alignItems="flex-end"
+              pr="30px"
+              pt="20px"
+            >
               <Text fontSize="md" textTransform="uppercase" textAlign="right">
                 {/* <b>Cost per Arrangement</b>: ${totalCost.toFixed(2)} */}
               </Text>

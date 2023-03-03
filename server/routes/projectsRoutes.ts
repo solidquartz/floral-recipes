@@ -1,6 +1,5 @@
 import express from "express";
-
-const db = require("../configs/db.config");
+import { db } from "../configs/db.config";
 
 //all flowers are in state.flowers so i don't need to grab them
 type DbArrangedFlower = {
@@ -14,7 +13,6 @@ type DbArrangement = {
   id: number;
   arrangement_name: string;
   arrangement_quantity: number;
-
   flowers: ArrangedFlower[];
 };
 
@@ -28,7 +26,6 @@ type DbProject = {
   id: number;
   project_name: string;
   event_date: string;
-
   arrangements: Arrangement[];
 };
 
@@ -84,7 +81,9 @@ class Project {
 
 //get one specific project
 //req.params.id = project id
-export const registerProjects = (app: express.Application) => {
+export const registerProjects = () => {
+  const app = express.Router();
+
   app.get("/:id", async (req, res) => {
     try {
       const projectResult = await db.query(
@@ -189,5 +188,6 @@ export const registerProjects = (app: express.Application) => {
     console.log(req.params.id);
     console.log(req.body);
   });
-  
+
+  return app;
 };

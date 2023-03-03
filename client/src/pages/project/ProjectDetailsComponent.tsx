@@ -53,6 +53,7 @@ export const ProjectDetailsComponent = ({
 
   // download project data from api -> put into formik initial values -> (formik -> api) -> redownload from api
 
+
   return (
     <>
       <Flex flexDirection="column" maxW="1200px">
@@ -131,7 +132,9 @@ export const ProjectDetailsComponent = ({
                       editing={editing}
                     />
                   ))}
-                {editing && <ArrangementForm />}
+                {editing &&
+                  <ArrangementForm />
+                }
               </Flex>
             </Flex>
           </Flex>

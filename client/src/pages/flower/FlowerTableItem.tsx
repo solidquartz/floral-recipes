@@ -12,7 +12,7 @@ export const FlowerTableItem = ({ flower, ...props }) => {
           variant="ghost"
           colorScheme="cyan"
           size="sm"
-          onClick={() => props.handleEditFLower(flower.id)}>
+          onClick={() => props.handleEditFlower(flower.id)}>
           Edit
         </Button>
       </Td>
@@ -21,7 +21,7 @@ export const FlowerTableItem = ({ flower, ...props }) => {
           variant="ghost"
           colorScheme="red"
           size="sm"
-          onClick={() => props.handleDeleteFLower(flower.id)}
+          onClick={() => props.handleDeleteFlower(flower.id)}
         >
           Delete
         </Button>

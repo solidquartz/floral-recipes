@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import api from "../../api/api";
 import { useAppContext } from "../../context/AppContext";
-import { LeftElementTextField, TextField } from "../shared";
+import { TextField } from "../shared";
 
 export const EditProjectComponent = () => {
   //grab id from url
@@ -19,12 +19,13 @@ export const EditProjectComponent = () => {
 
   useEffect(() => {
     const fetchProject = async () => {
-      const response = await api.get(`/project/${id}`);
+      const response = await api.get(`/projects/${id}`);
       setProjectName(response.data.data.project.project_name);
       setEventDate(response.data.data.project.event_date);
     };
     fetchProject();
   }, []);
+
 
   const initialValues = {
     project_name: projectName,
@@ -64,22 +65,24 @@ export const EditProjectComponent = () => {
                 <TextField
                   name="project_name"
                   type="text"
-                  placeholder="Name"
+                  placeholder={projectName}
                   label="Project Name"
                 />
                 <TextField
                   name="event_date"
                   type="date"
-                  placeholder="YYYYMMDD"
+                  placeholder={eventDate}
                   label="Event Date"
                 />
 
                 {/* Buttons */}
                 <ButtonGroup spacing="6">
-                  <Link to="/flowers">
+                  <Link to="/projects">
                     <Button>Cancel</Button>
                   </Link>
-                  <Button type="submit" colorScheme="pink">
+                  <Button
+                    type="submit"
+                    colorScheme="pink">
                     Update
                   </Button>
                 </ButtonGroup>

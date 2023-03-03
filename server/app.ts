@@ -24,8 +24,8 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 //routes
-registerFlowers(app);
-registerProjects(app);
+app.use('/flowers', registerFlowers());
+app.use('/projects', registerProjects());
 
 app.get("/", (req, res) => {
   res.json({ greetings: "hello world" });
