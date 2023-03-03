@@ -32,7 +32,7 @@ export const CreateProject = () => {
                 project_name: Yup.string()
                   .required("Please enter a name for this project"),
                 event_date: Yup.date()
-                  .required("Please select an event date"),
+                  .required("Please enter an event date"),
               })}
 
             onSubmit={async (values) => {

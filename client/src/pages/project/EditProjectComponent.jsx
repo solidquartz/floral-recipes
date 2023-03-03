@@ -7,8 +7,6 @@ import * as Yup from "yup";
 import api from "../../api/api";
 import { useAppContext } from "../../context/AppContext";
 import { TextField } from "../shared";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 
 export const EditProjectComponent = () => {
 	//grab id from url
@@ -31,7 +29,7 @@ export const EditProjectComponent = () => {
 	}, []);
 
 	const initialValues = {
-		name: projectName,
+		project_name: projectName,
 		event_date: eventDate,
 	};
 
@@ -43,12 +41,12 @@ export const EditProjectComponent = () => {
 				enableReinitialize={true}
 				validationSchema={Yup.object({
 					project_name: Yup.string().required("Please enter a project name"),
-					stem_price: Yup.date().required("Please enter a date"),
+					event_date: Yup.date().required("Please enter a date"),
 				})}
 				onSubmit={async (values) => {
 					const response = await api.patch(`/projects/${id}`, {
-						name: values.name,
-						event_date: values.event_date,
+						project_name: values.project_name,
+						event_date: dayjs(values.event_date).format(),
 					});
 					state.upsertProject(response.data.data.project);
 					window.location.href = `/projects/${response.data.data.project.id}/details`;
@@ -67,7 +65,7 @@ export const EditProjectComponent = () => {
 								w="350px"
 							>
 								<TextField
-									name="name"
+									name="project_name"
 									type="text"
 									label="Project Name"
 								/>
@@ -76,17 +74,6 @@ export const EditProjectComponent = () => {
 									type="date"
 									label="Event Date"
 								/>
-
-								{/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-									<DatePicker
-										label="Event Date"
-										value={value}
-										onChange={(newValue) => {
-											setValue(newValue);
-										}}
-										renderInput={(params) => <TextField {...params} />}
-									/>
-									</LocalizationProvider> */}
 
 								{/* Buttons */}
 								<ButtonGroup spacing="6">
