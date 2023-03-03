@@ -141,21 +141,12 @@ export const ProjectDetailsComponent = ({
                   )))
                 }
                 {editing &&
-                  <ArrangementForm />
+                  <ArrangementForm
+                  flowers={flowers} />
                 }
               </Flex>
             </Flex>
           </Flex>
-          {editing &&
-            <Flex paddingTop="10px">
-              <Button
-                colorScheme="teal"
-                variant="outline"
-              >
-                Add Arrangement
-              </Button>
-            </Flex>
-          }
         </Flex>
 
       </Flex>

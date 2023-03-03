@@ -1,8 +1,10 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Flex,
   Heading,
+  Select,
   Table,
   TableContainer,
   Tbody,
@@ -62,7 +64,6 @@ export const ArrangementForm = ({
   return (
     <Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
 
-
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -95,7 +96,6 @@ export const ArrangementForm = ({
                 />
               </Flex>
 
-
               <TableContainer whiteSpace="normal" maxW="1080px">
                 <Table size="lg">
 
@@ -122,12 +122,22 @@ export const ArrangementForm = ({
                   </Thead>
 
                   <Tbody>
-                    {/* {flowersInArrangement.map((x, idx) => ( */}
                     <Tr>
                       <Td colSpan="2">
-                        <Dropdown name="flowerName" placeholder="Flower">
-                          <option value="rose">Rose</option>
-                        </Dropdown>
+                        {/* <Select name={`guests.${index}.meal_id`} placeholder="Meal Selection" isDisabled={values.guests[index].is_attending === 'false'}>
+                          {mealOptions?.data.map((opt) => (
+                            <option value={opt.meal_id} key={`option-${opt.meal_id}`}>
+                              {opt.name}
+                            </option>
+                          ))}
+                        </Select> */}
+                        <Select name={"flowers.flower_name"} placeholder="Flower">
+                          {flowers.map((flower) => (
+                            <option value={flower.flower_name} key={flower.id}>
+                              {flower.flower_name}
+                            </option>
+                          ))}
+                        </Select>
                       </Td>
                       <Td textAlign="right">$1.00</Td>
                       <Td>
@@ -147,15 +157,33 @@ export const ArrangementForm = ({
 
                 </Table>
               </TableContainer>
-              <Flex paddingTop="10px">
-                <Button
-                  colorScheme="pink"
-                  variant="outline"
-                >
-                  Add Flower
-                </Button>
+
+              <Flex paddingTop="10px" justifyContent="space-between">
+                <Flex>
+                  <ButtonGroup>
+                    <Button
+                      colorScheme="pink"
+                      variant="outline"
+                    >
+                      Add Flower
+                    </Button>
+                    <Button
+                      colorScheme="pink"
+                    >
+                      Save Flower
+                    </Button>
+                  </ButtonGroup>
+                </Flex>
+                <Flex>
+                  <Button
+                    colorScheme="teal"
+                  >
+                    Save Arrangement
+                  </Button>
+                </Flex>
               </Flex>
             </Flex>
+
 
             <Flex flexDirection="column" alignItems="flex-end" pr="30px" pt="20px">
               <Text fontSize="md" textTransform="uppercase" textAlign="right">
@@ -175,6 +203,14 @@ export const ArrangementForm = ({
               <Text fontSize="md" textTransform="uppercase" textAlign="right">
                 {/* <b>Total 250% Markup</b>: ${totalMarkup250.toFixed(2)} */}
               </Text>
+            </Flex>
+            <Flex paddingTop="10px" justifyContent="flex-end">
+              <Button
+                colorScheme="teal"
+                variant="outline"
+              >
+                Add Arrangement
+              </Button>
             </Flex>
           </>
         )}
