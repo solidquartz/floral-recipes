@@ -1,5 +1,3 @@
-// import { Link } from "react-router-dom";
-
 import {
   Box,
   Button,
@@ -11,10 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { BiBookAdd } from "react-icons/bi";
 import { GiFlowerPot } from "react-icons/gi";
-import React from "react";
-
 import { Link } from "react-router-dom";
 import { Header } from "../shared";
+import { PinProjectCard } from "./PinProjectCard";
+import { ProjectCard } from "./ProjectCard";
 
 export const Dashboard = () => {
   return (

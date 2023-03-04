@@ -15,18 +15,7 @@ import { FiInfo } from "react-icons/fi";
 import { Icon } from "../shared";
 import { useMemo } from "react";
 import { getOrderSize, getTotalCost } from "./helpers";
-import { Arrangement, Flower, Project } from "../../types";
-
-type ArrangedFlowerRow = {
-  name: string;
-  stem_price: number;
-	quantity: number;
-	rounded: number;
-	base_cost: number;
-	rounded_cost: number;
-	markup200: number;
-	markup250: number;
-};
+import { ArrangedFlowerRow, Arrangement, Flower, Project } from "../../types";
 
 export type ArrangementProps = {
 	arrangement: Arrangement;

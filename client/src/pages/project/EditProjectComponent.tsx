@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Flex, Text, VStack } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as Yup from "yup";
@@ -53,16 +53,13 @@ export const EditProjectComponent = () => {
           window.location.href = `/projects/${response.data.data.project.id}/details`;
         }}
       >
-        {/* Form */}
-        {(formik) => (
+        <Form>
           <Flex align="center">
             <Box>
               <VStack
-                as="form"
                 mx="auto"
                 spacing="5"
                 justifyContent="center"
-                onSubmit={formik.handleSubmit}
                 w="350px"
               >
                 <TextField
@@ -84,7 +81,7 @@ export const EditProjectComponent = () => {
               </VStack>
             </Box>
           </Flex>
-        )}
+        </Form>
       </Formik>
     </>
   );

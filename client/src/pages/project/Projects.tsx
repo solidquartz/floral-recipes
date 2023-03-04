@@ -23,6 +23,7 @@ import { ProjectTableItem } from "./ProjectTableItem";
 
 export const Projects = () => {
   const state = useAppContext();
+  const navigate = useNavigate();
 
   //get all projects
   useEffect(() => {
@@ -40,12 +41,9 @@ export const Projects = () => {
 
 
   //view project link
-  let navigate = useNavigate();
-
-  const handleDetails = (id) => {
+  const handleDetails = (id: number) => {
     navigate(`/projects/${id}/details`);
-	};
-
+  };
 
   return (
     <>
@@ -58,16 +56,16 @@ export const Projects = () => {
           <Flex pr="20px" align-items="center">
             <Heading>Projects</Heading>
           </Flex>
-					<Flex>
-						<Link to="/projects/create">
-            <Button
-              variant="outline"
-              colorScheme="cyan"
-              leftIcon={<BiBookAdd />}
-            >
-              Create Project
-							</Button>
-						</Link>
+          <Flex>
+            <Link to="/projects/create">
+              <Button
+                variant="outline"
+                colorScheme="cyan"
+                leftIcon={<BiBookAdd />}
+              >
+                Create Project
+              </Button>
+            </Link>
           </Flex>
         </Flex>
 
