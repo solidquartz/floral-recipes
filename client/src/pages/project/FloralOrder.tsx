@@ -66,7 +66,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 
 	return (
 		<Flex p="25px" width="100%" m="auto" flexDirection="column">
-			<TableContainer whiteSpace="normal" maxW="1080px">
+			<TableContainer whiteSpace="normal">
 				<Heading size="lg">Floral Order</Heading>
 
 				{/* Floral Order Table */}

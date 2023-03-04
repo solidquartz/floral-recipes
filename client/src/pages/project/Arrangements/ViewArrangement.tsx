@@ -12,10 +12,11 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { FiInfo } from "react-icons/fi";
-import { Icon } from "../shared";
 import { useMemo } from "react";
-import { getOrderSize, getTotalCost } from "./helpers";
-import { ArrangedFlowerRow, Arrangement, Flower, Project } from "../../types";
+import { ArrangedFlowerRow, Arrangement, Flower, Project } from "src/types";
+import { getOrderSize, getTotalCost } from "../helpers";
+import { Icon } from "../../shared";
+
 
 export type ArrangementProps = {
 	arrangement: Arrangement;
@@ -74,7 +75,7 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
         </Heading>
 
         {/* Arrangement Table */}
-        <TableContainer whiteSpace="normal" maxW="1080px">
+        <TableContainer whiteSpace="normal">
           <Table size="lg">
             <Thead>
               <Tr>

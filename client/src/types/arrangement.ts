@@ -1,4 +1,5 @@
 export type ArrangedFlower = {
+  id: number;
   flower_id: number;
   stem_quantity: string;
 };

@@ -13,8 +13,6 @@
     "@chakra-ui/theme": "^2.2.5",
     "@chakra-ui/theme-tools": "^2.0.17",
     "@date-io/jalaali": "^2.16.1",
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.10",
     "@mui/x-date-pickers": "^5.0.19",
     "@reduxjs/toolkit": "^1.9.2",
