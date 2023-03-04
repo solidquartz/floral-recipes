@@ -12,21 +12,11 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { FiInfo } from "react-icons/fi";
-import { Icon } from "../shared";
 import { useMemo } from "react";
-import { getOrderSize, getTotalCost } from "./helpers";
-import { Arrangement, Flower, Project } from "../../types";
+import { ArrangedFlowerRow, Arrangement, Flower, Project } from "src/types";
+import { getOrderSize, getTotalCost } from "../helpers";
+import { Icon } from "../../shared";
 
-type ArrangedFlowerRow = {
-  name: string;
-  stem_price: number;
-	quantity: number;
-	rounded: number;
-	base_cost: number;
-	rounded_cost: number;
-	markup200: number;
-	markup250: number;
-};
 
 export type ArrangementProps = {
 	arrangement: Arrangement;
@@ -85,7 +75,7 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
         </Heading>
 
         {/* Arrangement Table */}
-        <TableContainer whiteSpace="normal" maxW="1080px">
+        <TableContainer whiteSpace="normal">
           <Table size="lg">
             <Thead>
               <Tr>

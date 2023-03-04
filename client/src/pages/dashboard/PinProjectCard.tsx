@@ -1,5 +1,3 @@
-// import { Link } from "react-router-dom";
-
 import { Button, Center, Flex } from "@chakra-ui/react";
 import { BsPinAngle } from 'react-icons/bs';
 

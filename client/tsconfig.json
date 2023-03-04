@@ -6,6 +6,25 @@
     "allowJs": false,
     "jsx": "react-jsx",
     "target": "ESNext",
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "node",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "skipLibCheck": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "src",
+    "fixes"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

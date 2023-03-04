@@ -10,7 +10,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { GiFlowerPot } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,9 +20,10 @@ import { FlowerTableItem } from "./FlowerTableItem";
 
 export const Flowers = () => {
   const state = useAppContext();
+  const navigate = useNavigate();
 
   //delete a flower
-  const handleDeleteFlower = async (id) => {
+  const handleDeleteFlower = async (id: number) => {
     try {
       const response = await api.delete(`/flowers/${id}`);
       state.setFlowers(state.flowers.filter(flower => {
@@ -33,8 +33,7 @@ export const Flowers = () => {
   };
 
   //edit flower link
-  let navigate = useNavigate();
-  const handleEditFlower = (id) => {
+  const handleEditFlower = (id: number) => {
     navigate(`/flowers/${id}/edit`);
   };
 

@@ -1,11 +1,10 @@
 import { Button, ButtonGroup, Flex, Heading, Text } from "@chakra-ui/react";
-import { ArrangementComponent } from "./Arrangement";
 import { Link, useNavigate } from "react-router-dom";
 import { FloralOrder } from "./FloralOrder";
 import { useState } from "react";
-import { ArrangementForm } from "./ArrangementForm";
 import dayjs from "dayjs";
 import { Flower, Project } from "src/types";
+import { ArrangementComponent, ArrangementForm } from "./Arrangements";
 
 export type ProjectDetailsComponentProps = {
   project: Project;
@@ -23,16 +22,10 @@ export const ProjectDetailsComponent: React.FC<
   //navigation
   const setEditingHandler = () => {
     setViewing(false);
-    // setCreating(false);
     setEditing(true);
   };
-  // const setCreatingHandler = () => {
-  // 	setViewing(false);
-  // 	setEditing(false);
-  // 	setCreating(true);
-  // };
+
   const setViewingHandler = () => {
-    // setCreating(false);
     setEditing(false);
     setViewing(true);
   };
@@ -51,7 +44,7 @@ export const ProjectDetailsComponent: React.FC<
 
   return (
     <>
-      <Flex flexDirection="column" maxW="1200px">
+      <Flex flexDirection="column">
         <Flex
           flexDirection="row"
           alignItems="baseline"
@@ -115,7 +108,7 @@ export const ProjectDetailsComponent: React.FC<
             <Heading size="lg">Arrangements</Heading>
           </Flex>
           <Flex>
-            <Flex pt="20px" flexDirection="column" w="100%">
+            <Flex pt="20px" flexDirection="column">
               <Flex flexDirection="column">
                 {viewing &&
                   project.arrangements.map((arrangement) => (
