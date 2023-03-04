@@ -8,7 +8,7 @@ import { useAppContext } from '../../context/AppContext';
 import { LeftElementTextField, TextField } from '../shared';
 
 
-export const EditFlowerComponent = (props) => {
+export const EditFlowerComponent = () => {
 
   //grab id from url
   const { id } = useParams();
@@ -31,7 +31,11 @@ export const EditFlowerComponent = (props) => {
   }, []);
 
 
-  const initialValues = { flower_name: flowerName, stem_price: stemPrice, rounded_up: roundedUp };
+  const initialValues = {
+    flower_name: flowerName,
+    stem_price: stemPrice,
+    rounded_up: roundedUp
+  };
 
   return (
     <>
@@ -58,7 +62,7 @@ export const EditFlowerComponent = (props) => {
             rounded_up: values.rounded_up,
           });
           state.upsertFlower(response.data.data.flower);
-          window.location = '/flowers';
+          window.location.href = '/flowers';
         }}
       >
 
@@ -66,18 +70,44 @@ export const EditFlowerComponent = (props) => {
         {formik => (
           <Flex align="center">
             <Box>
-              <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit} w="350px">
+              <VStack
+                as="form"
+                mx="auto"
+                spacing="5"
+                justifyContent="center"
+                onSubmit={formik.handleSubmit}
+                w="350px">
 
-                <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
-                <LeftElementTextField name="stem_price" type="text" placeholder="0.00" label="Price" element="$" />
-                <TextField name="rounded_up" type="text" placeholder="Rounded Up" label="Rounded Up" />
+                <TextField
+                  name="flower_name"
+                  type="text"
+                  placeholder="Name"
+                  label="Floral Name" />
+                <LeftElementTextField
+                  name="stem_price"
+                  type="text"
+                  placeholder="0.00"
+                  label="Price"
+                  element="$" />
+                <TextField
+                  name="rounded_up"
+                  type="text" placeholder="Rounded Up" label="Rounded Up" />
 
                 {/* Buttons */}
-                <ButtonGroup spacing="6">
-                  <Link to="/flowers">
-                    <Button>Cancel</Button>
+                <ButtonGroup
+                  spacing="6">
+                  <Link
+                    to="/flowers"
+                  >
+                    <Button>
+                      Cancel
+                    </Button>
                   </Link>
-                  <Button type="submit" colorScheme="pink">Update</Button>
+                  <Button
+                    type="submit"
+                    colorScheme="pink">
+                    Update
+                  </Button>
 
                 </ButtonGroup>
               </VStack>

@@ -1,5 +1,5 @@
 import { Button, Flex, Heading, Box, VStack, ButtonGroup } from "@chakra-ui/react";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { Link } from "react-router-dom";
 import api from "../../api/api";
@@ -42,15 +42,13 @@ export const CreateFlower = () => {
                 rounded_up: values.rounded_up,
               });
               state.upsertFlower(response.data.data.flower);
-              window.location = '/flowers';
+              window.location.href = '/flowers';
             }}
           >
-
-            {/* Form */}
-            {formik => (
+            <Form>
               <Flex align="center">
                 <Box>
-                  <VStack as="form" mx="auto" spacing="5" justifyContent="center" onSubmit={formik.handleSubmit} w="350px">
+                  <VStack mx="auto" spacing="5" justifyContent="center" w="350px">
 
                     <TextField name="flower_name" type="text" placeholder="Name" label="Floral Name" />
 
@@ -71,7 +69,7 @@ export const CreateFlower = () => {
                   </VStack>
                 </Box>
               </Flex>
-            )}
+            </Form>
           </Formik>
         </Flex>
       </Flex>

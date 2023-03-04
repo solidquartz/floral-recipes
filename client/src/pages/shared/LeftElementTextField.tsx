@@ -5,14 +5,14 @@ import {
 } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/input";
 import { useField } from "formik";
-
+import type { TextFieldProps } from "./props";
 
 //reusable text input component with left input element
-export const LeftElementTextField = ({ label, ...props }) => {
+export const LeftElementTextField: React.FC<TextFieldProps> = ({ label, ...props }) => {
   const [field, meta] = useField(props);
 
   return (
-    <FormControl isInvalid={meta.error && meta.touched}>
+    <FormControl isInvalid={Boolean(meta.error && meta.touched)}>
       <FormLabel htmlFor={props.name}>{label}</FormLabel>
       <InputGroup>
         <InputLeftElement children={props.element} pointerEvents="none" color="gray.500" />
