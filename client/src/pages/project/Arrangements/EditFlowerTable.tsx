@@ -1,11 +1,9 @@
 import {
   Button,
   Flex,
-  Select,
   Table,
   TableContainer,
   Tbody,
-  Td,
   Th,
   Thead,
   Tr,
@@ -38,8 +36,8 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               <Thead>
                 <Tr>
                   <Th>Flower Type</Th>
-                  <Th>Price per Stem</Th>
                   <Th>Stems per Piece</Th>
+                  <Th>Price per Stem</Th>
                   <Th>Min Order Size</Th>
                   <Th>
                     <Icon
@@ -61,7 +59,8 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                 {values.arrangements[index].flowers.map((_, flowerIdx) => (
                   <EditFlowerTableRow
                     key={`arrangement-${index}-flower-${flowerIdx}`}
-                    prefix={`arrangements.${index}.flowers.${flowerIdx}`}
+                    arrangementIndex={index}
+                    flowerIndex={flowerIdx}
                     flowers={flowers}
                     remove={() => flowerHelpers.remove(flowerIdx)}
                   />
@@ -75,7 +74,7 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               variant="outline"
               onClick={() =>
                 flowerHelpers.push({
-                  flower_id: 1,
+                  flower_id: 0,
                   stem_quantity: 0,
                 })
               }

@@ -57,6 +57,9 @@ export const ProjectDetailsComponent: React.FC<
             <Flex>
               <Text>Event Date: {eventDate}</Text>
             </Flex>
+            <Flex>
+              <Text>Last Updated: {lastUpdated}</Text>
+            </Flex>
           </Flex>
 
           {/* Buttons */}
