@@ -1,6 +1,14 @@
 import { Box, Flex, Tooltip } from "@chakra-ui/react";
 
-export const Icon = ({
+export type IconProps = {
+  icon: React.ReactNode;
+  tooltipText?: string;
+  children?: React.ReactNode;
+  placement?: string;
+  textMargin?: number;
+}
+
+export const Icon: React.FC<IconProps> = ({
   icon,
   tooltipText,
   children,

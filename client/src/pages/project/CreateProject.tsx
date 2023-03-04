@@ -6,7 +6,7 @@ import {
   Heading,
   VStack,
 } from "@chakra-ui/react";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import { Header, TextField } from "../shared";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -38,7 +38,7 @@ export const CreateProject = () => {
               ),
               event_date: Yup.date().required("Please select a date"),
             })}
-            onSubmit={async (values) => {
+            onSubmit={async (values: typeof initialValues) => {
               const response = await api.post("/projects", {
                 project_name: values.project_name,
                 event_date: dayjs(values.event_date).format(),
@@ -48,16 +48,13 @@ export const CreateProject = () => {
               window.location.href = `/projects/${response.data.data.project.id}/details`;
             }}
           >
-            {/* Form */}
-            {(formik) => (
+            <Form>
               <Flex align="center">
                 <Box>
                   <VStack
-                    as="form"
                     mx="auto"
                     spacing="5"
                     justifyContent="center"
-                    onSubmit={formik.handleSubmit}
                     w="350px"
                   >
                     <TextField
@@ -86,7 +83,7 @@ export const CreateProject = () => {
                   </VStack>
                 </Box>
               </Flex>
-            )}
+            </Form>
           </Formik>
         </Flex>
       </Flex>

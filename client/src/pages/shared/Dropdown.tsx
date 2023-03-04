@@ -4,8 +4,9 @@ import {
 	FormControl,
 	FormErrorMessage
 } from '@chakra-ui/form-control';
+import type { TextFieldProps } from './props';
 
-export const Dropdown = (props) => {
+export const Dropdown: React.FC<TextFieldProps> = (props) => {
 	const [field, meta] = useField(props.name);
 
 	return (

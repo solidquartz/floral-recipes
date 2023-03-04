@@ -5,9 +5,9 @@ import React, {
   useContext,
   Dispatch
 } from "react";
+import { Flower, Project } from "src/types";
 import api from "../api/api";
-import { Flower } from "../types/flowerTypes";
-import { Project } from "../types/projectTypes";
+
 
 export type AppContextType = {
   projects: Project[];
@@ -18,7 +18,14 @@ export type AppContextType = {
   upsertProject: (project: Project) => void;
 };
 
-export const AppContext = createContext<AppContextType | null>(null);
+export const AppContext = createContext<AppContextType>({
+  projects: [],
+  setProjects: () => { },
+  flowers: [],
+  setFlowers: () => { },
+  upsertFlower: () => { },
+  upsertProject: () => { }
+});
 
 export const useAppContext = () => useContext(AppContext);
 

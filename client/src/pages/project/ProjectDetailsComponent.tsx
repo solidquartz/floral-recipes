@@ -1,28 +1,24 @@
-import {
-  Button,
-  ButtonGroup,
-  Flex,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
-import { Arrangement } from "../project/Arrangement";
+import { Button, ButtonGroup, Flex, Heading, Text } from "@chakra-ui/react";
+import { ArrangementComponent } from "./Arrangement";
 import { Link, useNavigate } from "react-router-dom";
 import { FloralOrder } from "./FloralOrder";
 import { useState } from "react";
 import { ArrangementForm } from "./ArrangementForm";
 import dayjs from "dayjs";
+import { Flower, Project } from "src/types";
 
+export type ProjectDetailsComponentProps = {
+  project: Project;
+  flowers: Flower[];
+};
 
-export const ProjectDetailsComponent = ({
-  project,
-  flowers
-}) => {
-
+export const ProjectDetailsComponent: React.FC<
+  ProjectDetailsComponentProps
+> = ({ project, flowers }) => {
   //app state
   const [viewing, setViewing] = useState(true);
   const [editing, setEditing] = useState(false);
   // const [creating, setCreating] = useState(true);
-
 
   //navigation
   const setEditingHandler = () => {
@@ -41,9 +37,9 @@ export const ProjectDetailsComponent = ({
     setViewing(true);
   };
 
-    //edit project link
+  //edit project link
   let navigate = useNavigate();
-  const handleEditProject = (id) => {
+  const handleEditProject = (id: number) => {
     navigate(`/projects/${id}/edit`);
   };
 
@@ -52,7 +48,6 @@ export const ProjectDetailsComponent = ({
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
 
   // download project data from api -> put into formik initial values -> (formik -> api) -> redownload from api
-
 
   return (
     <>
@@ -94,9 +89,10 @@ export const ProjectDetailsComponent = ({
                   <Button
                     variant="outline"
                     colorScheme="blue"
-                  onClick={() => handleEditProject(project.id)}>
-                      Edit Name & Date
-                    </Button>
+                    onClick={() => handleEditProject(project.id)}
+                  >
+                    Edit Name & Date
+                  </Button>
                   <Button
                     variant="outline"
                     colorScheme="red"
@@ -123,18 +119,22 @@ export const ProjectDetailsComponent = ({
               <Flex flexDirection="column">
                 {viewing &&
                   project.arrangements.map((arrangement) => (
-                    <Arrangement
-                      project={project}
+                    <ArrangementComponent
                       key={arrangement.id}
+                      project={project}
                       arrangement={arrangement}
                       flowers={flowers}
                       viewing={viewing}
                       editing={editing}
                     />
                   ))}
-                {editing &&
-                  <ArrangementForm />
-                }
+                {editing && (
+                  <ArrangementForm
+                    project={project}
+                    flowers={flowers}
+                    editing={editing}
+                  />
+                )}
               </Flex>
             </Flex>
           </Flex>

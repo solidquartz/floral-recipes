@@ -20,8 +20,19 @@ import { getOrderSize, getTotalCost } from "./helpers";
 import { FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { TextField } from "../shared";
+import { Flower, Project } from "src/types";
 
-export const ArrangementForm = ({ flowers, project, editing }) => {
+export type ArrangementFormProps = {
+  flowers: Flower[];
+  project: Project;
+  editing: boolean;
+};
+
+export const ArrangementForm: React.FC<ArrangementFormProps> = ({
+  flowers,
+  project,
+  editing,
+}) => {
   //shape data
   // const flowersInArrangement = useMemo(() => {
   //  if (!flowers) {
@@ -75,17 +86,16 @@ export const ArrangementForm = ({ flowers, project, editing }) => {
         initialValues={initialValues}
         enableReinitialize={true}
         // validationSchema={}
-        // onSubmit={}
+        onSubmit={() => void 0}
       >
         {({ values, errors, isSubmitting, isValid }) => (
           <Form>
-            <FieldArray
-              name="arrangements"
-              {...(arrayHelpers) => (
+            <FieldArray name="arrangements">
+              {(arrayHelpers) => (
                 <>
                   {values.arrangements.map((_, index) => (
                     <>
-                      <Flex flexDirection="column">
+                      <Flex flexDirection="column" border="1px solid red">
                         <Heading size="md" textTransform="capitalize">
                           {/* {arrangement?.arrangement_name} */}
                         </Heading>
@@ -96,6 +106,7 @@ export const ArrangementForm = ({ flowers, project, editing }) => {
                           width="500px"
                         >
                           <TextField
+                            label=""
                             name={`arrangements.${index}.arrangement_name`}
                             type="text"
                             placeholder="Enter Name"
@@ -129,52 +140,85 @@ export const ArrangementForm = ({ flowers, project, editing }) => {
                                 <Th>Rounded Up Total</Th>
                                 <Th>Markup 200%</Th>
                                 <Th>Markup 250%</Th>
+                                <Th>Save Flower</Th>
+                                <Th>Delete Flower</Th>
                               </Tr>
                             </Thead>
 
                             <Tbody>
-                              <Tr>
-                                <Td colSpan="2">
-                                  <Select
-                                    name={"flowers.flower_name"}
-                                    placeholder="Flower"
-                                  >
-                                    {flowers.map((flower) => (
-                                      <option
-                                        value={flower.flower_name}
-                                        key={flower.id}
-                                      >
-                                        {flower.flower_name}
-                                      </option>
-                                    ))}
-                                  </Select>
-                                </Td>
-                                <Td textAlign="right">$1.00</Td>
-                                <Td>
-                                  <TextField name="stem_quantity" type="text" />
-                                </Td>
-                                <Td>5</Td>
-                                <Td textAlign="right">$2.00</Td>
-                                <Td textAlign="right">$5.00</Td>
-                                <Td textAlign="right">$00</Td>
-                                <Td textAlign="right">$00</Td>
-                              </Tr>
-                              {/* ))} */}
+                              <FieldArray
+                                name={`arrangements.${index}.flowers`}
+                              >
+                                {(arrayHelpers) =>
+                                  values.arrangements[index].flowers.map(
+                                    (_, flowerIdx) => (
+                                      <Tr>
+                                        <Td colSpan={2}>
+                                          <Select
+                                            name={`arrangements.${index}.flowers.${flowerIdx}.flower_name`}
+                                            placeholder="Flower"
+                                          >
+                                            {flowers.map((flower) => (
+                                              <option
+                                                value={flower.flower_name}
+                                                key={flower.id}
+                                              >
+                                                {flower.flower_name}
+                                              </option>
+                                            ))}
+                                          </Select>
+                                        </Td>
+                                        <Td textAlign="right">$1.00</Td>
+                                        <Td>
+                                          <TextField
+                                            name={`arrangements.${index}.flowers.${flowerIdx}.stem_quantity`}
+                                            type="text"
+                                            label=""
+                                          />
+                                        </Td>
+                                        <Td>5</Td>
+                                        <Td textAlign="right">$2.00</Td>
+                                        <Td textAlign="right">$5.00</Td>
+                                        <Td textAlign="right">$00</Td>
+                                        <Td textAlign="right">$00</Td>
+                                        <Td>
+                                          <Button
+                                            colorScheme="green"
+                                            variant="outline"
+                                          >
+                                            ✅
+                                          </Button>
+                                        </Td>
+                                        <Td>
+                                          <Button
+                                            colorScheme="red"
+                                            variant="outline"
+                                          >
+                                            ❌
+                                          </Button>
+                                        </Td>
+                                      </Tr>
+                                    )
+                                  )
+                                }
+                              </FieldArray>
                             </Tbody>
                           </Table>
                         </TableContainer>
 
                         <Flex paddingTop="10px" justifyContent="space-between">
                           <Flex>
-                            <ButtonGroup>
-                              <Button colorScheme="pink" variant="outline">
-                                Add Flower
-                              </Button>
-                              <Button colorScheme="pink">Save Flower</Button>
-                            </ButtonGroup>
+                            <Button colorScheme="pink" variant="outline">
+                              Add Flower
+                            </Button>
                           </Flex>
                           <Flex>
                             <Button colorScheme="teal">Save Arrangement</Button>
+                          </Flex>
+                          <Flex>
+                            <Button colorScheme="red">
+                              Delete Arrangement
+                            </Button>
                           </Flex>
                         </Flex>
                       </Flex>
@@ -225,7 +269,11 @@ export const ArrangementForm = ({ flowers, project, editing }) => {
                       </Flex>
 
                       <Flex paddingTop="10px" justifyContent="flex-end">
-                        <Button colorScheme="teal" variant="outline">
+                        <Button
+                          colorScheme="teal"
+                          variant="outline"
+                          onClick={() => arrayHelpers.push({ arrangement_name: "", arrangement_quantity: "" })}
+                        >
                           Add Arrangement
                         </Button>
                       </Flex>
@@ -233,7 +281,7 @@ export const ArrangementForm = ({ flowers, project, editing }) => {
                   ))}
                 </>
               )}
-            />
+            </FieldArray>
             <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
           </Form>
         )}

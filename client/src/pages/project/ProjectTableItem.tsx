@@ -1,8 +1,13 @@
 import { Button, Td, Tr } from "@chakra-ui/react";
 import dayjs from 'dayjs';
+import type { Project } from '../../types';
 
+export type ProjectTableItemProps = {
+  project: Project;
+  handleDetails: (id: number) => void;
+}
 
-export const ProjectTableItem = ({ project, ...props }) => {
+export const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, ...props }) => {
 
   const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
@@ -20,7 +25,8 @@ export const ProjectTableItem = ({ project, ...props }) => {
           colorScheme="teal"
           variant="outline"
         >
-          View</Button>
+          View
+        </Button>
       </Td>
     </Tr>
   );
