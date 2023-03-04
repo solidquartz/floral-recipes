@@ -21,22 +21,15 @@ export const ProjectDetailsComponent = ({
   //app state
   const [viewing, setViewing] = useState(true);
   const [editing, setEditing] = useState(false);
-  // const [creating, setCreating] = useState(true);
 
 
   //navigation
   const setEditingHandler = () => {
     setViewing(false);
-    // setCreating(false);
     setEditing(true);
   };
-  // const setCreatingHandler = () => {
-  // 	setViewing(false);
-  // 	setEditing(false);
-  // 	setCreating(true);
-  // };
+
   const setViewingHandler = () => {
-    // setCreating(false);
     setEditing(false);
     setViewing(true);
   };
@@ -136,14 +129,16 @@ export const ProjectDetailsComponent = ({
                       key={arrangement.id}
                       arrangement={arrangement}
                       flowers={flowers}
-                      viewing={viewing}
                       editing={editing}
                     />
                   )))
                 }
                 {editing &&
                   <ArrangementForm
-                  flowers={flowers} />
+                  flowers={flowers}
+                  editing={editing}
+                  project={project}
+                  />
                 }
               </Flex>
             </Flex>
