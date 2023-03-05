@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
-import * as Yup from "yup";
+import { array, boolean, number, object, string, ValidationError } from "yup";
 import type {
   ArrangedFlowerRow,
   Arrangement,
@@ -14,6 +14,7 @@ import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
 import { getTotalCost } from "../helpers";
 import api from "src/api/api";
 import { useParams } from "react-router-dom";
+import { useAppContext } from "src/context/AppContext";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -26,6 +27,7 @@ export type ArrangementFormType = {
 };
 
 const { id } = useParams();
+const state = useAppContext();
 
 export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   flowers,
@@ -72,9 +74,26 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
-        // validationSchema={}
-
-
+        validationSchema={object({
+          arrangements: array(
+            object({
+              arrangement_name: string().required(
+                "Please enter a name for this arrangement"
+              ),
+              arrangement_quantity: number().required(
+                "Please enter the quantity of this arrangement"
+              ),
+              flowers: array(
+                object({
+                  flower_id: number().required("Please select a flower"),
+                  stem_quantity: number().required(
+                    "Please enter thr quantity of stems"
+                  ),
+                })
+              ),
+            })
+          ),
+        })}
         //here!!!
         onSubmit={async (values) => {
           const response = await api.post(`/${id}/arrangement`, {
@@ -94,7 +113,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
           state.upsertFlower(response.data.data.flower);
         }}
       >
-        
         {({ values, errors, isSubmitting, isValid }) => (
           <Form>
             <FieldArray name="arrangements">
