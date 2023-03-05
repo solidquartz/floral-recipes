@@ -81,17 +81,17 @@ export const ProjectDetailsComponent: React.FC<
                 <>
                   <Button
                     variant="outline"
-                    colorScheme="blue"
-                    onClick={() => handleEditProject(project.id)}
-                  >
-                    Edit Name & Date
-                  </Button>
-                  <Button
-                    variant="outline"
                     colorScheme="red"
                     onClick={setViewingHandler}
                   >
                     Cancel
+                  </Button>
+                  <Button
+                    variant="outline"
+                    colorScheme="blue"
+                    onClick={() => handleEditProject(project.id)}
+                  >
+                    Edit Name & Date
                   </Button>
                 </>
               )}

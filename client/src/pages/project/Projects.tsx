@@ -20,7 +20,6 @@ import { useAppContext } from "../../context/AppContext";
 import { Header } from "../shared";
 import { ProjectTableItem } from "./ProjectTableItem";
 
-
 export const Projects = () => {
   const state = useAppContext();
   const navigate = useNavigate();
@@ -39,7 +38,6 @@ export const Projects = () => {
     }
   }, [state]);
 
-
   //view project link
   const handleDetails = (id: number) => {
     navigate(`/projects/${id}/details`);
@@ -52,32 +50,33 @@ export const Projects = () => {
 
       {/* Title and Search */}
       <Flex m="auto" pr="70px" pl="70px" justify="space-between">
-        <Flex>
-          <Flex pr="20px" align-items="center">
+        
+        <Flex pr="20px" align-items="center">
+          <Flex>
             <Heading>Projects</Heading>
           </Flex>
           <Flex>
-            <Link to="/projects/create">
-              <Button
-                variant="outline"
-                colorScheme="cyan"
-                leftIcon={<BiBookAdd />}
-              >
-                Create Project
-              </Button>
-            </Link>
+            <Input type="text" placeholder="Search" />
+            <Button
+              colorScheme="pink"
+              variant="outline"
+              leftIcon={<BiSearchAlt />}
+            >
+              Search
+            </Button>
           </Flex>
         </Flex>
-
+        
         <Flex>
-          <Input type="text" placeholder="Search" />
-          <Button
-            colorScheme="pink"
-            variant="outline"
-            leftIcon={<BiSearchAlt />}
-          >
-            Search
-          </Button>
+          <Link to="/projects/create">
+            <Button
+              variant="outline"
+              colorScheme="cyan"
+              leftIcon={<BiBookAdd />}
+            >
+              Create Project
+            </Button>
+          </Link>
         </Flex>
       </Flex>
 

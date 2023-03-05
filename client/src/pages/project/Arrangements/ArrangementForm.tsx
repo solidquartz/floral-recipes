@@ -1,18 +1,19 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
-import type { ArrangedFlowerRow, Arrangement, Flower, Project } from "../../../types";
+import type {
+  ArrangedFlowerRow,
+  Arrangement,
+  Flower,
+  Project,
+} from "../../../types";
 import { Fragment, useMemo } from "react";
 import { EditFlowerTable } from "./EditFlowerTable";
-import { TextField } from '../../shared';
-import { AiOutlineDelete, AiOutlineSave } from 'react-icons/ai';
+import { TextField } from "../../shared";
+import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
 import { getTotalCost } from "../helpers";
+import api from "src/api/api";
+import { useParams } from "react-router-dom";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -23,6 +24,8 @@ export type ArrangementFormProps = {
 export type ArrangementFormType = {
   arrangements: Arrangement[];
 };
+
+const { id } = useParams();
 
 export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   flowers,
@@ -37,7 +40,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
         arrangement_quantity: 0,
         flowers: [
           {
-            flower_id: 1,
+            flower_id: 0,
             stem_quantity: 0,
           },
         ],
@@ -45,8 +48,20 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
+  console.log("project", project);
 
   //for arrangement totals
+  //shape data
+  // const flowersInArrangement: ArrangedFlowerRow[] = useMemo(() => {
+  //   if (!flowers) {
+  //     return [];
+  //   }
+  //   return arrangement.flowers
+  //     .map((x) => makeArrangedFlower(x, flowers))
+  //     .filter((x): x is ArrangedFlowerRow => !!x);
+  // }, [flowers]);
+
+  // //for arrangement totals
   // const totalCost = getTotalCost(flowersInArrangement);
   // const costAllArrangements = totalCost * arrangement.arrangement_quantity;
   // const totalMarkup200 = costAllArrangements * 2;
@@ -58,8 +73,28 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
         initialValues={initialValues}
         enableReinitialize={true}
         // validationSchema={}
-        onSubmit={() => void 0}
+
+
+        //here!!!
+        onSubmit={async (values) => {
+          const response = await api.post(`/${id}/arrangement`, {
+            arrangements: [
+              {
+                arrangement_name: values.arrangement_name,
+                arrangement_quantity: values.arrangement_quantity,
+                flowers: [
+                  {
+                    flower_id: values.arrangements.flower_id,
+                    stem_quantity: values.arrangements.stem_quantity,
+                  },
+                ],
+              },
+            ],
+          });
+          state.upsertFlower(response.data.data.flower);
+        }}
       >
+        
         {({ values, errors, isSubmitting, isValid }) => (
           <Form>
             <FieldArray name="arrangements">
@@ -183,7 +218,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                 </>
               )}
             </FieldArray>
-            {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
+            <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
           </Form>
         )}
       </Formik>

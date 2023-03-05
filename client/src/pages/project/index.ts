@@ -1,5 +1,4 @@
 export * from './CreateProject';
-export * from './EditArrangement';
 export * from './EditProject';
 export * from './FloralOrder';
 export * from './projectApi';

@@ -5,7 +5,7 @@ import React, {
   useContext,
   Dispatch
 } from "react";
-import { Flower, Project } from "src/types";
+import { Arrangement, Flower, Project } from "src/types";
 import api from "../api/api";
 
 
@@ -16,6 +16,7 @@ export type AppContextType = {
   setFlowers: Dispatch<React.SetStateAction<Flower[]>>;
   upsertFlower: (flower: Flower) => void;
   upsertProject: (project: Project) => void;
+  upsertArrangement: (arrangement: Arrangement) => void;
 };
 
 export const AppContext = createContext<AppContextType>({
@@ -24,7 +25,8 @@ export const AppContext = createContext<AppContextType>({
   flowers: [],
   setFlowers: () => { },
   upsertFlower: () => { },
-  upsertProject: () => { }
+  upsertProject: () => { },
+  upsertArrangement: () => { },
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -53,6 +55,12 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
     setProjects(newProjects);
   };
 
+  //here!!
+  const upsertArrangement = (arrangement: Arrangement) => {
+    const newArrangements = [];
+}
+
+
   //get all flowers
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +82,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
     setFlowers,
     upsertFlower,
     upsertProject,
+    upsertArrangement,
   };
 
   return <AppContext.Provider value={ctx}>{children}</AppContext.Provider>;

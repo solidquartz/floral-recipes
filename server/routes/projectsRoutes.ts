@@ -1,7 +1,7 @@
 import express from "express";
 import { db } from "../configs/db.config";
 
-//all flowers are in state.flowers so i don't need to grab them
+
 type DbArrangedFlower = {
   id: number;
   arrangement_id: number;
@@ -79,11 +79,12 @@ class Project {
   }
 }
 
-//get one specific project
-//req.params.id = project id
+
 export const registerProjects = () => {
   const app = express.Router();
 
+  //get one specific project
+  //req.params.id = project id
   app.get("/:id", async (req, res) => {
     try {
       const projectResult = await db.query(
@@ -188,6 +189,60 @@ export const registerProjects = () => {
     console.log(req.params.id);
     console.log(req.body);
   });
+
+
+  //insert/update arrangements in project
+  // first create arrangement to get the needed id, then add the flowers to that arrangement
+  // arrangements: [
+  //   {
+  //     arrangement_name: "",
+  //     arrangement_quantity: 0,
+  //     flowers: [
+  //       {
+  //         flower_id: 0,
+  //         stem_quantity: 0,
+  //       },
+  //     ],
+  //   },
+  // ]
+  // project_id = req.params.id
+app.post("/:id/arrangement", async (req, res) => {
+  try {
+    const arrangementsResult = await db.query(
+      `
+      INSERT INTO arrangements (arrangement_name, arrangement_quantity, project_id)
+      VALUES ($1, $2, $3)
+      returning *
+    `,
+      [req.arrangement_name, req.arrangement_quantity, req.params.id]
+    );
+
+    const flowerArrangementResult = await db.query(
+      `
+      INSERT INTO arranged_flowers (arrangement_id, flower_id, stem_quantity)
+      VALUES ($1, $2, $3)
+    `,
+      [x, x, req.params.id]
+    );
+
+    const project = new Arrangement(
+      arrangementsResult.rows,
+      flowerArrangementResult.rows
+    );
+    console.log(arrangement);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        arrangements,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
 
   return app;
 };
