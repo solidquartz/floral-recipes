@@ -14,7 +14,7 @@ import {
 import { FiInfo } from "react-icons/fi";
 import { useMemo } from "react";
 import { ArrangedFlowerRow, Arrangement, Flower, Project } from "src/types";
-import { getOrderSize, getTotalCost, makeArrangedFlower } from "../helpers";
+import { getTotalCost, makeArrangedFlower } from "../helpers";
 import { Icon } from "../../shared";
 
 export type ArrangementProps = {
@@ -29,17 +29,18 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
   arrangement,
   flowers,
 }) => {
+
   //shape data
   const flowersInArrangement: ArrangedFlowerRow[] = useMemo(() => {
     if (!flowers) {
       return [];
     }
-
     return arrangement.flowers
       .map((x) => makeArrangedFlower(x, flowers))
       .filter((x): x is ArrangedFlowerRow => !!x);
   }, [flowers]);
 
+  //for arrangement totals
   const totalCost = getTotalCost(flowersInArrangement);
   const costAllArrangements = totalCost * arrangement.arrangement_quantity;
   const totalMarkup200 = costAllArrangements * 2;

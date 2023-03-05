@@ -7,11 +7,12 @@ import {
 } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
-import type { Arrangement, Flower, Project } from "../../../types";
-import { Fragment } from "react";
+import type { ArrangedFlowerRow, Arrangement, Flower, Project } from "../../../types";
+import { Fragment, useMemo } from "react";
 import { EditFlowerTable } from "./EditFlowerTable";
 import { TextField } from '../../shared';
 import { AiOutlineDelete, AiOutlineSave } from 'react-icons/ai';
+import { getTotalCost } from "../helpers";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -28,7 +29,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   project,
   editing,
 }) => {
-  
   //initial values
   const initialValues: ArrangementFormType = {
     arrangements: project?.arrangements ?? [
@@ -45,6 +45,13 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
+
+  //for arrangement totals
+  // const totalCost = getTotalCost(flowersInArrangement);
+  // const costAllArrangements = totalCost * arrangement.arrangement_quantity;
+  // const totalMarkup200 = costAllArrangements * 2;
+  // const totalMarkup250 = costAllArrangements * 2.5;
+
   return (
     <Box>
       <Formik
@@ -60,13 +67,10 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                 <>
                   {values.arrangements.map((_, index) => (
                     <Fragment key={`arrangement-${index}`}>
-                      <Flex
-                        flexDirection="column"
-                        key={index}
-                      >
-                        <Heading size="md" textTransform="capitalize">
-                          {/* {arrangement?.arrangement_name} */}
-                        </Heading>
+                      <Flex flexDirection="column" key={index}>
+                        {/* <Heading size="md" textTransform="capitalize">
+
+                        </Heading> */}
 
                         <Flex
                           flexDirection="column"
@@ -74,10 +78,10 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           width="500px"
                         >
                           <TextField
-                            label=""
                             name={`arrangements.${index}.arrangement_name`}
                             type="text"
                             placeholder="Enter Name"
+                            label="Arrangement Name"
                           />
                           <TextField
                             name={`arrangements.${index}.arrangement_quantity`}
@@ -88,22 +92,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         </Flex>
 
                         <EditFlowerTable index={index} flowers={flowers} />
-
-                        <Flex paddingTop="10px" justifyContent="space-between">
-                          <Flex>
-                            <Button colorScheme="teal" type="submit">
-                              <AiOutlineSave />
-                            </Button>
-                          </Flex>
-                          <Flex>
-                            <Button
-                              colorScheme="red"
-                              onClick={() => arrangementHelpers.remove(index)}
-                            >
-                              <AiOutlineDelete />
-                            </Button>
-                          </Flex>
-                        </Flex>
                       </Flex>
 
                       <Flex
@@ -117,21 +105,24 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           textTransform="uppercase"
                           textAlign="right"
                         >
-                          {/* <b>Cost per Arrangement</b>: ${totalCost.toFixed(2)} */}
+                          <b>Cost per Arrangement</b>:
+                          {/* ${totalCost.toFixed(2)} */}
                         </Text>
                         <Text
                           fontSize="md"
                           textTransform="uppercase"
                           textAlign="right"
                         >
-                          {/* <b>Arrangement Quantity</b>: {arrangement.arrangement_quantity} */}
+                          <b>Arrangement Quantity</b>:
+                          {/* {arrangement.arrangement_quantity} */}
                         </Text>
                         <Text
                           fontSize="md"
                           textTransform="uppercase"
                           textAlign="right"
                         >
-                          {/* <b>Total (All Arrangements)</b>: ${costAllArrangements.toFixed(2)} */}
+                          <b>Total (All Arrangements)</b>:
+                          {/* ${costAllArrangements.toFixed(2)} */}
                         </Text>
 
                         {/* Put below into accordion */}
@@ -140,19 +131,36 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           textTransform="uppercase"
                           textAlign="right"
                         >
-                          {/* <b>Total 200% Markup</b>: ${totalMarkup200.toFixed(2)} */}
+                          <b>Total 200% Markup</b>:
+                          {/* ${totalMarkup200.toFixed(2)} */}
                         </Text>
                         <Text
                           fontSize="md"
                           textTransform="uppercase"
                           textAlign="right"
                         >
-                          {/* <b>Total 250% Markup</b>: ${totalMarkup250.toFixed(2)} */}
+                          <b>Total 250% Markup</b>:
+                          {/* ${totalMarkup250.toFixed(2)} */}
                         </Text>
+                      </Flex>
+                      <Flex paddingTop="10px" justifyContent="flex-end">
+                        <Flex>
+                          <Button colorScheme="teal" type="submit">
+                            <AiOutlineSave />
+                          </Button>
+                        </Flex>
+                        <Flex>
+                          <Button
+                            colorScheme="red"
+                            onClick={() => arrangementHelpers.remove(index)}
+                          >
+                            <AiOutlineDelete />
+                          </Button>
+                        </Flex>
                       </Flex>
                     </Fragment>
                   ))}
-                  <Flex paddingTop="10px" justifyContent="flex-end">
+                  <Flex paddingTop="10px" justifyContent="flex-start">
                     <Button
                       colorScheme="teal"
                       variant="outline"
@@ -175,7 +183,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                 </>
               )}
             </FieldArray>
-            <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
+            {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
           </Form>
         )}
       </Formik>
