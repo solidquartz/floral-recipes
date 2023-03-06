@@ -87,9 +87,6 @@ export const EditFlowerTableRow: React.FC<EditFlowerTableRowProps> = ({
       {renderCalc(flower, flowers)}
       <Td>
         <Flex justifyContent="space-between" gap=".5rem">
-          <Button colorScheme="green" variant="outline" type="submit">
-            <AiOutlineSave />
-          </Button>
           <Button colorScheme="red" variant="outline" onClick={remove}>
             <AiOutlineDelete />
           </Button>

@@ -14,7 +14,6 @@ export type ProjectDetailsComponentProps = {
 export const ProjectDetailsComponent: React.FC<
   ProjectDetailsComponentProps
 > = ({ project, flowers }) => {
-
   const [viewing, setViewing] = useState(true);
   const [editing, setEditing] = useState(false);
 
@@ -34,10 +33,8 @@ export const ProjectDetailsComponent: React.FC<
     navigate(`/projects/${id}/edit`);
   };
 
-
   const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
-
 
   return (
     <>

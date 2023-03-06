@@ -1,6 +1,6 @@
 import express from "express";
 import { db } from "../configs/db.config";
-
+import { ArrangedFlower, Arrangement } from "../db/entities";
 
 type DbArrangedFlower = {
   id: number;
@@ -13,7 +13,7 @@ type DbArrangement = {
   id: number;
   arrangement_name: string;
   arrangement_quantity: number;
-  flowers: ArrangedFlower[];
+  flowers: ArrangedFlowerModel[];
 };
 
 type Flower = {
@@ -26,10 +26,10 @@ type DbProject = {
   id: number;
   project_name: string;
   event_date: string;
-  arrangements: Arrangement[];
+  arrangements: ArrangementModel[];
 };
 
-class ArrangedFlower {
+class ArrangedFlowerModel {
   id: number;
   flower_id: number;
   stem_quantity: number;
@@ -41,11 +41,11 @@ class ArrangedFlower {
   }
 }
 
-class Arrangement {
+class ArrangementModel {
   id: number;
   arrangement_name: string;
   arrangement_quantity: number;
-  flowers: ArrangedFlower[];
+  flowers: ArrangedFlowerModel[];
 
   constructor(arrangement: DbArrangement, arrangedFlowers: DbArrangedFlower[]) {
     this.id = arrangement.id;
@@ -54,7 +54,7 @@ class Arrangement {
 
     this.flowers = arrangedFlowers
       .filter((x) => x.arrangement_id === this.id)
-      .map((x) => new ArrangedFlower(x));
+      .map((x) => new ArrangedFlowerModel(x));
   }
 }
 
@@ -62,7 +62,7 @@ class Project {
   id: number;
   name: string;
   event_date: string;
-  arrangements: Arrangement[];
+  arrangements: ArrangementModel[];
 
   constructor(
     project: DbProject,
@@ -74,11 +74,10 @@ class Project {
     this.event_date = project.event_date;
 
     this.arrangements = arrangements.map(
-      (x) => new Arrangement(x, arrangedFlowers)
+      (x) => new ArrangementModel(x, arrangedFlowers)
     );
   }
 }
-
 
 export const registerProjects = () => {
   const app = express.Router();
@@ -120,7 +119,6 @@ export const registerProjects = () => {
         arrangementsResult.rows,
         flowerArrangementResult.rows
       );
-      console.log(project);
 
       res.status(200).json({
         status: "success",
@@ -152,7 +150,6 @@ export const registerProjects = () => {
 
   //create a project
   app.post("/", async (req, res) => {
-    console.log(req.body);
     try {
       const results = await db.query(
         "INSERT INTO projects (project_name, event_date) VALUES ($1, $2) returning *",
@@ -190,7 +187,6 @@ export const registerProjects = () => {
     console.log(req.body);
   });
 
-
   //insert/update arrangements in project
   // first create arrangement to get the needed id, then add the flowers to that arrangement
   // arrangements: [
@@ -206,43 +202,59 @@ export const registerProjects = () => {
   //   },
   // ]
   // project_id = req.params.id
-app.post("/:id/arrangement", async (req, res) => {
-  try {
-    const arrangementsResult = await db.query(
-      `
-      INSERT INTO arrangements (arrangement_name, arrangement_quantity, project_id)
-      VALUES ($1, $2, $3)
-      returning *
-    `,
-      [req.arrangement_name, req.arrangement_quantity, req.params.id]
-    );
+  type ArrangementRequestModel = {
+    arrangements: ArrangementModel[];
+  };
 
-    const flowerArrangementResult = await db.query(
-      `
-      INSERT INTO arranged_flowers (arrangement_id, flower_id, stem_quantity)
-      VALUES ($1, $2, $3)
-    `,
-      [x, x, req.params.id]
-    );
+  app.post(
+    "/:id/arrangement",
+    async (req: express.Request<{ id: number }, {}, ArrangementRequestModel>, res) => {
+      try {
+        const { arrangements } = req.body;
 
-    const project = new Arrangement(
-      arrangementsResult.rows,
-      flowerArrangementResult.rows
-    );
-    console.log(arrangement);
+        for (let a of arrangements) {
+          const arrangement = new Arrangement();
 
-    res.status(200).json({
-      status: "success",
-      data: {
-        arrangements,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+          arrangement.id = a.id;
+          arrangement.project_id = req.params.id;
+          arrangement.arrangement_name = a.arrangement_name;
+          arrangement.arrangement_quantity = a.arrangement_quantity;
+
+          await arrangement.save();
+
+          a.flowers.forEach(async (x) => {
+            const af = new ArrangedFlower();
+
+            af.arrangement_id = arrangement.id;
+            af.flower_id = x.flower_id;
+            af.stem_quantity = x.stem_quantity;
+            af.id = x.id;
+
+            await af.save();
+          });
+        }
+
+        return 200;
+      } catch (err) {
+        console.error(err);
+
+        return 400;
+      }
+    }
+  );
+
+  // delete the arranged flowers and then the arrangement
 
 
+  // delete arranged_flowers with sent down arrangement id
+  // delete arrangement with that id
+  // delete project
 
   return app;
 };
+
+// const deleteProject = async (id: number) => {
+//   await db.query('DELETE FROM arranged_flowers WHERE arrangement_id in project.arrangement_ids');
+//   await db.query('DELETE FROM arrangements WHERE arrangement.project_id = id');
+//   await db.query('DELETE FROM...');
+// }

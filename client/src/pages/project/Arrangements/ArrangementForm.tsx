@@ -1,20 +1,14 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
-import { array, boolean, number, object, string, ValidationError } from "yup";
-import type {
-  ArrangedFlowerRow,
-  Arrangement,
-  Flower,
-  Project,
-} from "../../../types";
-import { Fragment, useMemo } from "react";
+import { array, number, object, string } from "yup";
+import type { Arrangement, Flower, Project } from "../../../types";
+import { Fragment } from "react";
 import { EditFlowerTable } from "./EditFlowerTable";
 import { TextField } from "../../shared";
 import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
-import { getTotalCost } from "../helpers";
-import api from "src/api/api";
+import api from "../../../api/api";
 import { useParams } from "react-router-dom";
-import { useAppContext } from "src/context/AppContext";
+import { useAppContext } from "../../../context/AppContext";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -26,14 +20,12 @@ export type ArrangementFormType = {
   arrangements: Arrangement[];
 };
 
-const { id } = useParams();
-const state = useAppContext();
-
 export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   flowers,
   project,
-  editing,
 }) => {
+  const { id } = useParams();
+  const state = useAppContext();
   //initial values
   const initialValues: ArrangementFormType = {
     arrangements: project?.arrangements ?? [
@@ -50,24 +42,15 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-  console.log("project", project);
+  const handleSubmit = async (values: ArrangementFormType) => {
+    const response = await api.post(`/projects/${id}/arrangement`, values);
 
-  //for arrangement totals
-  //shape data
-  // const flowersInArrangement: ArrangedFlowerRow[] = useMemo(() => {
-  //   if (!flowers) {
-  //     return [];
-  //   }
-  //   return arrangement.flowers
-  //     .map((x) => makeArrangedFlower(x, flowers))
-  //     .filter((x): x is ArrangedFlowerRow => !!x);
-  // }, [flowers]);
+    state.upsertFlower(response.data.data.flower);
+  };
 
-  // //for arrangement totals
-  // const totalCost = getTotalCost(flowersInArrangement);
-  // const costAllArrangements = totalCost * arrangement.arrangement_quantity;
-  // const totalMarkup200 = costAllArrangements * 2;
-  // const totalMarkup250 = costAllArrangements * 2.5;
+  //handle delete butt
+  //if the item in the array form has an id => delete
+  //if not, it just is removed from the form
 
   return (
     <Box>
@@ -78,40 +61,26 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
           arrangements: array(
             object({
               arrangement_name: string().required(
-                "Please enter a name for this arrangement"
+                "Please enter a name for this arrangement."
               ),
               arrangement_quantity: number().required(
-                "Please enter the quantity of this arrangement"
+                "Please enter the quantity of this arrangement."
               ),
               flowers: array(
                 object({
-                  flower_id: number().required("Please select a flower"),
+                  flower_id: number().required("Please select a flower."),
                   stem_quantity: number().required(
-                    "Please enter thr quantity of stems"
+                    "Please enter the quantity of stems."
                   ),
                 })
               ),
             })
           ),
         })}
-        //here!!!
-        onSubmit={async (values) => {
-          const response = await api.post(`/${id}/arrangement`, {
-            arrangements: [
-              {
-                arrangement_name: values.arrangement_name,
-                arrangement_quantity: values.arrangement_quantity,
-                flowers: [
-                  {
-                    flower_id: values.arrangements.flower_id,
-                    stem_quantity: values.arrangements.stem_quantity,
-                  },
-                ],
-              },
-            ],
-          });
-          state.upsertFlower(response.data.data.flower);
-        }}
+        //if arrangement exists, patch w arrangement id
+        //if it doesn't exist, it's a post and generates a new id
+        //so where/how do i send the id...?
+        onSubmit={handleSubmit}
       >
         {({ values, errors, isSubmitting, isValid }) => (
           <Form>
@@ -198,11 +167,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                       </Flex>
                       <Flex paddingTop="10px" justifyContent="flex-end">
                         <Flex>
-                          <Button colorScheme="teal" type="submit">
-                            <AiOutlineSave />
-                          </Button>
-                        </Flex>
-                        <Flex>
                           <Button
                             colorScheme="red"
                             onClick={() => arrangementHelpers.remove(index)}
@@ -236,6 +200,11 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                 </>
               )}
             </FieldArray>
+            <Flex>
+              <Button colorScheme="teal" type="submit">
+                <AiOutlineSave /> Save Project
+              </Button>
+            </Flex>
             <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
           </Form>
         )}
