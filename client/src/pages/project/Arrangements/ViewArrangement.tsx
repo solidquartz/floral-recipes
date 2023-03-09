@@ -52,7 +52,7 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
   const totalMarkup250 = costAllArrangements * 2.5;
 
   return (
-    <Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
+    <Box pb="100px">
       <Flex flexDirection="column">
         <Heading size="lg" textTransform="capitalize" mb="20px">
           {arrangement.arrangement_name}
@@ -87,8 +87,8 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
                 <Tr key={idx}>
                   <Td textTransform="capitalize">{x.name}</Td>
                   <Td textAlign="right">${x.stem_price.toFixed(2)}</Td>
-                  <Td>{x.quantity}</Td>
-                  <Td>{x.rounded}</Td>
+                  <Td textAlign="right">{x.quantity}</Td>
+                  <Td textAlign="right">{x.rounded}</Td>
                   <Td textAlign="right">${x.base_cost.toFixed(2)}</Td>
                   <Td textAlign="right">${x.rounded_cost.toFixed(2)}</Td>
                   <Td textAlign="right">${x.markup200.toFixed(2)}</Td>

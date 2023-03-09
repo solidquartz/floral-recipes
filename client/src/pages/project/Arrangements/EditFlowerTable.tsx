@@ -11,6 +11,7 @@ import {
 import { FieldArray, useFormikContext } from "formik";
 import { Fragment } from "react";
 import { FiInfo } from "react-icons/fi";
+import { SiAddthis } from "react-icons/si";
 import { Dropdown, Icon, TextField } from "../../shared";
 import type { ArrangementFormType } from "./ArrangementForm";
 import type { Flower } from "../../../types";
@@ -32,7 +33,7 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
       {(flowerHelpers) => (
         <Fragment key={`arrangement-${index}`}>
           <TableContainer whiteSpace="normal">
-            <Table size="lg" variant="striped">
+            <Table size="lg" variant="simple">
               <Thead>
                 <Tr>
                   <Th>Flower Type</Th>
@@ -68,9 +69,9 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               </Tbody>
             </Table>
           </TableContainer>
-          <Flex>
+          <Flex pt="10px" pl="5px">
             <Button
-              colorScheme="pink"
+              colorScheme="green"
               variant="outline"
               onClick={() =>
                 flowerHelpers.push({
@@ -79,7 +80,7 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                 })
               }
             >
-              Add Flower
+              + Flower
             </Button>
           </Flex>
         </Fragment>
