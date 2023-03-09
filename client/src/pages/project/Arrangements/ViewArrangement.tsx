@@ -14,54 +14,33 @@ import {
 import { FiInfo } from "react-icons/fi";
 import { useMemo } from "react";
 import { ArrangedFlowerRow, Arrangement, Flower, Project } from "src/types";
-import { getOrderSize, getTotalCost } from "../helpers";
+import { getTotalCost, makeArrangedFlower } from "../helpers";
 import { Icon } from "../../shared";
 
-
 export type ArrangementProps = {
-	arrangement: Arrangement;
-	project: Project;
-	flowers: Flower[];
-	viewing: boolean;
-	editing: boolean;
+  arrangement: Arrangement;
+  project: Project;
+  flowers: Flower[];
+  viewing: boolean;
+  editing: boolean;
 };
 
 export const ArrangementComponent: React.FC<ArrangementProps> = ({
   arrangement,
   flowers,
 }) => {
+
   //shape data
   const flowersInArrangement: ArrangedFlowerRow[] = useMemo(() => {
     if (!flowers) {
       return [];
     }
-
-    return arrangement.flowers.map((x) => {
-      const flower = flowers.find((f) => f.id === x.flower_id);
-
-			if (!flower) {
-				return;
-			}
-
-      const stemPrice = parseFloat(flower.stem_price);
-      const stemQuantity = parseFloat(x.stem_quantity);
-      const rounded = getOrderSize(stemQuantity, flower.rounded_up);
-      const baseCost = stemPrice * stemQuantity;
-      const roundedCost = rounded * stemPrice;
-
-      return {
-        name: flower.flower_name,
-        stem_price: stemPrice,
-        quantity: stemQuantity,
-        rounded,
-        base_cost: baseCost,
-        rounded_cost: roundedCost,
-        markup200: roundedCost * 2,
-        markup250: roundedCost * 2.5,
-      };
-    }).filter((x): x is ArrangedFlowerRow => !!x);
+    return arrangement.flowers
+      .map((x) => makeArrangedFlower(x, flowers))
+      .filter((x): x is ArrangedFlowerRow => !!x);
   }, [flowers]);
 
+  //for arrangement totals
   const totalCost = getTotalCost(flowersInArrangement);
   const costAllArrangements = totalCost * arrangement.arrangement_quantity;
   const totalMarkup200 = costAllArrangements * 2;

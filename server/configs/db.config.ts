@@ -11,10 +11,10 @@ export const db = new Pool({
   database: DB_DATABASE,
 });
 
-db.connect()
-  .then(() => {
-    console.log("Database connection established.");
-  })
-  .catch((e: any) => {
-    throw new Error(e);
-  });
+// db.connect()
+//   .then(() => {
+//     console.log("Database connection established.");
+//   })
+//   .catch((e: any) => {
+//     throw new Error(e);
+//   });

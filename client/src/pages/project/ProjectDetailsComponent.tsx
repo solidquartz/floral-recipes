@@ -12,14 +12,14 @@ export type ProjectDetailsComponentProps = {
 };
 
 export const ProjectDetailsComponent: React.FC<
-  ProjectDetailsComponentProps
-> = ({ project, flowers }) => {
-  //app state
+  ProjectDetailsComponentProps> = ({
+    project,
+    flowers
+  }) => {
+  
   const [viewing, setViewing] = useState(true);
   const [editing, setEditing] = useState(false);
-  // const [creating, setCreating] = useState(true);
 
-  //navigation
   const setEditingHandler = () => {
     setViewing(false);
     setEditing(true);
@@ -36,11 +36,8 @@ export const ProjectDetailsComponent: React.FC<
     navigate(`/projects/${id}/edit`);
   };
 
-  //date format
   const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
-
-  // download project data from api -> put into formik initial values -> (formik -> api) -> redownload from api
 
   return (
     <>
@@ -56,6 +53,9 @@ export const ProjectDetailsComponent: React.FC<
             </Flex>
             <Flex>
               <Text>Event Date: {eventDate}</Text>
+            </Flex>
+            <Flex>
+              <Text>Last Updated: {lastUpdated}</Text>
             </Flex>
           </Flex>
 
@@ -81,17 +81,17 @@ export const ProjectDetailsComponent: React.FC<
                 <>
                   <Button
                     variant="outline"
-                    colorScheme="blue"
-                    onClick={() => handleEditProject(project.id)}
-                  >
-                    Edit Name & Date
-                  </Button>
-                  <Button
-                    variant="outline"
                     colorScheme="red"
                     onClick={setViewingHandler}
                   >
                     Cancel
+                  </Button>
+                  <Button
+                    variant="outline"
+                    colorScheme="blue"
+                    onClick={() => handleEditProject(project.id)}
+                  >
+                    Edit Name & Date
                   </Button>
                 </>
               )}
@@ -131,13 +131,6 @@ export const ProjectDetailsComponent: React.FC<
               </Flex>
             </Flex>
           </Flex>
-          {editing && (
-            <Flex paddingTop="10px">
-              <Button colorScheme="teal" variant="outline">
-                Add Arrangement
-              </Button>
-            </Flex>
-          )}
         </Flex>
       </Flex>
     </>

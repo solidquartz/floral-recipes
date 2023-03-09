@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "baseUrl": ".",
     "allowJs": false,
     "jsx": "react-jsx",
     "target": "ESNext",
     "moduleResolution": "node",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "lib": ["ESNext"]
   }
 }
