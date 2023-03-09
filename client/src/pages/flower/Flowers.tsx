@@ -34,7 +34,6 @@ export const Flowers = () => {
 
   //delete a flower
   const handleDeleteFlower = async (id: number) => {
-    console.log("delete triggered!");
     try {
       const response = await api.delete(`/flowers/${id}`);
       state.setFlowers(

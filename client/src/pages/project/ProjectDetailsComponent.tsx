@@ -105,9 +105,6 @@ export const ProjectDetailsComponent: React.FC<
         {/* Arrangements*/}
         <Flex p="25px" flexDirection="column">
           <Flex>
-            <Heading size="lg">Arrangements</Heading>
-          </Flex>
-          <Flex>
             <Flex pt="20px" flexDirection="column">
               <Flex flexDirection="column">
                 {viewing &&

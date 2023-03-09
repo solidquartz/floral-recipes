@@ -43,6 +43,8 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
+  const [saving, setSaving] = useState(false);
+
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -57,8 +59,10 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
 
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
+    setSaving(true);
     const response = await api.post(`/projects/${id}/arrangement`, values);
     handleOpenSnackbar();
+    setSaving(false);
   };
 
   // const handleDelete = async (values: ArrangementFormType) => {
@@ -218,7 +222,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
               )}
             </FieldArray>
             <Flex>
-              <Button colorScheme="teal" type="submit" isLoading={isSubmitting}>
+              <Button colorScheme="teal" type="submit" isLoading={saving}>
                 <AiOutlineSave /> Save Project
               </Button>
             </Flex>

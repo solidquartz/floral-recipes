@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Flex,
   Heading,
@@ -49,7 +54,7 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
   return (
     <Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
       <Flex flexDirection="column">
-        <Heading size="md" textTransform="capitalize">
+        <Heading size="lg" textTransform="capitalize" mb="20px">
           {arrangement.arrangement_name}
         </Heading>
 
@@ -96,24 +101,41 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
       </Flex>
 
       {/* Totals */}
-      <Flex flexDirection="column" alignItems="flex-end" pr="30px" pt="20px">
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Cost per Arrangement</b>: ${totalCost.toFixed(2)}
-        </Text>
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Arrangement Quantity</b>: {arrangement.arrangement_quantity}
-        </Text>
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Total (All Arrangements)</b>: ${costAllArrangements.toFixed(2)}
-        </Text>
-
-        {/* Put below into accordion */}
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Total 200% Markup</b>: ${totalMarkup200.toFixed(2)}
-        </Text>
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Total 250% Markup</b>: ${totalMarkup250.toFixed(2)}
-        </Text>
+      <Flex w="100%" justifyContent="right" pr="30px" pt="20px">
+        <Flex w="800px">
+          <Accordion allowToggle w="100%">
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="right">
+                    Arrangement Totals
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel>
+                <Table size="md" variant="unstyled">
+                  <Tbody>
+                    <Tr>
+                      <Th>Arrangement Quantity</Th>
+                      <Td>{arrangement.arrangement_quantity}</Td>
+                      <Th>Cost per Arrangement</Th>
+                      <Td>${totalCost.toFixed(2)}</Td>
+                      <Th>Total (All Arrangements)</Th>
+                      <Td>${costAllArrangements.toFixed(2)}</Td>
+                    </Tr>
+                    <Tr>
+                      <Th>Total 200% Markup</Th>
+                      <Td>${totalMarkup200.toFixed(2)}</Td>
+                      <Th>Total 250% Markup</Th>
+                      <Td>${totalMarkup250.toFixed(2)}</Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </Flex>
       </Flex>
     </Box>
   );
