@@ -184,7 +184,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                             isLoading={isSubmitting}
                             // onClick={
                             //   project?.arrangements[index]?.id !== undefined
-                            //     ? () => handleDelete(values)
+                            //     ? () => {handleDelete(values)}
                             //     : () => arrangementHelpers.remove(index)
                             // }
                           >

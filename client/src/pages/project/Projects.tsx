@@ -49,10 +49,14 @@ export const Projects = () => {
       <Header />
 
       {/* Title and Search */}
-      <Flex m="auto" pr="70px" pl="70px" justify="space-between">
-        
-        <Flex pr="20px" align-items="center">
-          <Flex>
+      <Flex
+        m="auto"
+        w="900px"
+        justify="space-between"
+        alignContent="center"
+      >
+        <Flex pr="20px" mb="40px">
+          <Flex mr="20px">
             <Heading>Projects</Heading>
           </Flex>
           <Flex>
@@ -66,7 +70,7 @@ export const Projects = () => {
             </Button>
           </Flex>
         </Flex>
-        
+
         <Flex>
           <Link to="/projects/create">
             <Button
@@ -89,7 +93,6 @@ export const Projects = () => {
                 <Th>Project Name</Th>
                 <Th>Event Date</Th>
                 <Th>Last Updated</Th>
-                <Th>Status</Th>
               </Tr>
             </Thead>
             <Tbody>
