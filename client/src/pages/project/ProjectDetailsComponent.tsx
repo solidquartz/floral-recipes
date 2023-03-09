@@ -12,8 +12,11 @@ export type ProjectDetailsComponentProps = {
 };
 
 export const ProjectDetailsComponent: React.FC<
-  ProjectDetailsComponentProps
-> = ({ project, flowers }) => {
+  ProjectDetailsComponentProps> = ({
+    project,
+    flowers
+  }) => {
+  
   const [viewing, setViewing] = useState(true);
   const [editing, setEditing] = useState(false);
 

@@ -2,13 +2,15 @@ import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import { array, number, object, string } from "yup";
 import type { Arrangement, Flower, Project } from "../../../types";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { EditFlowerTable } from "./EditFlowerTable";
 import { TextField } from "../../shared";
 import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
 import api from "../../../api/api";
 import { useParams } from "react-router-dom";
-import { useAppContext } from "../../../context/AppContext";
+import { SnackbarCloseReason } from "@mui/base/useSnackbar";
+import SnackbarUnstyled from "@mui/base/SnackbarUnstyled";
+import Snackbar from "../../shared/Snackbar";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -25,8 +27,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   project,
 }) => {
   const { id } = useParams();
-  const state = useAppContext();
-  //initial values
+
   const initialValues: ArrangementFormType = {
     arrangements: project?.arrangements ?? [
       {
@@ -42,15 +43,32 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-  const handleSubmit = async (values: ArrangementFormType) => {
-    const response = await api.post(`/projects/${id}/arrangement`, values);
-
-    state.upsertFlower(response.data.data.flower);
+  //snackbar
+  const [open, setOpen] = useState(false);
+  const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const handleOpenSnackbar = () => {
+    setOpen(true);
   };
 
-  //handle delete butt
-  //if the item in the array form has an id => delete
-  //if not, it just is removed from the form
+  //saves (upserts) all arrangements in the project
+  const handleSubmit = async (values: ArrangementFormType) => {
+    const response = await api.post(`/projects/${id}/arrangement`, values);
+    handleOpenSnackbar();
+  };
+
+  // const handleDelete = async (values: ArrangementFormType) => {
+  //   const response = await api.delete(
+  //     `/projects/${id}/delete-arr`,
+  //     values.arrangements.id
+  //   );
+  //   handleOpenSnackbar();
+  //   return response;
+  // };
 
   return (
     <Box>
@@ -77,12 +95,9 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
             })
           ),
         })}
-        //if arrangement exists, patch w arrangement id
-        //if it doesn't exist, it's a post and generates a new id
-        //so where/how do i send the id...?
         onSubmit={handleSubmit}
       >
-        {({ values, errors, isSubmitting, isValid }) => (
+        {({ values, errors, isSubmitting }) => (
           <Form>
             <FieldArray name="arrangements">
               {(arrangementHelpers) => (
@@ -90,10 +105,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                   {values.arrangements.map((_, index) => (
                     <Fragment key={`arrangement-${index}`}>
                       <Flex flexDirection="column" key={index}>
-                        {/* <Heading size="md" textTransform="capitalize">
-
-                        </Heading> */}
-
                         <Flex
                           flexDirection="column"
                           paddingTop="5px"
@@ -165,11 +176,17 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           {/* ${totalMarkup250.toFixed(2)} */}
                         </Text>
                       </Flex>
+
                       <Flex paddingTop="10px" justifyContent="flex-end">
                         <Flex>
                           <Button
                             colorScheme="red"
-                            onClick={() => arrangementHelpers.remove(index)}
+                            isLoading={isSubmitting}
+                            // onClick={
+                            //   project?.arrangements[index]?.id !== undefined
+                            //     ? () => handleDelete(values)
+                            //     : () => arrangementHelpers.remove(index)
+                            // }
                           >
                             <AiOutlineDelete />
                           </Button>
@@ -201,14 +218,21 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
               )}
             </FieldArray>
             <Flex>
-              <Button colorScheme="teal" type="submit">
+              <Button colorScheme="teal" type="submit" isLoading={isSubmitting}>
                 <AiOutlineSave /> Save Project
               </Button>
             </Flex>
-            <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
+            {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
           </Form>
         )}
       </Formik>
+      <Snackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+      >
+        Success!
+      </Snackbar>
     </Box>
   );
 };

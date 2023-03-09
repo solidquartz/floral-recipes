@@ -53,9 +53,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
     setProjects(newProjects);
   };
 
-
-
-
   //get all flowers
   useEffect(() => {
     const fetchData = async () => {

@@ -171,7 +171,7 @@ export const registerProjects = () => {
   app.patch("/:id", async (req, res) => {
     try {
       const results = await db.query(
-        "UPDATE projects SET project_name = $1, event_date = $2, WHERE id = $3 returning *",
+        "UPDATE projects SET project_name = $1, event_date = $2, WHERE id = $3 returning * ",
         [req.body.project_name, req.body.event_date, req.params.id]
       );
       res.status(200).json({
@@ -188,27 +188,16 @@ export const registerProjects = () => {
   });
 
   //insert/update arrangements in project
-  // first create arrangement to get the needed id, then add the flowers to that arrangement
-  // arrangements: [
-  //   {
-  //     arrangement_name: "",
-  //     arrangement_quantity: 0,
-  //     flowers: [
-  //       {
-  //         flower_id: 0,
-  //         stem_quantity: 0,
-  //       },
-  //     ],
-  //   },
-  // ]
-  // project_id = req.params.id
   type ArrangementRequestModel = {
     arrangements: ArrangementModel[];
   };
 
   app.post(
     "/:id/arrangement",
-    async (req: express.Request<{ id: number }, {}, ArrangementRequestModel>, res) => {
+    async (
+      req: express.Request<{ id: number }, {}, ArrangementRequestModel>,
+      res
+    ) => {
       try {
         const { arrangements } = req.body;
 
@@ -233,8 +222,7 @@ export const registerProjects = () => {
             await af.save();
           });
         }
-
-        return 200;
+        return 201;
       } catch (err) {
         console.error(err);
 
@@ -243,18 +231,43 @@ export const registerProjects = () => {
     }
   );
 
-  // delete the arranged flowers and then the arrangement
+  // deletes arranged_flowers with sent down arrangement id
+  // deletes the arranged flowers and then the arrangement
+  app.delete(
+    "/:id/delete-arr",
+    async (
+      req: express.Request<{ id: number }, {}, ArrangementRequestModel>,
+      res
+    ) => {
+      try {
+        const { arrangements } = req.body;
 
-
-  // delete arranged_flowers with sent down arrangement id
-  // delete arrangement with that id
-  // delete project
+        const deleteArrangement = async (id: number) => {
+          await db.query(
+            `
+          DELETE FROM arranged_flowers 
+          WHERE arrangement_id = $1
+          `,
+            [arrangements.map((x) => x.id)]
+          );
+          await db.query(
+            `
+            DELETE FROM arrangements
+            WHERE id = $1
+            `,
+            [arrangements.map((x) => x.id)]
+          );
+          res.status(204).json({
+            status: "success",
+          });
+        };
+        return 204;
+      } catch (err) {
+        console.error(err);
+        return 400;
+      }
+    }
+  );
 
   return app;
 };
-
-// const deleteProject = async (id: number) => {
-//   await db.query('DELETE FROM arranged_flowers WHERE arrangement_id in project.arrangement_ids');
-//   await db.query('DELETE FROM arrangements WHERE arrangement.project_id = id');
-//   await db.query('DELETE FROM...');
-// }
