@@ -17,7 +17,7 @@ export const Icon: React.FC<IconProps> = ({
   ...props
 }) => {
   const content = (
-    <Flex alignItems="center">
+    <Flex alignItems="center" flexShrink="0">
       {placement === "start" && icon}
       <Box
         display="inline-block"

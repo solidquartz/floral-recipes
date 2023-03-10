@@ -6,6 +6,7 @@ import {
   Tbody,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import { FieldArray, useFormikContext } from "formik";
@@ -38,20 +39,24 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                 <Tr>
                   <Th>Flower Type</Th>
                   <Th>Stems per Piece</Th>
-                  <Th>Price per Stem</Th>
-                  <Th>Min Order Size</Th>
-                  <Th>
-                    <Icon
-                      icon={<FiInfo />}
-                      placement="end"
-                      tooltipText="Total cost for the stem order of each flower type before rounding up"
-                    >
-                      Total
-                    </Icon>
+                  <Th textAlign="right">Price per Stem</Th>
+                  <Th textAlign="right">
+                    <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
+                      Min Order Size
+                    </Tooltip>
                   </Th>
-                  <Th>Rounded Up Total</Th>
-                  <Th>Markup 200%</Th>
-                  <Th>Markup 250%</Th>
+                  <Th textAlign="right">
+                    <Tooltip label="Total cost for the stem order of each flower type before rounding up">
+                      Total
+                    </Tooltip>
+                  </Th>
+                  <Th textAlign="right">
+                    <Tooltip label="Total cost for the stem order of each flower type based on the rounded up number of stems">
+                      Rounded Up Total
+                    </Tooltip>
+                  </Th>
+                  <Th textAlign="right">Markup 200%</Th>
+                  <Th textAlign="right">Markup 250%</Th>
                   <Th />
                 </Tr>
               </Thead>

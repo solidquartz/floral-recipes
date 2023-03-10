@@ -153,25 +153,25 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                                   <Tbody>
                                     <Tr>
                                       <Th>Arrangement Quantity</Th>
-                                      <Td>
+                                      <Td textAlign="right">
                                         {/* {arrangement.arrangement_quantity} */}
                                       </Td>
                                       <Th>Cost per Arrangement</Th>
-                                      <Td>
+                                      <Td textAlign="right">
                                         {/* ${totalCost.toFixed(2)} */}
                                       </Td>
                                       <Th>Total (All Arrangements)</Th>
-                                      <Td>
+                                      <Td textAlign="right">
                                         {/* ${costAllArrangements.toFixed(2)} */}
                                       </Td>
                                     </Tr>
                                     <Tr>
                                       <Th>Total 200% Markup</Th>
-                                      <Td>
+                                      <Td textAlign="right">
                                         {/* ${totalMarkup200.toFixed(2)} */}
                                       </Td>
                                       <Th>Total 250% Markup</Th>
-                                      <Td>
+                                      <Td textAlign="right">
                                         {/* ${totalMarkup250.toFixed(2)} */}
                                       </Td>
                                     </Tr>
@@ -183,11 +183,16 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         </Flex>
                       </Flex>
 
-                      <Flex paddingTop="20px" paddingBottom="30px" justifyContent="flex-end">
+                      <Flex
+                        paddingTop="20px"
+                        paddingBottom="30px"
+                        justifyContent="flex-end"
+                      >
                         <Flex>
                           <Button
                             colorScheme="red"
                             isLoading={saving}
+                            variant="outline"
                             // onClick={
                             //   project?.arrangements[index]?.id !== undefined
                             //     ? () => {handleDelete(values)}
@@ -203,8 +208,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                   ))}
                   <Flex paddingTop="10px" justifyContent="flex-start">
                     <Button
-                      colorScheme="teal"
-                      variant="outline"
+                      colorScheme="blue"
                       onClick={() =>
                         arrangementHelpers.push({
                           arrangement_name: "",
