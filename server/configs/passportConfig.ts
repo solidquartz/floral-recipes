@@ -1,5 +1,5 @@
 const LocalStrategy = require("passport-local");
-const { userExists, createUser, matchPassword } = require("./usersRoutes");
+const { userExists, createUser, matchPassword } = require("../helpers/authHelpers");
 
 module.exports = (passport) => {
   passport.use(

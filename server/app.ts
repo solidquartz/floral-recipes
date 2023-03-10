@@ -6,6 +6,7 @@ import { ormDb } from "./configs/db-orm";
 //routes import
 import { registerFlowers } from "./routes/flowersRoutes";
 import { registerProjects } from "./routes/projectsRoutes";
+import { registerUsers } from "./routes/usersRoutes";
 
 const run = async () => {
   try {
@@ -37,6 +38,7 @@ const run = async () => {
   //routes
   app.use("/flowers", registerFlowers());
   app.use("/projects", registerProjects());
+  app.use("/auth", registerUsers());
 
   app.get("/", (req, res) => {
     res.json({ greetings: "hello world" });

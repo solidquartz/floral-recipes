@@ -1,5 +1,79 @@
-// import { Link } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  VStack,
+} from "@chakra-ui/react";
+import { Form, Formik } from "formik";
+import { Header, TextField } from "../shared";
+import * as Yup from "yup";
+import api from "../../api/api";
 
 export const Login = () => {
-  return <div>Log In</div>;
+
+  const initialValues = {
+    username: "",
+    password: "",
+  };
+
+  return (
+    <>
+      <Header />
+
+      {/* Formik Settings*/}
+      <Flex justify="center" direction="column" align="center">
+        <Heading>Log In</Heading>
+        <Flex pt="20px">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={Yup.object({
+              username: Yup.string().required("Please enter your username"),
+              password: Yup.string().required("Please enter your password"),
+            })}
+            onSubmit={async (values: typeof initialValues) => {
+              const response = await api.post("/projects", {
+                username: values.username,
+                password: values.password,
+              });
+              console.log(response);
+              window.location.href = `/projects/`;
+            }}
+          >
+            <Form>
+              <Flex align="center">
+                <Box>
+                  <VStack
+                    mx="auto"
+                    spacing="5"
+                    justifyContent="center"
+                    w="350px"
+                  >
+                    <TextField
+                      name="username"
+                      type="text"
+                      placeholder="Username"
+                      label="Username"
+                    />
+
+                    <TextField
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      label="Password"
+                    />
+
+                    {/* Buttons */}
+                    <Button type="submit" colorScheme="pink">
+                      Log In
+                    </Button>
+                  </VStack>
+                </Box>
+              </Flex>
+            </Form>
+          </Formik>
+        </Flex>
+      </Flex>
+    </>
+  );
 };
