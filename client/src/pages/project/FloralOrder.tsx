@@ -65,7 +65,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 
 
 	return (
-		<Flex p="25px" width="100%" m="auto" flexDirection="column">
+		<Flex p="40px" width="100%" m="auto" flexDirection="column">
 			<TableContainer whiteSpace="normal">
 				<Heading size="lg">Floral Order</Heading>
 
@@ -124,19 +124,21 @@ export type FloralOrderItemProps = {
 
 // Flower rows
 const FloralOrderItem: React.FC<FloralOrderItemProps> = ({
-	name,
-	quantity,
-	roundedUp,
-	pricePerStem,
-	total,
-	markedUp,
+  name,
+  quantity,
+  roundedUp,
+  pricePerStem,
+  total,
+  markedUp,
 }) => (
-	<Tr>
-		<Td textTransform="capitalize">{name}</Td>
-		<Td>{quantity}</Td>
-		<Td>{roundedUp}</Td>
-		<Td>${pricePerStem.toFixed(2)}</Td>
-		<Td>${total.toFixed(2)}</Td>
-		<Td>${markedUp.toFixed(2)}</Td>
-	</Tr>
+  <Tr>
+    <Td textAlign="left" textTransform="capitalize">
+      {name}
+    </Td>
+    <Td textAlign="center">{quantity}</Td>
+    <Td textAlign="center">{roundedUp}</Td>
+    <Td textAlign="center">${pricePerStem.toFixed(2)}</Td>
+    <Td textAlign="right">${total.toFixed(2)}</Td>
+    <Td textAlign="right">${markedUp.toFixed(2)}</Td>
+  </Tr>
 );

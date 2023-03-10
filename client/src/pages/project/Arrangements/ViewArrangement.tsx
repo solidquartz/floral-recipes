@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Flex,
   Heading,
@@ -9,6 +14,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import { FiInfo } from "react-icons/fi";
@@ -47,9 +53,9 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
   const totalMarkup250 = costAllArrangements * 2.5;
 
   return (
-    <Box borderBottom="1px solid #ececec" py="1rem" my="1rem">
+    <Box pb="100px">
       <Flex flexDirection="column">
-        <Heading size="md" textTransform="capitalize">
+        <Heading size="lg" textTransform="capitalize" mb="20px">
           {arrangement.arrangement_name}
         </Heading>
 
@@ -59,21 +65,26 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
             <Thead>
               <Tr>
                 <Th>Flower Type</Th>
-                <Th>Price per Stem</Th>
-                <Th>Stems per Piece</Th>
-                <Th>Min Order Size</Th>
-                <Th>
-                  <Icon
-                    icon={<FiInfo />}
-                    placement="end"
-                    tooltipText="Total cost for the stem order of each flower type before rounding up"
-                  >
-                    Total
-                  </Icon>
+                <Th textAlign="right">Price per Stem</Th>
+                <Th textAlign="right">Stems per Piece</Th>
+                <Th textAlign="right">
+                  <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
+                    Min Order Size
+                  </Tooltip>
                 </Th>
-                <Th>Rounded Up Total</Th>
-                <Th>Markup 200%</Th>
-                <Th>Markup 250%</Th>
+                <Th textAlign="right">
+                  <Tooltip label="Total cost for the stem order of each flower type before rounding up">
+                    Total
+                  </Tooltip>
+                </Th>
+                <Th textAlign="right">
+                  {" "}
+                  <Tooltip label="Total cost for the stem order of each flower type based on the rounded up number of stems">
+                    Rounded Up Total
+                  </Tooltip>
+                </Th>
+                <Th textAlign="right">Markup 200%</Th>
+                <Th textAlign="right">Markup 250%</Th>
               </Tr>
             </Thead>
 
@@ -82,8 +93,8 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
                 <Tr key={idx}>
                   <Td textTransform="capitalize">{x.name}</Td>
                   <Td textAlign="right">${x.stem_price.toFixed(2)}</Td>
-                  <Td>{x.quantity}</Td>
-                  <Td>{x.rounded}</Td>
+                  <Td textAlign="right">{x.quantity}</Td>
+                  <Td textAlign="right">{x.rounded}</Td>
                   <Td textAlign="right">${x.base_cost.toFixed(2)}</Td>
                   <Td textAlign="right">${x.rounded_cost.toFixed(2)}</Td>
                   <Td textAlign="right">${x.markup200.toFixed(2)}</Td>
@@ -96,24 +107,45 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
       </Flex>
 
       {/* Totals */}
-      <Flex flexDirection="column" alignItems="flex-end" pr="30px" pt="20px">
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Cost per Arrangement</b>: ${totalCost.toFixed(2)}
-        </Text>
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Arrangement Quantity</b>: {arrangement.arrangement_quantity}
-        </Text>
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Total (All Arrangements)</b>: ${costAllArrangements.toFixed(2)}
-        </Text>
-
-        {/* Put below into accordion */}
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Total 200% Markup</b>: ${totalMarkup200.toFixed(2)}
-        </Text>
-        <Text fontSize="md" textTransform="uppercase" textAlign="right">
-          <b>Total 250% Markup</b>: ${totalMarkup250.toFixed(2)}
-        </Text>
+      <Flex w="100%" justifyContent="right" pr="30px" pt="20px">
+        <Flex w="800px">
+          <Accordion allowToggle w="100%">
+            <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="right">
+                    Arrangement Totals
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel>
+                <Table size="md" variant="unstyled">
+                  <Tbody>
+                    <Tr>
+                      <Th>Arrangement Quantity</Th>
+                      <Td textAlign="right">
+                        {arrangement.arrangement_quantity}
+                      </Td>
+                      <Th>Cost per Arrangement</Th>
+                      <Td textAlign="right">${totalCost.toFixed(2)}</Td>
+                      <Th>Total (All Arrangements)</Th>
+                      <Td textAlign="right">
+                        ${costAllArrangements.toFixed(2)}
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Th>Total 200% Markup</Th>
+                      <Td textAlign="right">${totalMarkup200.toFixed(2)}</Td>
+                      <Th>Total 250% Markup</Th>
+                      <Td textAlign="right">${totalMarkup250.toFixed(2)}</Td>
+                    </Tr>
+                  </Tbody>
+                </Table>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </Flex>
       </Flex>
     </Box>
   );

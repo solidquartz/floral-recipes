@@ -6,11 +6,13 @@ import {
   Tbody,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import { FieldArray, useFormikContext } from "formik";
 import { Fragment } from "react";
 import { FiInfo } from "react-icons/fi";
+import { SiAddthis } from "react-icons/si";
 import { Dropdown, Icon, TextField } from "../../shared";
 import type { ArrangementFormType } from "./ArrangementForm";
 import type { Flower } from "../../../types";
@@ -32,25 +34,29 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
       {(flowerHelpers) => (
         <Fragment key={`arrangement-${index}`}>
           <TableContainer whiteSpace="normal">
-            <Table size="lg" variant="striped">
+            <Table size="lg" variant="simple">
               <Thead>
                 <Tr>
                   <Th>Flower Type</Th>
                   <Th>Stems per Piece</Th>
-                  <Th>Price per Stem</Th>
-                  <Th>Min Order Size</Th>
-                  <Th>
-                    <Icon
-                      icon={<FiInfo />}
-                      placement="end"
-                      tooltipText="Total cost for the stem order of each flower type before rounding up"
-                    >
-                      Total
-                    </Icon>
+                  <Th textAlign="right">Price per Stem</Th>
+                  <Th textAlign="right">
+                    <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
+                      Min Order Size
+                    </Tooltip>
                   </Th>
-                  <Th>Rounded Up Total</Th>
-                  <Th>Markup 200%</Th>
-                  <Th>Markup 250%</Th>
+                  <Th textAlign="right">
+                    <Tooltip label="Total cost for the stem order of each flower type before rounding up">
+                      Total
+                    </Tooltip>
+                  </Th>
+                  <Th textAlign="right">
+                    <Tooltip label="Total cost for the stem order of each flower type based on the rounded up number of stems">
+                      Rounded Up Total
+                    </Tooltip>
+                  </Th>
+                  <Th textAlign="right">Markup 200%</Th>
+                  <Th textAlign="right">Markup 250%</Th>
                   <Th />
                 </Tr>
               </Thead>
@@ -68,9 +74,9 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               </Tbody>
             </Table>
           </TableContainer>
-          <Flex>
+          <Flex pt="10px" pl="5px">
             <Button
-              colorScheme="pink"
+              colorScheme="green"
               variant="outline"
               onClick={() =>
                 flowerHelpers.push({
@@ -79,7 +85,7 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                 })
               }
             >
-              Add Flower
+              + Flower
             </Button>
           </Flex>
         </Fragment>

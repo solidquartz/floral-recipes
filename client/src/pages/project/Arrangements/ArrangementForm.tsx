@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Container, Flex, Table, Tbody, Td, Text, Th, Tr } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import { array, number, object, string } from "yup";
 import type { Arrangement, Flower, Project } from "../../../types";
@@ -43,6 +43,8 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
+  const [saving, setSaving] = useState(false);
+
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -57,8 +59,10 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
 
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
+    setSaving(true);
     const response = await api.post(`/projects/${id}/arrangement`, values);
     handleOpenSnackbar();
+    setSaving(false);
   };
 
   // const handleDelete = async (values: ArrangementFormType) => {
@@ -71,7 +75,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   // };
 
   return (
-    <Box>
+    <Box pb="100px" maxW="1400px">
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -97,7 +101,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
         })}
         onSubmit={handleSubmit}
       >
-        {({ values, errors, isSubmitting }) => (
+        {({ values }) => (
           <Form>
             <FieldArray name="arrangements">
               {(arrangementHelpers) => (
@@ -133,62 +137,70 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         pr="30px"
                         pt="20px"
                       >
-                        <Text
-                          fontSize="md"
-                          textTransform="uppercase"
-                          textAlign="right"
-                        >
-                          <b>Cost per Arrangement</b>:
-                          {/* ${totalCost.toFixed(2)} */}
-                        </Text>
-                        <Text
-                          fontSize="md"
-                          textTransform="uppercase"
-                          textAlign="right"
-                        >
-                          <b>Arrangement Quantity</b>:
-                          {/* {arrangement.arrangement_quantity} */}
-                        </Text>
-                        <Text
-                          fontSize="md"
-                          textTransform="uppercase"
-                          textAlign="right"
-                        >
-                          <b>Total (All Arrangements)</b>:
-                          {/* ${costAllArrangements.toFixed(2)} */}
-                        </Text>
-
-                        {/* Put below into accordion */}
-                        <Text
-                          fontSize="md"
-                          textTransform="uppercase"
-                          textAlign="right"
-                        >
-                          <b>Total 200% Markup</b>:
-                          {/* ${totalMarkup200.toFixed(2)} */}
-                        </Text>
-                        <Text
-                          fontSize="md"
-                          textTransform="uppercase"
-                          textAlign="right"
-                        >
-                          <b>Total 250% Markup</b>:
-                          {/* ${totalMarkup250.toFixed(2)} */}
-                        </Text>
+                        <Flex w="800px">
+                          <Accordion allowToggle w="100%">
+                            <AccordionItem>
+                              <h2>
+                                <AccordionButton>
+                                  <Box as="span" flex="1" textAlign="right">
+                                    Arrangement Totals
+                                  </Box>
+                                  <AccordionIcon />
+                                </AccordionButton>
+                              </h2>
+                              <AccordionPanel>
+                                <Table size="md" variant="unstyled">
+                                  <Tbody>
+                                    <Tr>
+                                      <Th>Arrangement Quantity</Th>
+                                      <Td textAlign="right">
+                                        {/* {arrangement.arrangement_quantity} */}
+                                      </Td>
+                                      <Th>Cost per Arrangement</Th>
+                                      <Td textAlign="right">
+                                        {/* ${totalCost.toFixed(2)} */}
+                                      </Td>
+                                      <Th>Total (All Arrangements)</Th>
+                                      <Td textAlign="right">
+                                        {/* ${costAllArrangements.toFixed(2)} */}
+                                      </Td>
+                                    </Tr>
+                                    <Tr>
+                                      <Th>Total 200% Markup</Th>
+                                      <Td textAlign="right">
+                                        {/* ${totalMarkup200.toFixed(2)} */}
+                                      </Td>
+                                      <Th>Total 250% Markup</Th>
+                                      <Td textAlign="right">
+                                        {/* ${totalMarkup250.toFixed(2)} */}
+                                      </Td>
+                                    </Tr>
+                                  </Tbody>
+                                </Table>
+                              </AccordionPanel>
+                            </AccordionItem>
+                          </Accordion>
+                        </Flex>
                       </Flex>
 
-                      <Flex paddingTop="10px" justifyContent="flex-end">
+                      <Flex
+                        paddingTop="20px"
+                        paddingBottom="30px"
+                        justifyContent="flex-end"
+                      >
                         <Flex>
                           <Button
                             colorScheme="red"
-                            isLoading={isSubmitting}
+                            isLoading={saving}
+                            variant="outline"
                             // onClick={
                             //   project?.arrangements[index]?.id !== undefined
-                            //     ? () => handleDelete(values)
+                            //     ? () => {handleDelete(values)}
                             //     : () => arrangementHelpers.remove(index)
                             // }
                           >
                             <AiOutlineDelete />
+                            Delete Arrangement
                           </Button>
                         </Flex>
                       </Flex>
@@ -196,8 +208,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                   ))}
                   <Flex paddingTop="10px" justifyContent="flex-start">
                     <Button
-                      colorScheme="teal"
-                      variant="outline"
+                      colorScheme="blue"
                       onClick={() =>
                         arrangementHelpers.push({
                           arrangement_name: "",
@@ -211,17 +222,19 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         })
                       }
                     >
-                      Add Arrangement
+                      + Arrangement
                     </Button>
                   </Flex>
                 </>
               )}
             </FieldArray>
-            <Flex>
-              <Button colorScheme="teal" type="submit" isLoading={isSubmitting}>
-                <AiOutlineSave /> Save Project
-              </Button>
-            </Flex>
+            <Box position="fixed" w="100%" bgColor="white" bottom={0} p="10px">
+              <Flex justifyContent="flex-end" pr="200px">
+                <Button colorScheme="teal" type="submit" isLoading={saving}>
+                  <AiOutlineSave /> Save Project
+                </Button>
+              </Flex>
+            </Box>
             {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
           </Form>
         )}

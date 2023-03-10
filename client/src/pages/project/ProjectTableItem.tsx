@@ -16,7 +16,6 @@ export const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, ...
       <Td>{project.project_name}</Td>
       <Td>{eventDate}</Td>
       <Td>{lastUpdated}</Td>
-      <Td>{project.active ? "Active" : "Inactive"}</Td>
       <Td>
         <Button
           size="sm"

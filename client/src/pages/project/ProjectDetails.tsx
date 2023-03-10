@@ -27,13 +27,15 @@ export const ProjectDetails = () => {
   return (
     <>
       <Header />
-      <Flex justify="center" direction="column" align="center">
-        <ProjectDetailsComponent
-          project={project}
-          flowers={flowers}
-        />
+      <Flex
+        justify="center"
+        direction="column"
+        align="center"
+        pl="80px"
+        pr="80px"
+      >
+        <ProjectDetailsComponent project={project} flowers={flowers} />
       </Flex>
-
     </>
   );
 };
