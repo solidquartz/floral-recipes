@@ -75,7 +75,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   // };
 
   return (
-    <Box pb="100px">
+    <Box pb="100px" maxW="1400px">
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -183,7 +183,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         </Flex>
                       </Flex>
 
-                      <Flex paddingTop="10px" justifyContent="flex-end">
+                      <Flex paddingTop="20px" paddingBottom="30px" justifyContent="flex-end">
                         <Flex>
                           <Button
                             colorScheme="red"
@@ -218,7 +218,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         })
                       }
                     >
-                      Add Arrangement
+                      + Arrangement
                     </Button>
                   </Flex>
                 </>
