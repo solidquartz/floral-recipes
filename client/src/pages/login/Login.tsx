@@ -1,17 +1,10 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Header, TextField } from "../shared";
 import * as Yup from "yup";
 import api from "../../api/api";
 
 export const Login = () => {
-
   const initialValues = {
     username: "",
     password: "",
@@ -19,7 +12,19 @@ export const Login = () => {
 
   return (
     <>
-      <Header />
+      <Flex
+        as="nav"
+        align="center"
+        justify="space-between"
+        wrap="wrap"
+        w="100%"
+        mb="15px"
+        p="25px"
+      >
+        <Box>
+          <Heading size="lg">Envision Floral Recipes</Heading>
+        </Box>
+      </Flex>
 
       <Flex justify="center" direction="column" align="center">
         <Heading>Log In</Heading>
@@ -36,6 +41,7 @@ export const Login = () => {
                 password: values.password,
               });
               console.log(response);
+
               window.location.href = `/projects/`;
             }}
           >

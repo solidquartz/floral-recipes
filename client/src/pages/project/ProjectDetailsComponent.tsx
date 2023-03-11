@@ -123,6 +123,7 @@ export const ProjectDetailsComponent: React.FC<
                     project={project}
                     flowers={flowers}
                     editing={editing}
+                    arrangement={arrangement}
                   />
                 )}
               </Flex>

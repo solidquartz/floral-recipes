@@ -261,7 +261,7 @@ export const registerProjects = () => {
             status: "success",
           });
         };
-        return 204;
+        return 200;
       } catch (err) {
         console.error(err);
         return 400;

@@ -1,4 +1,20 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Container, Flex, Table, Tbody, Td, Text, Th, Tr } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Container,
+  Flex,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Tr,
+} from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import { array, number, object, string } from "yup";
 import type { Arrangement, Flower, Project } from "../../../types";
@@ -9,13 +25,13 @@ import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
 import api from "../../../api/api";
 import { useParams } from "react-router-dom";
 import { SnackbarCloseReason } from "@mui/base/useSnackbar";
-import SnackbarUnstyled from "@mui/base/SnackbarUnstyled";
 import Snackbar from "../../shared/Snackbar";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
   project: Project;
   editing: boolean;
+  arrangement: Arrangement;
 };
 
 export type ArrangementFormType = {
@@ -65,14 +81,14 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     setSaving(false);
   };
 
-  // const handleDelete = async (values: ArrangementFormType) => {
-  //   const response = await api.delete(
-  //     `/projects/${id}/delete-arr`,
-  //     values.arrangements.id
-  //   );
-  //   handleOpenSnackbar();
-  //   return response;
-  // };
+  const handleDelete = async (values: ArrangementFormType) => {
+    const response = await api.delete(
+      `/projects/${id}/delete-arr`,
+      values.arrangements.id
+    );
+    handleOpenSnackbar();
+    return response;
+  };
 
   return (
     <Box pb="100px" maxW="1400px">
@@ -137,6 +153,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         pr="30px"
                         pt="20px"
                       >
+                        {/* extract out? */}
                         <Flex w="800px">
                           <Accordion allowToggle w="100%">
                             <AccordionItem>
@@ -181,6 +198,8 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                             </AccordionItem>
                           </Accordion>
                         </Flex>
+                        {/* end arrangement totals */}
+                        
                       </Flex>
 
                       <Flex
@@ -193,11 +212,13 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                             colorScheme="red"
                             isLoading={saving}
                             variant="outline"
-                            // onClick={
-                            //   project?.arrangements[index]?.id !== undefined
-                            //     ? () => {handleDelete(values)}
-                            //     : () => arrangementHelpers.remove(index)
-                            // }
+                            onClick={
+                              project?.arrangements[index]?.id !== undefined
+                                ? () => {
+                                    handleDelete(values);
+                                  }
+                                : () => arrangementHelpers.remove(index)
+                            }
                           >
                             <AiOutlineDelete />
                             Delete Arrangement
