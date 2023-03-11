@@ -16,6 +16,8 @@ export type AppContextType = {
   setFlowers: Dispatch<React.SetStateAction<Flower[]>>;
   upsertFlower: (flower: Flower) => void;
   upsertProject: (project: Project) => void;
+  user: string,
+  setUser: (user: string) => void;
 };
 
 export const AppContext = createContext<AppContextType>({
@@ -25,6 +27,8 @@ export const AppContext = createContext<AppContextType>({
   setFlowers: () => { },
   upsertFlower: () => { },
   upsertProject: () => { },
+  user: "",
+  setUser: () => { },
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -65,7 +69,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
     }
   }, [flowers]);
 
-  //move get all projects here
+  //login
+  const [user, setUser] = useState("");
 
   const ctx = {
     projects,
@@ -74,6 +79,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
     setFlowers,
     upsertFlower,
     upsertProject,
+    user,
+    setUser,
   };
 
   return <AppContext.Provider value={ctx}>{children}</AppContext.Provider>;
