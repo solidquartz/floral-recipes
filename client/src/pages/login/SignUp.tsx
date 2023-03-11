@@ -1,20 +1,13 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { Header, TextField } from "../shared";
 import * as Yup from "yup";
 import api from "../../api/api";
 
-export const Login = () => {
-
+export const SignUp = () => {
   const initialValues = {
     username: "",
-    password: "",
+		password: "",
   };
 
   return (
@@ -22,16 +15,16 @@ export const Login = () => {
       <Header />
 
       <Flex justify="center" direction="column" align="center">
-        <Heading>Log In</Heading>
+        <Heading>Create Account</Heading>
         <Flex pt="20px">
           <Formik
             initialValues={initialValues}
             validationSchema={Yup.object({
-              username: Yup.string().required("Please enter your username"),
-              password: Yup.string().required("Please enter your password"),
+              username: Yup.string().required("Please enter a username"),
+              password: Yup.string().required("Please enter a password"),
             })}
             onSubmit={async (values: typeof initialValues) => {
-              const response = await api.post("/auth/login", {
+              const response = await api.post("/auth/signup", {
                 username: values.username,
                 password: values.password,
               });
@@ -64,7 +57,7 @@ export const Login = () => {
 
                     {/* Buttons */}
                     <Button type="submit" colorScheme="pink">
-                      Log In
+                      Create Account
                     </Button>
                   </VStack>
                 </Box>
