@@ -31,7 +31,7 @@ export type ArrangementFormProps = {
   flowers: Flower[];
   project: Project;
   editing: boolean;
-  arrangement: Arrangement;
+  // arrangement: Arrangement;
 };
 
 export type ArrangementFormType = {
@@ -59,8 +59,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-  const [saving, setSaving] = useState(false);
-
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -75,19 +73,17 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
 
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
-    setSaving(true);
     const response = await api.post(`/projects/${id}/arrangement`, values);
+    console.log("response", response);
     handleOpenSnackbar();
-    setSaving(false);
   };
 
   const handleDelete = async (values: ArrangementFormType) => {
-    const response = await api.delete(
-      `/projects/${id}/delete-arr`,
-      values.arrangements.id
-    );
+    // const response = await api.delete(
+    //   `/projects/${id}/delete-arr`,
+    //   values.arrangements.id
+    // );
     handleOpenSnackbar();
-    return response;
   };
 
   return (
@@ -117,7 +113,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
         })}
         onSubmit={handleSubmit}
       >
-        {({ values }) => (
+        {({ isSubmitting, values }) => (
           <Form>
             <FieldArray name="arrangements">
               {(arrangementHelpers) => (
@@ -199,7 +195,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           </Accordion>
                         </Flex>
                         {/* end arrangement totals */}
-                        
                       </Flex>
 
                       <Flex
@@ -210,7 +205,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         <Flex>
                           <Button
                             colorScheme="red"
-                            isLoading={saving}
+                            isLoading={isSubmitting}
                             variant="outline"
                             onClick={
                               project?.arrangements[index]?.id !== undefined
@@ -251,7 +246,11 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
             </FieldArray>
             <Box position="fixed" w="100%" bgColor="white" bottom={0} p="10px">
               <Flex justifyContent="flex-end" pr="200px">
-                <Button colorScheme="teal" type="submit" isLoading={saving}>
+                <Button
+                  colorScheme="teal"
+                  type="submit"
+                  isLoading={isSubmitting}
+                >
                   <AiOutlineSave /> Save Project
                 </Button>
               </Flex>

@@ -187,6 +187,7 @@ export const registerProjects = () => {
     console.log(req.body);
   });
 
+  
   //insert/update arrangements in project
   type ArrangementRequestModel = {
     arrangements: ArrangementModel[];
@@ -198,6 +199,7 @@ export const registerProjects = () => {
       req: express.Request<{ id: number }, {}, ArrangementRequestModel>,
       res
     ) => {
+      console.log('attempting to save arrangements in project id', req.params.id);
       try {
         const { arrangements } = req.body;
 
@@ -211,7 +213,7 @@ export const registerProjects = () => {
 
           await arrangement.save();
 
-          a.flowers.forEach(async (x) => {
+          await Promise.all(a.flowers.map(async (x) => {
             const af = new ArrangedFlower();
 
             af.arrangement_id = arrangement.id;
@@ -219,14 +221,15 @@ export const registerProjects = () => {
             af.stem_quantity = x.stem_quantity;
             af.id = x.id;
 
-            await af.save();
-          });
+            return af.save();
+          }));
         }
-        return 201;
+
+        res.status(201).send();
       } catch (err) {
         console.error(err);
 
-        return 400;
+        res.status(400).send(err);
       }
     }
   );

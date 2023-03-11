@@ -62,7 +62,7 @@ export const SignUp = () => {
 
                     <TextField
                       name="password"
-                      type="password"
+                      type="text"
                       placeholder="Password"
                       label="Password"
                     />
