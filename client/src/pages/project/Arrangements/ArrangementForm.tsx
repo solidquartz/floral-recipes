@@ -26,6 +26,7 @@ import api from "../../../api/api";
 import { useParams } from "react-router-dom";
 import { SnackbarCloseReason } from "@mui/base/useSnackbar";
 import Snackbar from "../../shared/Snackbar";
+import { useAppContext } from "../../../context/AppContext";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -59,6 +60,8 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
+    const state = useAppContext();
+
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -78,11 +81,19 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     handleOpenSnackbar();
   };
 
-  const handleDelete = async (values: ArrangementFormType) => {
-    // const response = await api.delete(
-    //   `/projects/${id}/delete-arr`,
-    //   values.arrangements.id
-    // );
+  const handleDeleteArrangement = async (
+    remove: () => void,
+    id: number
+  ) => {
+    if (id) {
+      const response = await api.delete(`/projects/${id}/delete-arr`);
+      state.upsertProject({
+        ...project,
+        arrangements: project.arrangements.filter(x => x.id !== id)
+      })
+    }
+    remove();
+
     handleOpenSnackbar();
   };
 
@@ -118,7 +129,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
             <FieldArray name="arrangements">
               {(arrangementHelpers) => (
                 <>
-                  {values.arrangements.map((_, index) => (
+                  {values.arrangements.map((arrangement, index) => (
                     <Fragment key={`arrangement-${index}`}>
                       <Flex flexDirection="column" key={index}>
                         <Flex
@@ -207,12 +218,11 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                             colorScheme="red"
                             isLoading={isSubmitting}
                             variant="outline"
-                            onClick={
-                              project?.arrangements[index]?.id !== undefined
-                                ? () => {
-                                    handleDelete(values);
-                                  }
-                                : () => arrangementHelpers.remove(index)
+                            onClick={() =>
+                              handleDeleteArrangement(
+                                () => arrangementHelpers.remove(index),
+                                arrangement.id
+                              )
                             }
                           >
                             <AiOutlineDelete />

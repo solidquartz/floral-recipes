@@ -28,6 +28,7 @@ export const ProjectDetailsComponent: React.FC<
   const setViewingHandler = () => {
     setEditing(false);
     setViewing(true);
+    
   };
 
   //edit project link
@@ -84,7 +85,7 @@ export const ProjectDetailsComponent: React.FC<
                     colorScheme="red"
                     onClick={setViewingHandler}
                   >
-                    Cancel
+                    Stop Editing
                   </Button>
                   <Button
                     variant="outline"

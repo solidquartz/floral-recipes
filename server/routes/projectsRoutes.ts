@@ -187,7 +187,6 @@ export const registerProjects = () => {
     console.log(req.body);
   });
 
-  
   //insert/update arrangements in project
   type ArrangementRequestModel = {
     arrangements: ArrangementModel[];
@@ -199,7 +198,10 @@ export const registerProjects = () => {
       req: express.Request<{ id: number }, {}, ArrangementRequestModel>,
       res
     ) => {
-      console.log('attempting to save arrangements in project id', req.params.id);
+      console.log(
+        "attempting to save arrangements in project id",
+        req.params.id
+      );
       try {
         const { arrangements } = req.body;
 
@@ -213,16 +215,18 @@ export const registerProjects = () => {
 
           await arrangement.save();
 
-          await Promise.all(a.flowers.map(async (x) => {
-            const af = new ArrangedFlower();
+          await Promise.all(
+            a.flowers.map(async (x) => {
+              const af = new ArrangedFlower();
 
-            af.arrangement_id = arrangement.id;
-            af.flower_id = x.flower_id;
-            af.stem_quantity = x.stem_quantity;
-            af.id = x.id;
+              af.arrangement_id = arrangement.id;
+              af.flower_id = x.flower_id;
+              af.stem_quantity = x.stem_quantity;
+              af.id = x.id;
 
-            return af.save();
-          }));
+              return af.save();
+            })
+          );
         }
 
         res.status(201).send();
@@ -238,36 +242,27 @@ export const registerProjects = () => {
   // deletes the arranged flowers and then the arrangement
   app.delete(
     "/:id/delete-arr",
-    async (
-      req: express.Request<{ id: number }, {}, ArrangementRequestModel>,
-      res
-    ) => {
+    async (req: express.Request<{ id: number }>, res) => {
       try {
-        const { arrangements } = req.body;
-
-        const deleteArrangement = async (id: number) => {
-          await db.query(
-            `
+        await db.query(
+          `
           DELETE FROM arranged_flowers 
           WHERE arrangement_id = $1
           `,
-            [arrangements.map((x) => x.id)]
-          );
-          await db.query(
-            `
+          [req.params.id]
+        );
+        await db.query(
+          `
             DELETE FROM arrangements
             WHERE id = $1
             `,
-            [arrangements.map((x) => x.id)]
-          );
-          res.status(204).json({
-            status: "success",
-          });
-        };
-        return 200;
+          [req.params.id]
+        );
+
+        res.status(200).send();
       } catch (err) {
         console.error(err);
-        return 400;
+        res.status(500).send(err);
       }
     }
   );
