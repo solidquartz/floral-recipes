@@ -27,6 +27,7 @@ import { useParams } from "react-router-dom";
 import { SnackbarCloseReason } from "@mui/base/useSnackbar";
 import Snackbar from "../../shared/Snackbar";
 import { useAppContext } from "../../../context/AppContext";
+import { Calculations } from "./Calculations";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -60,7 +61,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-    const state = useAppContext();
+  const state = useAppContext();
 
   //snackbar
   const [open, setOpen] = useState(false);
@@ -81,16 +82,13 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     handleOpenSnackbar();
   };
 
-  const handleDeleteArrangement = async (
-    remove: () => void,
-    id: number
-  ) => {
+  const handleDeleteArrangement = async (remove: () => void, id: number) => {
     if (id) {
       const response = await api.delete(`/projects/${id}/delete-arr`);
       state.upsertProject({
         ...project,
-        arrangements: project.arrangements.filter(x => x.id !== id)
-      })
+        arrangements: project.arrangements.filter((x) => x.id !== id),
+      });
     }
     remove();
 
@@ -173,34 +171,12 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                                 </AccordionButton>
                               </h2>
                               <AccordionPanel>
-                                <Table size="md" variant="unstyled">
-                                  <Tbody>
-                                    <Tr>
-                                      <Th>Arrangement Quantity</Th>
-                                      <Td textAlign="right">
-                                        {/* {arrangement.arrangement_quantity} */}
-                                      </Td>
-                                      <Th>Cost per Arrangement</Th>
-                                      <Td textAlign="right">
-                                        {/* ${totalCost.toFixed(2)} */}
-                                      </Td>
-                                      <Th>Total (All Arrangements)</Th>
-                                      <Td textAlign="right">
-                                        {/* ${costAllArrangements.toFixed(2)} */}
-                                      </Td>
-                                    </Tr>
-                                    <Tr>
-                                      <Th>Total 200% Markup</Th>
-                                      <Td textAlign="right">
-                                        {/* ${totalMarkup200.toFixed(2)} */}
-                                      </Td>
-                                      <Th>Total 250% Markup</Th>
-                                      <Td textAlign="right">
-                                        {/* ${totalMarkup250.toFixed(2)} */}
-                                      </Td>
-                                    </Tr>
-                                  </Tbody>
-                                </Table>
+
+                                <Calculations
+                                  arrangement={arrangement}
+                                  flowers={flowers}
+                                />
+                                
                               </AccordionPanel>
                             </AccordionItem>
                           </Accordion>
