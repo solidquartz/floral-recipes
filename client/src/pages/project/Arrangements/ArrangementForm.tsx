@@ -26,7 +26,6 @@ import api from "../../../api/api";
 import { useParams } from "react-router-dom";
 import { SnackbarCloseReason } from "@mui/base/useSnackbar";
 import Snackbar from "../../shared/Snackbar";
-import { useAppContext } from "../../../context/AppContext";
 import { Calculations } from "./Calculations";
 
 export type ArrangementFormProps = {
@@ -61,7 +60,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-  const state = useAppContext();
 
   //snackbar
   const [open, setOpen] = useState(false);
@@ -85,13 +83,8 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   const handleDeleteArrangement = async (remove: () => void, id: number) => {
     if (id) {
       const response = await api.delete(`/projects/${id}/delete-arr`);
-      state.upsertProject({
-        ...project,
-        arrangements: project.arrangements.filter((x) => x.id !== id),
-      });
     }
     remove();
-
     handleOpenSnackbar();
   };
 
@@ -159,7 +152,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         pt="20px"
                       >
                         {/* extract out? */}
-                        <Flex w="800px">
+                        <Flex w="1000px">
                           <Accordion allowToggle w="100%">
                             <AccordionItem>
                               <h2>
@@ -176,7 +169,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                                   arrangement={arrangement}
                                   flowers={flowers}
                                 />
-                                
+
                               </AccordionPanel>
                             </AccordionItem>
                           </Accordion>
@@ -247,7 +240,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
       </Formik>
       <Snackbar
         open={open}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
       >
         Success!

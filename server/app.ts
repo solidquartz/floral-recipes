@@ -38,7 +38,7 @@ const run = async () => {
   //routes
   app.use("/flowers", registerFlowers());
   app.use("/projects", registerProjects());
-  // app.use("/auth", registerUsers());
+  app.use("/auth", registerUsers());
 
   app.get("/", (req, res) => {
     res.json({ greetings: "hello world" });

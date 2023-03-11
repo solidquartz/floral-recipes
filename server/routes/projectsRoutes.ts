@@ -269,3 +269,8 @@ export const registerProjects = () => {
 
   return app;
 };
+
+//delete flower from arrangedflowers (when i press delete button on flower in arrangement)
+//params = arranged flower id
+// DELETE FROM arranged_flowers 
+//           WHERE id = $1

@@ -108,7 +108,7 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
 
       {/* Totals */}
       <Flex w="100%" justifyContent="right" pr="30px" pt="20px">
-        <Flex w="800px">
+        <Flex w="1000px">
           <Accordion allowToggle w="100%">
             <AccordionItem>
               <h2>
