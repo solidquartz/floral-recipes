@@ -32,6 +32,10 @@ export const Flowers = () => {
   const state = useAppContext();
   const navigate = useNavigate();
 
+  //delete confirmation modal logic
+  const [flowerToDelete, setFlowerToDelete] = useState(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   //delete a flower
   const handleDeleteFlower = async (id: number) => {
     try {
@@ -41,12 +45,9 @@ export const Flowers = () => {
           return flower.id !== id;
         })
       );
-    } catch (err) {}
+    } catch (err) { }
+    window.location.reload();
   };
-
-  //delete confirmation modal logic
-  const [flowerToDelete, setFlowerToDelete] = useState(0)
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   //edit flower link
   const handleEditFlower = (id: number) => {
@@ -117,7 +118,7 @@ export const Flowers = () => {
         </TableContainer>
       </Flex>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInBottom">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Delete Flower?</ModalHeader>
