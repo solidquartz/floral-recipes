@@ -12,11 +12,8 @@ export type ProjectDetailsComponentProps = {
 };
 
 export const ProjectDetailsComponent: React.FC<
-  ProjectDetailsComponentProps> = ({
-    project,
-    flowers
-  }) => {
-  
+  ProjectDetailsComponentProps
+> = ({ project, flowers }) => {
   const [viewing, setViewing] = useState(true);
   const [editing, setEditing] = useState(false);
 
@@ -25,10 +22,10 @@ export const ProjectDetailsComponent: React.FC<
     setEditing(true);
   };
 
-  const setViewingHandler = () => {
+  const refreshPage = () => {
     setEditing(false);
     setViewing(true);
-
+    window.location.reload();
   };
 
   //edit project link
@@ -83,7 +80,7 @@ export const ProjectDetailsComponent: React.FC<
                   <Button
                     variant="outline"
                     colorScheme="red"
-                    onClick={setViewingHandler}
+                    onClick={() => refreshPage()}
                   >
                     Stop Editing
                   </Button>
