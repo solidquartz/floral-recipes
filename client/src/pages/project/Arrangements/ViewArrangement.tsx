@@ -27,11 +27,9 @@ export type ArrangementProps = {
   arrangement: Arrangement;
   project: Project;
   flowers: Flower[];
-  viewing: boolean;
-  editing: boolean;
 };
 
-export const ArrangementComponent: React.FC<ArrangementProps> = ({
+export const ViewArrangement: React.FC<ArrangementProps> = ({
   arrangement,
   flowers,
 }) => {

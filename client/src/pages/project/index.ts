@@ -1,5 +1,7 @@
 export * from './CreateProject';
 export * from './EditProject';
+export * from './EditProjectDetails';
+export * from './EditProjectDetailsComponent';
 export * from './FloralOrder';
 export * from './projectApi';
 export * from './ProjectDetails';

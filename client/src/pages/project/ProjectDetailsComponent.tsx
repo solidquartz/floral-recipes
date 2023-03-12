@@ -4,7 +4,7 @@ import { FloralOrder } from "./FloralOrder";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { Flower, Project } from "src/types";
-import { ArrangementComponent, ArrangementForm } from "./Arrangements";
+import { ViewArrangement, ArrangementForm } from "./Arrangements";
 
 export type ProjectDetailsComponentProps = {
   project: Project;
@@ -14,24 +14,16 @@ export type ProjectDetailsComponentProps = {
 export const ProjectDetailsComponent: React.FC<
   ProjectDetailsComponentProps
 > = ({ project, flowers }) => {
-  const [viewing, setViewing] = useState(true);
-  const [editing, setEditing] = useState(false);
-
-  const setEditingHandler = () => {
-    setViewing(false);
-    setEditing(true);
-  };
-
-  const refreshPage = () => {
-    setEditing(false);
-    setViewing(true);
-    window.location.reload();
-  };
 
   //edit project link
   let navigate = useNavigate();
+
   const handleEditProject = (id: number) => {
     navigate(`/projects/${id}/edit`);
+  };
+
+  const handleEditProjectDetails = (id: number) => {
+    navigate(`/projects/${id}/details/edit`);
   };
 
   // const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
@@ -60,39 +52,18 @@ export const ProjectDetailsComponent: React.FC<
           {/* Buttons */}
           <Flex pb="20px" justifyContent="flex-end">
             <ButtonGroup>
-              {!editing && (
-                <Link to="/projects">
-                  <Button>Back</Button>
-                </Link>
-              )}
-              {!editing && (
-                <Button colorScheme="blue" onClick={setEditingHandler}>
-                  Edit Project
-                </Button>
-              )}
-              {viewing && (
-                <Link to="/projects/create">
-                  <Button colorScheme="teal">Create Project</Button>
-                </Link>
-              )}
-              {editing && (
-                <>
-                  <Button
-                    variant="outline"
-                    colorScheme="red"
-                    onClick={() => refreshPage()}
-                  >
-                    Stop Editing
-                  </Button>
-                  <Button
-                    variant="outline"
-                    colorScheme="blue"
-                    onClick={() => handleEditProject(project.id)}
-                  >
-                    Edit Name & Date
-                  </Button>
-                </>
-              )}
+              <Link to="/projects">
+                <Button>Back</Button>
+              </Link>
+              <Button
+                colorScheme="blue"
+                onClick={() => handleEditProjectDetails(project.id)}
+              >
+                Edit Project
+              </Button>
+              <Link to="/projects/create">
+                <Button colorScheme="teal">Create Project</Button>
+              </Link>
             </ButtonGroup>
           </Flex>
         </Flex>
@@ -105,24 +76,14 @@ export const ProjectDetailsComponent: React.FC<
           <Flex>
             <Flex pt="20px" flexDirection="column">
               <Flex flexDirection="column">
-                {viewing &&
-                  project.arrangements.map((arrangement) => (
-                    <ArrangementComponent
+                {project.arrangements.map((arrangement) => (
+                    <ViewArrangement
                       key={arrangement.id}
                       project={project}
                       arrangement={arrangement}
                       flowers={flowers}
-                      viewing={viewing}
-                      editing={editing}
                     />
                   ))}
-                {editing && (
-                  <ArrangementForm
-                    project={project}
-                    flowers={flowers}
-                    editing={editing}
-                  />
-                )}
               </Flex>
             </Flex>
           </Flex>
