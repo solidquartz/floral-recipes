@@ -118,6 +118,7 @@ export const Flowers = () => {
         </TableContainer>
       </Flex>
 
+      {/* Confirm Delete Modal */}
       <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInBottom">
         <ModalOverlay />
         <ModalContent>
@@ -127,7 +128,6 @@ export const Flowers = () => {
             Are you sure you want to delete this flower? It will be deleted from
             every project in which it appears. This cannot be undone.
           </ModalBody>
-
           <ModalFooter>
             <Button
               colorScheme="red"

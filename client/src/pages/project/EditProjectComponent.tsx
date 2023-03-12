@@ -45,7 +45,7 @@ export const EditProjectComponent = () => {
           event_date: Yup.date().required("Please enter a date"),
         })}
         onSubmit={async (values) => {
-          const response = await api.patch(`/projects/${id}`, {
+          const response = await api.post(`/projects/${id}`, {
             project_name: values.project_name,
             event_date: dayjs(values.event_date).format(),
           });

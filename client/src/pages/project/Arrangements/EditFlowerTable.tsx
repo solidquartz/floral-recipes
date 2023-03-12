@@ -39,7 +39,11 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               <Thead>
                 <Tr>
                   <Th>Flower Type</Th>
-                  <Th>Stems per Piece</Th>
+                  <Th>
+                    <Tooltip label="Stems per one arrangement">
+                      Stems
+                    </Tooltip>
+                  </Th>
                   <Th textAlign="right">Price per Stem</Th>
                   <Th textAlign="right">
                     <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">

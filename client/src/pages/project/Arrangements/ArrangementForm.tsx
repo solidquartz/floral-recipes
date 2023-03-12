@@ -71,13 +71,15 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     handleOpenSnackbar();
   };
 
-  //deletes arrangement
+  //delete arrangement
+  const [confirmDeleteArr, setConfirmDeleteArr] = useState(false);
   const handleDeleteArrangement = async (remove: () => void, id: number) => {
     if (id) {
       const response = await api.delete(`/projects/${id}/delete-arr`);
     }
     remove();
     handleOpenSnackbar();
+    setConfirmDeleteArr(false);
   };
 
   //deletes arranged flower
@@ -128,7 +130,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         <Flex
                           flexDirection="column"
                           paddingTop="5px"
-                          width="500px"
+                          width="300px"
                         >
                           <TextField
                             name={`arrangements.${index}.arrangement_name`}
@@ -138,7 +140,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           />
                           <TextField
                             name={`arrangements.${index}.arrangement_quantity`}
-                            type="text"
+                            type="number"
                             placeholder="0"
                             label="Quantity"
                           />
@@ -147,7 +149,9 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         <EditFlowerTable
                           index={index}
                           flowers={flowers}
-                          handleDeleteArrangedFlower={handleDeleteArrangedFlower}
+                          handleDeleteArrangedFlower={
+                            handleDeleteArrangedFlower
+                          }
                           remove={arrangementHelpers.remove}
                         />
                       </Flex>
@@ -188,20 +192,33 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         justifyContent="flex-end"
                       >
                         <Flex>
-                          <Button
-                            colorScheme="red"
-                            isLoading={isSubmitting}
-                            variant="outline"
-                            onClick={() =>
-                              handleDeleteArrangement(
-                                () => arrangementHelpers.remove(index),
-                                arrangement.id
-                              )
-                            }
-                          >
-                            <AiOutlineDelete />
-                            Delete Arrangement
-                          </Button>
+                          {!confirmDeleteArr && (
+                            <Button
+                              colorScheme="red"
+                              isLoading={isSubmitting}
+                              variant="outline"
+                              onClick={() => setConfirmDeleteArr(true)}
+                            >
+                              <AiOutlineDelete />
+                              Delete Arrangement
+                            </Button>
+                          )}
+                          {confirmDeleteArr && (
+                            <Button
+                              colorScheme="red"
+                              isLoading={isSubmitting}
+                              variant="outline"
+                              onClick={() =>
+                                handleDeleteArrangement(
+                                  () => arrangementHelpers.remove(index),
+                                  arrangement.id
+                                )
+                              }
+                            >
+                              <AiOutlineDelete />
+                              Confirm Delete
+                            </Button>
+                          )}
                         </Flex>
                       </Flex>
                     </Fragment>

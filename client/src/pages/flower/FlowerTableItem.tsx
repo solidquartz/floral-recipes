@@ -28,6 +28,7 @@ export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({
   onOpen,
   setFlowerToDelete,
 }) => {
+  
   const handelOpenAlert = (flowerId: number) => {
     setFlowerToDelete(flowerId);
     onOpen();

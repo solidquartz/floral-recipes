@@ -66,7 +66,10 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
               <Tr>
                 <Th>Flower Type</Th>
                 <Th textAlign="right">Price per Stem</Th>
-                <Th textAlign="right">Stems per Piece</Th>
+                <Th textAlign="right">
+                  {" "}
+                  <Tooltip label="Stems per one arrangement">Stems</Tooltip>
+                </Th>
                 <Th textAlign="right">
                   <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
                     Min Order Size

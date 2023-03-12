@@ -168,13 +168,13 @@ export const registerProjects = () => {
   });
 
   //edit a project
-  app.patch("/:id", async (req, res) => {
+  app.post("/:id", async (req, res) => {
     try {
       const results = await db.query(
-        "UPDATE projects SET project_name = $1, event_date = $2, WHERE id = $3 returning * ",
+        "UPDATE projects SET project_name = $1, event_date = $2 WHERE id = $3 returning * ",
         [req.body.project_name, req.body.event_date, req.params.id]
       );
-      res.status(200).json({
+      res.status(201).json({
         status: "success",
         data: {
           project: results.rows[0],

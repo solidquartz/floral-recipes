@@ -66,6 +66,7 @@ export const EditFlowerTableRow: React.FC<EditFlowerTableRowProps> = ({
   handleDeleteArrangedFlower,
   remove,
 }) => {
+
   const formik = useFormikContext<ArrangementFormType>();
   const prefix = `arrangements.${arrangementIndex}.flowers.${flowerIndex}`;
   const flower =
