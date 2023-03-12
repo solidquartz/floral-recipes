@@ -59,7 +59,7 @@ export const Projects = () => {
           <Flex mr="20px">
             <Heading>Projects</Heading>
           </Flex>
-          <Flex>
+          {/* <Flex>
             <Input type="text" placeholder="Search" />
             <Button
               colorScheme="pink"
@@ -68,7 +68,7 @@ export const Projects = () => {
             >
               Search
             </Button>
-          </Flex>
+          </Flex> */}
         </Flex>
 
         <Flex>

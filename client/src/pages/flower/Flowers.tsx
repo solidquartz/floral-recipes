@@ -27,6 +27,7 @@ import { useAppContext } from "../../context/AppContext";
 import { Header } from "../shared";
 import { FlowerTableItem } from "./FlowerTableItem";
 import { useState } from "react";
+import { BsFlower1 } from "react-icons/bs";
 
 export const Flowers = () => {
   const state = useAppContext();
@@ -65,7 +66,7 @@ export const Flowers = () => {
           <Flex mr="20px">
             <Heading>Flowers</Heading>
           </Flex>
-          <Flex>
+          {/* <Flex>
             <Input type="text" placeholder="Search" />
             <Button
               colorScheme="pink"
@@ -74,7 +75,7 @@ export const Flowers = () => {
             >
               Search
             </Button>
-          </Flex>
+          </Flex> */}
         </Flex>
 
         <Flex>
@@ -82,7 +83,7 @@ export const Flowers = () => {
             <Button
               variant="outline"
               colorScheme="cyan"
-              leftIcon={<GiFlowerPot />}
+              leftIcon={<BsFlower1 />}
             >
               Add Flower
             </Button>
