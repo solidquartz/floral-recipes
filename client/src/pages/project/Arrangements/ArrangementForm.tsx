@@ -21,6 +21,7 @@ import { SnackbarCloseReason } from "@mui/base/useSnackbar";
 import Snackbar from "../../shared/Snackbar";
 import { Calculations } from "./Calculations";
 
+
 export type ArrangementFormProps = {
   flowers: Flower[];
   project: Project;
@@ -67,7 +68,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
     const response = await api.post(`/projects/${id}/arrangement`, values);
-    console.log("response", response);
     handleOpenSnackbar();
   };
 
@@ -149,7 +149,9 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         <EditFlowerTable
                           index={index}
                           flowers={flowers}
-                          handleDeleteArrangedFlower={handleDeleteArrangedFlower}
+                          handleDeleteArrangedFlower={
+                            handleDeleteArrangedFlower
+                          }
                         />
                       </Flex>
 
@@ -191,6 +193,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         <Flex>
                           {!confirmDeleteArr && (
                             <Button
+                              size="sm"
                               colorScheme="red"
                               isLoading={isSubmitting}
                               variant="outline"
@@ -226,11 +229,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                       onClick={() =>
                         arrangementHelpers.push({
                           arrangement_name: "",
-                          flowers: [
-                            {
-
-                            },
-                          ],
+                          flowers: [{}],
                         })
                       }
                     >
@@ -240,9 +239,17 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                 </>
               )}
             </FieldArray>
-            <Box position="fixed" w="100%" bgColor="white" bottom={0} p="10px">
-              <Flex justifyContent="flex-end" pr="200px">
+            <Box
+              position="fixed"
+              w="100%"
+              bgColor="white"
+              bottom={0}
+              p="10px"
+
+            >
+              <Flex justifyContent="flex-end" pr="250px">
                 <Button
+                  size="lg"
                   colorScheme="teal"
                   type="submit"
                   isLoading={isSubmitting}
