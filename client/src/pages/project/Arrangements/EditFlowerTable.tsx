@@ -19,14 +19,12 @@ export type FlowerTableProps = {
   index: number;
   flowers: Flower[];
   handleDeleteArrangedFlower: (remove: () => void, id: number) => void;
-  remove: (flowerIndex: number) => void;
 };
 
 export const EditFlowerTable: React.FC<FlowerTableProps> = ({
   index,
   flowers,
   handleDeleteArrangedFlower,
-  remove
 }) => {
   const { values } = useFormikContext<ArrangementFormType>();
 
@@ -74,7 +72,7 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                     flowerIndex={flowerIdx}
                     flowers={flowers}
                     handleDeleteArrangedFlower={handleDeleteArrangedFlower}
-                    remove={remove}
+                    remove={flowerHelpers.remove}
                   />
                 ))}
               </Tbody>
@@ -87,7 +85,6 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               onClick={() =>
                 flowerHelpers.push({
                   flower_id: 0,
-                  stem_quantity: 0,
                 })
               }
             >

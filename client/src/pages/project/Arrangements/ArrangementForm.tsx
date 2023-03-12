@@ -149,10 +149,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         <EditFlowerTable
                           index={index}
                           flowers={flowers}
-                          handleDeleteArrangedFlower={
-                            handleDeleteArrangedFlower
-                          }
-                          remove={arrangementHelpers.remove}
+                          handleDeleteArrangedFlower={handleDeleteArrangedFlower}
                         />
                       </Flex>
 
@@ -229,11 +226,9 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                       onClick={() =>
                         arrangementHelpers.push({
                           arrangement_name: "",
-                          arrangement_quantity: 0,
                           flowers: [
                             {
-                              flower_id: 1,
-                              stem_quantity: 0,
+
                             },
                           ],
                         })

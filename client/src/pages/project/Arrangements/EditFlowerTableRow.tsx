@@ -2,7 +2,7 @@ import { Button, Flex, Td, Tr } from "@chakra-ui/react";
 import { Dropdown, TextField } from "../../shared";
 import type { ArrangedFlower, Flower } from "../../../types";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useFormikContext } from "formik";
+import { FieldArrayRenderProps, useFormikContext } from "formik";
 import { ArrangementFormType } from "./ArrangementForm";
 import { makeArrangedFlower } from "../helpers";
 
@@ -56,7 +56,7 @@ export type EditFlowerTableRowProps = {
   flowerIndex: number;
   flowers: Flower[];
   handleDeleteArrangedFlower: (remove: () => void, id: number) => void;
-  remove: (flowerIndex: number) => void;
+  remove: FieldArrayRenderProps['remove'];
 };
 
 export const EditFlowerTableRow: React.FC<EditFlowerTableRowProps> = ({

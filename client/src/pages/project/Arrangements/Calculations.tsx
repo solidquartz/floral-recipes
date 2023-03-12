@@ -11,14 +11,14 @@ export const Calculations: React.FC<CalculationsProps> = ({
   arrangement,
   flowers,
 }) => {
+  const flowersInArrangement: ArrangedFlowerRow[] =
+    flowers && arrangement?.flowers
+      ? arrangement.flowers
+          .map((x) => makeArrangedFlower(x, flowers))
+          .filter((x): x is ArrangedFlowerRow => !!x)
+      : [];
 
-  const flowersInArrangement: ArrangedFlowerRow[] = !flowers
-    ? []
-    : arrangement.flowers
-        .map((x) => makeArrangedFlower(x, flowers))
-        .filter((x): x is ArrangedFlowerRow => !!x);
-
-  const totalCost = getTotalCost(flowersInArrangement);
+  const totalCost = flowersInArrangement.length ? getTotalCost(flowersInArrangement) : 0;
   const costAllArrangements = totalCost * arrangement.arrangement_quantity;
   const totalMarkup200 = costAllArrangements * 2;
   const totalMarkup250 = costAllArrangements * 2.5;
