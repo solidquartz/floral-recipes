@@ -28,7 +28,7 @@ export const ProjectDetailsComponent: React.FC<
   const setViewingHandler = () => {
     setEditing(false);
     setViewing(true);
-    
+
   };
 
   //edit project link
@@ -124,7 +124,6 @@ export const ProjectDetailsComponent: React.FC<
                     project={project}
                     flowers={flowers}
                     editing={editing}
-                    // arrangement={arrangement}
                   />
                 )}
               </Flex>

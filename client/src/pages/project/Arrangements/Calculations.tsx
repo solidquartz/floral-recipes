@@ -1,5 +1,4 @@
 import { Table, Tbody, Td, Th, Tr } from "@chakra-ui/react";
-import { useMemo } from "react";
 import { ArrangedFlowerRow, Arrangement, Flower } from "src/types";
 import { getTotalCost, makeArrangedFlower } from "../helpers";
 
@@ -12,7 +11,7 @@ export const Calculations: React.FC<CalculationsProps> = ({
   arrangement,
   flowers,
 }) => {
-  //for totals
+
   const flowersInArrangement: ArrangedFlowerRow[] = !flowers
     ? []
     : arrangement.flowers

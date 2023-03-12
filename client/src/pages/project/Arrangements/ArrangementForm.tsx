@@ -6,14 +6,7 @@ import {
   AccordionPanel,
   Box,
   Button,
-  Container,
   Flex,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Tr,
 } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import { array, number, object, string } from "yup";
@@ -32,7 +25,6 @@ export type ArrangementFormProps = {
   flowers: Flower[];
   project: Project;
   editing: boolean;
-  // arrangement: Arrangement;
 };
 
 export type ArrangementFormType = {
@@ -60,7 +52,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -80,9 +71,20 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     handleOpenSnackbar();
   };
 
+  //deletes arrangement
   const handleDeleteArrangement = async (remove: () => void, id: number) => {
     if (id) {
       const response = await api.delete(`/projects/${id}/delete-arr`);
+    }
+    remove();
+    handleOpenSnackbar();
+  };
+
+  //deletes arranged flower
+  const handleDeleteArrangedFlower = async (remove: () => void, id: number) => {
+    if (id) {
+      const response = await api.delete(`/projects/${id}/delete-arr-flower`);
+      console.log(response);
     }
     remove();
     handleOpenSnackbar();
@@ -142,7 +144,12 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           />
                         </Flex>
 
-                        <EditFlowerTable index={index} flowers={flowers} />
+                        <EditFlowerTable
+                          index={index}
+                          flowers={flowers}
+                          handleDeleteArrangedFlower={handleDeleteArrangedFlower}
+                          remove={arrangementHelpers.remove}
+                        />
                       </Flex>
 
                       <Flex
@@ -163,18 +170,16 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                                   <AccordionIcon />
                                 </AccordionButton>
                               </h2>
+                              {/* Arrangement Totals */}
                               <AccordionPanel>
-
                                 <Calculations
                                   arrangement={arrangement}
                                   flowers={flowers}
                                 />
-
                               </AccordionPanel>
                             </AccordionItem>
                           </Accordion>
                         </Flex>
-                        {/* end arrangement totals */}
                       </Flex>
 
                       <Flex

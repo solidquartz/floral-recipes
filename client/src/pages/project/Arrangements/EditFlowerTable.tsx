@@ -11,9 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { FieldArray, useFormikContext } from "formik";
 import { Fragment } from "react";
-import { FiInfo } from "react-icons/fi";
-import { SiAddthis } from "react-icons/si";
-import { Dropdown, Icon, TextField } from "../../shared";
 import type { ArrangementFormType } from "./ArrangementForm";
 import type { Flower } from "../../../types";
 import { EditFlowerTableRow } from "./EditFlowerTableRow";
@@ -21,11 +18,15 @@ import { EditFlowerTableRow } from "./EditFlowerTableRow";
 export type FlowerTableProps = {
   index: number;
   flowers: Flower[];
+  handleDeleteArrangedFlower: (remove: () => void, id: number) => void;
+  remove: (flowerIndex: number) => void;
 };
 
 export const EditFlowerTable: React.FC<FlowerTableProps> = ({
   index,
   flowers,
+  handleDeleteArrangedFlower,
+  remove
 }) => {
   const { values } = useFormikContext<ArrangementFormType>();
 
@@ -68,7 +69,8 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                     arrangementIndex={index}
                     flowerIndex={flowerIdx}
                     flowers={flowers}
-                    remove={() => flowerHelpers.remove(flowerIdx)}
+                    handleDeleteArrangedFlower={handleDeleteArrangedFlower}
+                    remove={remove}
                   />
                 ))}
               </Tbody>

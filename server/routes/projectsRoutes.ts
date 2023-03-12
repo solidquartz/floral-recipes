@@ -267,10 +267,27 @@ export const registerProjects = () => {
     }
   );
 
+  //deletes an arranged flower from its arrangement
+  //params = arranged_flowers id
+    app.delete(
+      "/:id/delete-arr-flower",
+      async (req: express.Request<{ id: number }>, res) => {
+        try {
+          await db.query(
+            `
+          DELETE FROM arranged_flowers 
+          WHERE id = $1
+          `,
+            [req.params.id]
+          );
+
+          res.status(200).send();
+        } catch (err) {
+          console.error(err);
+          res.status(500).send(err);
+        }
+      }
+    );
+
   return app;
 };
-
-//delete flower from arrangedflowers (when i press delete button on flower in arrangement)
-//params = arranged flower id
-// DELETE FROM arranged_flowers 
-//           WHERE id = $1
