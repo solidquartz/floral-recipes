@@ -59,7 +59,7 @@ export const Projects = () => {
           <Flex mr="20px">
             <Heading>Projects</Heading>
           </Flex>
-          <Flex>
+          {/* <Flex>
             <Input type="text" placeholder="Search" />
             <Button
               colorScheme="pink"
@@ -68,7 +68,7 @@ export const Projects = () => {
             >
               Search
             </Button>
-          </Flex>
+          </Flex> */}
         </Flex>
 
         <Flex>
@@ -92,7 +92,6 @@ export const Projects = () => {
               <Tr>
                 <Th>Project Name</Th>
                 <Th>Event Date</Th>
-                <Th>Last Updated</Th>
               </Tr>
             </Thead>
             <Tbody>

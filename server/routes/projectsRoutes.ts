@@ -168,13 +168,13 @@ export const registerProjects = () => {
   });
 
   //edit a project
-  app.patch("/:id", async (req, res) => {
+  app.post("/:id", async (req, res) => {
     try {
       const results = await db.query(
-        "UPDATE projects SET project_name = $1, event_date = $2, WHERE id = $3 returning * ",
+        "UPDATE projects SET project_name = $1, event_date = $2 WHERE id = $3 returning * ",
         [req.body.project_name, req.body.event_date, req.params.id]
       );
-      res.status(200).json({
+      res.status(201).json({
         status: "success",
         data: {
           project: results.rows[0],
@@ -198,6 +198,10 @@ export const registerProjects = () => {
       req: express.Request<{ id: number }, {}, ArrangementRequestModel>,
       res
     ) => {
+      console.log(
+        "attempting to save arrangements in project id",
+        req.params.id
+      );
       try {
         const { arrangements } = req.body;
 
@@ -211,22 +215,25 @@ export const registerProjects = () => {
 
           await arrangement.save();
 
-          a.flowers.forEach(async (x) => {
-            const af = new ArrangedFlower();
+          await Promise.all(
+            a.flowers.map(async (x) => {
+              const af = new ArrangedFlower();
 
-            af.arrangement_id = arrangement.id;
-            af.flower_id = x.flower_id;
-            af.stem_quantity = x.stem_quantity;
-            af.id = x.id;
+              af.arrangement_id = arrangement.id;
+              af.flower_id = x.flower_id;
+              af.stem_quantity = x.stem_quantity;
+              af.id = x.id;
 
-            await af.save();
-          });
+              return af.save();
+            })
+          );
         }
-        return 201;
+
+        res.status(201).send();
       } catch (err) {
         console.error(err);
 
-        return 400;
+        res.status(400).send(err);
       }
     }
   );
@@ -235,39 +242,52 @@ export const registerProjects = () => {
   // deletes the arranged flowers and then the arrangement
   app.delete(
     "/:id/delete-arr",
-    async (
-      req: express.Request<{ id: number }, {}, ArrangementRequestModel>,
-      res
-    ) => {
+    async (req: express.Request<{ id: number }>, res) => {
       try {
-        const { arrangements } = req.body;
-
-        const deleteArrangement = async (id: number) => {
-          await db.query(
-            `
+        await db.query(
+          `
           DELETE FROM arranged_flowers 
           WHERE arrangement_id = $1
           `,
-            [arrangements.map((x) => x.id)]
-          );
-          await db.query(
-            `
+          [req.params.id]
+        );
+        await db.query(
+          `
             DELETE FROM arrangements
             WHERE id = $1
             `,
-            [arrangements.map((x) => x.id)]
-          );
-          res.status(204).json({
-            status: "success",
-          });
-        };
-        return 204;
+          [req.params.id]
+        );
+
+        res.status(200).send();
       } catch (err) {
         console.error(err);
-        return 400;
+        res.status(500).send(err);
       }
     }
   );
+
+  //deletes an arranged flower from its arrangement
+  //params = arranged_flowers id
+    app.delete(
+      "/:id/delete-arr-flower",
+      async (req: express.Request<{ id: number }>, res) => {
+        try {
+          await db.query(
+            `
+          DELETE FROM arranged_flowers 
+          WHERE id = $1
+          `,
+            [req.params.id]
+          );
+
+          res.status(200).send();
+        } catch (err) {
+          console.error(err);
+          res.status(500).send(err);
+        }
+      }
+    );
 
   return app;
 };

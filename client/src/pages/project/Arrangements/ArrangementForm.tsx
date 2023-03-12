@@ -1,4 +1,13 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Container, Flex, Table, Tbody, Td, Text, Th, Tr } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Flex,
+} from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import { array, number, object, string } from "yup";
 import type { Arrangement, Flower, Project } from "../../../types";
@@ -9,8 +18,8 @@ import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
 import api from "../../../api/api";
 import { useParams } from "react-router-dom";
 import { SnackbarCloseReason } from "@mui/base/useSnackbar";
-import SnackbarUnstyled from "@mui/base/SnackbarUnstyled";
 import Snackbar from "../../shared/Snackbar";
+import { Calculations } from "./Calculations";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -43,8 +52,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-  const [saving, setSaving] = useState(false);
-
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -59,20 +66,31 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
 
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
-    setSaving(true);
     const response = await api.post(`/projects/${id}/arrangement`, values);
+    console.log("response", response);
     handleOpenSnackbar();
-    setSaving(false);
   };
 
-  // const handleDelete = async (values: ArrangementFormType) => {
-  //   const response = await api.delete(
-  //     `/projects/${id}/delete-arr`,
-  //     values.arrangements.id
-  //   );
-  //   handleOpenSnackbar();
-  //   return response;
-  // };
+  //delete arrangement
+  const [confirmDeleteArr, setConfirmDeleteArr] = useState(false);
+  const handleDeleteArrangement = async (remove: () => void, id: number) => {
+    if (id) {
+      const response = await api.delete(`/projects/${id}/delete-arr`);
+    }
+    remove();
+    handleOpenSnackbar();
+    setConfirmDeleteArr(false);
+  };
+
+  //deletes arranged flower
+  const handleDeleteArrangedFlower = async (remove: () => void, id: number) => {
+    if (id) {
+      const response = await api.delete(`/projects/${id}/delete-arr-flower`);
+      console.log(response);
+    }
+    remove();
+    handleOpenSnackbar();
+  };
 
   return (
     <Box pb="100px" maxW="1400px">
@@ -101,18 +119,18 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
         })}
         onSubmit={handleSubmit}
       >
-        {({ values }) => (
+        {({ isSubmitting, values }) => (
           <Form>
             <FieldArray name="arrangements">
               {(arrangementHelpers) => (
                 <>
-                  {values.arrangements.map((_, index) => (
+                  {values.arrangements.map((arrangement, index) => (
                     <Fragment key={`arrangement-${index}`}>
                       <Flex flexDirection="column" key={index}>
                         <Flex
                           flexDirection="column"
                           paddingTop="5px"
-                          width="500px"
+                          width="300px"
                         >
                           <TextField
                             name={`arrangements.${index}.arrangement_name`}
@@ -122,13 +140,17 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                           />
                           <TextField
                             name={`arrangements.${index}.arrangement_quantity`}
-                            type="text"
+                            type="number"
                             placeholder="0"
                             label="Quantity"
                           />
                         </Flex>
 
-                        <EditFlowerTable index={index} flowers={flowers} />
+                        <EditFlowerTable
+                          index={index}
+                          flowers={flowers}
+                          handleDeleteArrangedFlower={handleDeleteArrangedFlower}
+                        />
                       </Flex>
 
                       <Flex
@@ -137,7 +159,8 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         pr="30px"
                         pt="20px"
                       >
-                        <Flex w="800px">
+                        {/* extract out? */}
+                        <Flex w="1000px">
                           <Accordion allowToggle w="100%">
                             <AccordionItem>
                               <h2>
@@ -148,35 +171,12 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                                   <AccordionIcon />
                                 </AccordionButton>
                               </h2>
+                              {/* Arrangement Totals */}
                               <AccordionPanel>
-                                <Table size="md" variant="unstyled">
-                                  <Tbody>
-                                    <Tr>
-                                      <Th>Arrangement Quantity</Th>
-                                      <Td textAlign="right">
-                                        {/* {arrangement.arrangement_quantity} */}
-                                      </Td>
-                                      <Th>Cost per Arrangement</Th>
-                                      <Td textAlign="right">
-                                        {/* ${totalCost.toFixed(2)} */}
-                                      </Td>
-                                      <Th>Total (All Arrangements)</Th>
-                                      <Td textAlign="right">
-                                        {/* ${costAllArrangements.toFixed(2)} */}
-                                      </Td>
-                                    </Tr>
-                                    <Tr>
-                                      <Th>Total 200% Markup</Th>
-                                      <Td textAlign="right">
-                                        {/* ${totalMarkup200.toFixed(2)} */}
-                                      </Td>
-                                      <Th>Total 250% Markup</Th>
-                                      <Td textAlign="right">
-                                        {/* ${totalMarkup250.toFixed(2)} */}
-                                      </Td>
-                                    </Tr>
-                                  </Tbody>
-                                </Table>
+                                <Calculations
+                                  arrangement={arrangement}
+                                  flowers={flowers}
+                                />
                               </AccordionPanel>
                             </AccordionItem>
                           </Accordion>
@@ -189,19 +189,33 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         justifyContent="flex-end"
                       >
                         <Flex>
-                          <Button
-                            colorScheme="red"
-                            isLoading={saving}
-                            variant="outline"
-                            // onClick={
-                            //   project?.arrangements[index]?.id !== undefined
-                            //     ? () => {handleDelete(values)}
-                            //     : () => arrangementHelpers.remove(index)
-                            // }
-                          >
-                            <AiOutlineDelete />
-                            Delete Arrangement
-                          </Button>
+                          {!confirmDeleteArr && (
+                            <Button
+                              colorScheme="red"
+                              isLoading={isSubmitting}
+                              variant="outline"
+                              onClick={() => setConfirmDeleteArr(true)}
+                            >
+                              <AiOutlineDelete />
+                              Delete Arrangement
+                            </Button>
+                          )}
+                          {confirmDeleteArr && (
+                            <Button
+                              colorScheme="red"
+                              isLoading={isSubmitting}
+                              variant="outline"
+                              onClick={() =>
+                                handleDeleteArrangement(
+                                  () => arrangementHelpers.remove(index),
+                                  arrangement.id
+                                )
+                              }
+                            >
+                              <AiOutlineDelete />
+                              Confirm Delete
+                            </Button>
+                          )}
                         </Flex>
                       </Flex>
                     </Fragment>
@@ -212,11 +226,9 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                       onClick={() =>
                         arrangementHelpers.push({
                           arrangement_name: "",
-                          arrangement_quantity: 0,
                           flowers: [
                             {
-                              flower_id: 1,
-                              stem_quantity: 0,
+
                             },
                           ],
                         })
@@ -230,7 +242,11 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
             </FieldArray>
             <Box position="fixed" w="100%" bgColor="white" bottom={0} p="10px">
               <Flex justifyContent="flex-end" pr="200px">
-                <Button colorScheme="teal" type="submit" isLoading={saving}>
+                <Button
+                  colorScheme="teal"
+                  type="submit"
+                  isLoading={isSubmitting}
+                >
                   <AiOutlineSave /> Save Project
                 </Button>
               </Flex>
@@ -241,7 +257,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
       </Formik>
       <Snackbar
         open={open}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
       >
         Success!

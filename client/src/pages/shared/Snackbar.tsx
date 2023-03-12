@@ -30,7 +30,7 @@ const Snackbar = styled(SnackbarUnstyled)(
     z-index: 5500;
     display: flex;
     right: 16px;
-    bottom: 16px;
+    top: 16px;
     left: auto;
     justify-content: start;
     max-width: 560px;

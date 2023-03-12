@@ -12,7 +12,19 @@ export const SignUp = () => {
 
   return (
     <>
-      <Header />
+      <Flex
+        as="nav"
+        align="center"
+        justify="space-between"
+        wrap="wrap"
+        w="100%"
+        mb="15px"
+        p="25px"
+      >
+        <Box>
+          <Heading size="lg">Envision Floral Recipes</Heading>
+        </Box>
+      </Flex>
 
       <Flex justify="center" direction="column" align="center">
         <Heading>Create Account</Heading>
@@ -50,7 +62,7 @@ export const SignUp = () => {
 
                     <TextField
                       name="password"
-                      type="password"
+                      type="text"
                       placeholder="Password"
                       label="Password"
                     />

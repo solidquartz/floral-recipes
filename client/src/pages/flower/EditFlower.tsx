@@ -10,7 +10,7 @@ export const EditFlower = () => {
       <Header />
 
       <Flex justify="center" direction="column" align="center">
-        <Heading>Edit Floral</Heading>
+        <Heading>Edit Flower</Heading>
         <Flex pt="20px">
           <EditFlowerComponent />
         </Flex>

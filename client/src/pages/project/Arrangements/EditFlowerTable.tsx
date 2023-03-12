@@ -11,9 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { FieldArray, useFormikContext } from "formik";
 import { Fragment } from "react";
-import { FiInfo } from "react-icons/fi";
-import { SiAddthis } from "react-icons/si";
-import { Dropdown, Icon, TextField } from "../../shared";
 import type { ArrangementFormType } from "./ArrangementForm";
 import type { Flower } from "../../../types";
 import { EditFlowerTableRow } from "./EditFlowerTableRow";
@@ -21,11 +18,13 @@ import { EditFlowerTableRow } from "./EditFlowerTableRow";
 export type FlowerTableProps = {
   index: number;
   flowers: Flower[];
+  handleDeleteArrangedFlower: (remove: () => void, id: number) => void;
 };
 
 export const EditFlowerTable: React.FC<FlowerTableProps> = ({
   index,
   flowers,
+  handleDeleteArrangedFlower,
 }) => {
   const { values } = useFormikContext<ArrangementFormType>();
 
@@ -38,7 +37,11 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               <Thead>
                 <Tr>
                   <Th>Flower Type</Th>
-                  <Th>Stems per Piece</Th>
+                  <Th>
+                    <Tooltip label="Stems per one arrangement">
+                      Stems
+                    </Tooltip>
+                  </Th>
                   <Th textAlign="right">Price per Stem</Th>
                   <Th textAlign="right">
                     <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
@@ -68,7 +71,8 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                     arrangementIndex={index}
                     flowerIndex={flowerIdx}
                     flowers={flowers}
-                    remove={() => flowerHelpers.remove(flowerIdx)}
+                    handleDeleteArrangedFlower={handleDeleteArrangedFlower}
+                    remove={flowerHelpers.remove}
                   />
                 ))}
               </Tbody>
@@ -81,7 +85,6 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
               onClick={() =>
                 flowerHelpers.push({
                   flower_id: 0,
-                  stem_quantity: 0,
                 })
               }
             >

@@ -20,7 +20,7 @@ export const CreateFlower = () => {
 
       {/* Formik Settings*/}
       <Flex justify="center" direction="column" align="center">
-        <Heading>Add a New Floral</Heading>
+        <Heading>Add a New Flower</Heading>
         <Flex pt="20px">
           <Formik
             initialValues={initialValues}

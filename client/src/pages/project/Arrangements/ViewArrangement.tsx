@@ -66,7 +66,10 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
               <Tr>
                 <Th>Flower Type</Th>
                 <Th textAlign="right">Price per Stem</Th>
-                <Th textAlign="right">Stems per Piece</Th>
+                <Th textAlign="right">
+                  {" "}
+                  <Tooltip label="Stems per one arrangement">Stems</Tooltip>
+                </Th>
                 <Th textAlign="right">
                   <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
                     Min Order Size
@@ -108,7 +111,7 @@ export const ArrangementComponent: React.FC<ArrangementProps> = ({
 
       {/* Totals */}
       <Flex w="100%" justifyContent="right" pr="30px" pt="20px">
-        <Flex w="800px">
+        <Flex w="1000px">
           <Accordion allowToggle w="100%">
             <AccordionItem>
               <h2>

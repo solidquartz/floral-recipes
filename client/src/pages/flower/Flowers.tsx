@@ -27,10 +27,15 @@ import { useAppContext } from "../../context/AppContext";
 import { Header } from "../shared";
 import { FlowerTableItem } from "./FlowerTableItem";
 import { useState } from "react";
+import { BsFlower1 } from "react-icons/bs";
 
 export const Flowers = () => {
   const state = useAppContext();
   const navigate = useNavigate();
+
+  //delete confirmation modal logic
+  const [flowerToDelete, setFlowerToDelete] = useState(0);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   //delete a flower
   const handleDeleteFlower = async (id: number) => {
@@ -41,12 +46,9 @@ export const Flowers = () => {
           return flower.id !== id;
         })
       );
-    } catch (err) {}
+    } catch (err) { }
+    onClose();
   };
-
-  //delete confirmation modal logic
-  const [flowerToDelete, setFlowerToDelete] = useState(0)
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   //edit flower link
   const handleEditFlower = (id: number) => {
@@ -64,7 +66,7 @@ export const Flowers = () => {
           <Flex mr="20px">
             <Heading>Flowers</Heading>
           </Flex>
-          <Flex>
+          {/* <Flex>
             <Input type="text" placeholder="Search" />
             <Button
               colorScheme="pink"
@@ -73,7 +75,7 @@ export const Flowers = () => {
             >
               Search
             </Button>
-          </Flex>
+          </Flex> */}
         </Flex>
 
         <Flex>
@@ -81,7 +83,7 @@ export const Flowers = () => {
             <Button
               variant="outline"
               colorScheme="cyan"
-              leftIcon={<GiFlowerPot />}
+              leftIcon={<BsFlower1 />}
             >
               Add Flower
             </Button>
@@ -117,7 +119,8 @@ export const Flowers = () => {
         </TableContainer>
       </Flex>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      {/* Confirm Delete Modal */}
+      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInBottom">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Delete Flower?</ModalHeader>
@@ -126,7 +129,6 @@ export const Flowers = () => {
             Are you sure you want to delete this flower? It will be deleted from
             every project in which it appears. This cannot be undone.
           </ModalBody>
-
           <ModalFooter>
             <Button
               colorScheme="red"

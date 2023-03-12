@@ -1,10 +1,9 @@
 import { Button, Flex, Td, Tr } from "@chakra-ui/react";
 import { Dropdown, TextField } from "../../shared";
 import type { ArrangedFlower, Flower } from "../../../types";
-import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
-import { useFormikContext } from "formik";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FieldArrayRenderProps, useFormikContext } from "formik";
 import { ArrangementFormType } from "./ArrangementForm";
-import { useCallback } from "react";
 import { makeArrangedFlower } from "../helpers";
 
 const renderCalc = (flower: ArrangedFlower, flowers: Flower[]) => {
@@ -56,19 +55,23 @@ export type EditFlowerTableRowProps = {
   arrangementIndex: number;
   flowerIndex: number;
   flowers: Flower[];
-  remove: () => void;
+  handleDeleteArrangedFlower: (remove: () => void, id: number) => void;
+  remove: FieldArrayRenderProps['remove'];
 };
 
 export const EditFlowerTableRow: React.FC<EditFlowerTableRowProps> = ({
   arrangementIndex,
   flowerIndex,
   flowers,
+  handleDeleteArrangedFlower,
   remove,
 }) => {
+
   const formik = useFormikContext<ArrangementFormType>();
   const prefix = `arrangements.${arrangementIndex}.flowers.${flowerIndex}`;
   const flower =
     formik.values.arrangements[arrangementIndex]?.flowers?.[flowerIndex];
+  
 
   return (
     <Tr>
@@ -87,7 +90,12 @@ export const EditFlowerTableRow: React.FC<EditFlowerTableRowProps> = ({
       {renderCalc(flower, flowers)}
       <Td>
         <Flex justifyContent="space-between" gap=".5rem">
-          <Button colorScheme="red" variant="outline" onClick={remove}>
+          <Button
+            colorScheme="red"
+            variant="outline"
+            onClick={() => handleDeleteArrangedFlower(() => remove(flowerIndex), flower.id)}
+          >
+            {/* flower.id is arranged_flowers.id */}
             <AiOutlineDelete />
           </Button>
         </Flex>

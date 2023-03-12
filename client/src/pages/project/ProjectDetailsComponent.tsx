@@ -12,11 +12,8 @@ export type ProjectDetailsComponentProps = {
 };
 
 export const ProjectDetailsComponent: React.FC<
-  ProjectDetailsComponentProps> = ({
-    project,
-    flowers
-  }) => {
-  
+  ProjectDetailsComponentProps
+> = ({ project, flowers }) => {
   const [viewing, setViewing] = useState(true);
   const [editing, setEditing] = useState(false);
 
@@ -25,9 +22,10 @@ export const ProjectDetailsComponent: React.FC<
     setEditing(true);
   };
 
-  const setViewingHandler = () => {
+  const refreshPage = () => {
     setEditing(false);
     setViewing(true);
+    window.location.reload();
   };
 
   //edit project link
@@ -36,7 +34,7 @@ export const ProjectDetailsComponent: React.FC<
     navigate(`/projects/${id}/edit`);
   };
 
-  const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
+  // const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
 
   return (
@@ -54,9 +52,9 @@ export const ProjectDetailsComponent: React.FC<
             <Flex>
               <Text>Event Date: {eventDate}</Text>
             </Flex>
-            <Flex>
+            {/* <Flex>
               <Text>Last Updated: {lastUpdated}</Text>
-            </Flex>
+            </Flex> */}
           </Flex>
 
           {/* Buttons */}
@@ -82,9 +80,9 @@ export const ProjectDetailsComponent: React.FC<
                   <Button
                     variant="outline"
                     colorScheme="red"
-                    onClick={setViewingHandler}
+                    onClick={() => refreshPage()}
                   >
-                    Cancel
+                    Stop Editing
                   </Button>
                   <Button
                     variant="outline"

@@ -24,7 +24,7 @@ export class Project extends BaseEntity {
   @Column("boolean", { default: false })
   pinned: boolean;
 
-  @Column("boolean", { default: false })
+  @Column("boolean", { default: true })
   active: boolean;
 
   @Column("date")
