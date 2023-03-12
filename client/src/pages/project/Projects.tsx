@@ -92,7 +92,6 @@ export const Projects = () => {
               <Tr>
                 <Th>Project Name</Th>
                 <Th>Event Date</Th>
-                <Th>Last Updated</Th>
               </Tr>
             </Thead>
             <Tbody>

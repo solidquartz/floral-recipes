@@ -34,7 +34,7 @@ export const ProjectDetailsComponent: React.FC<
     navigate(`/projects/${id}/edit`);
   };
 
-  const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
+  // const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
   const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
 
   return (
@@ -52,9 +52,9 @@ export const ProjectDetailsComponent: React.FC<
             <Flex>
               <Text>Event Date: {eventDate}</Text>
             </Flex>
-            <Flex>
+            {/* <Flex>
               <Text>Last Updated: {lastUpdated}</Text>
-            </Flex>
+            </Flex> */}
           </Flex>
 
           {/* Buttons */}
