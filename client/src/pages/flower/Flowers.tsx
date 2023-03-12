@@ -46,7 +46,7 @@ export const Flowers = () => {
         })
       );
     } catch (err) { }
-    window.location.reload();
+    onClose();
   };
 
   //edit flower link
