@@ -25,7 +25,6 @@ import { Calculations } from "./Calculations";
 export type ArrangementFormProps = {
   flowers: Flower[];
   project: Project;
-  editing: boolean;
 };
 
 export type ArrangementFormType = {
@@ -69,6 +68,8 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   const handleSubmit = async (values: ArrangementFormType) => {
     const response = await api.post(`/projects/${id}/arrangement`, values);
     handleOpenSnackbar();
+    window.location.reload();
+    
   };
 
   //delete arrangement
