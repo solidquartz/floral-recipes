@@ -1,30 +1,28 @@
 import express from "express";
+import bcrypt from "bcryptjs";
 const passport = require("passport");
-require("../configs/passportConfig")(passport);
+const bcrypt = require("bcryptjs");
+import { db } from "../configs/db.config";
 
 export const registerUsers = () => {
+
   const app = express.Router();
 
-  //routes for login and signup
-  app.post(
-    "/signup",
-    passport.authenticate("local-signup", { session: false }),
-    (req, res, next) => {
-      res.status(204).json({
-        status: "success",
-      });
-    }
-  );
-
-  app.post(
-    "/login",
-    passport.authenticate("local-login", { session: false }),
-    (req, res, next) => {
-      res.status(204).json({
-        status: "success",
-      });
-    }
-  );
+  //register
+  app.post("/register", async (req, res) => {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const results = await db.query(
+      `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *`,
+      [req.body.username, hashedPassword]
+    );
+    console.log(results);
+    res.status(201).json({
+      status: "created",
+      data: {
+        users: results.rows,
+      },
+    });
+  });
 
   return app;
 };

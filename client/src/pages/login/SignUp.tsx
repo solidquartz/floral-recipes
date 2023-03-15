@@ -36,11 +36,12 @@ export const SignUp = () => {
               password: Yup.string().required("Please enter a password"),
             })}
             onSubmit={async (values: typeof initialValues) => {
-              const response = await api.post("/auth/signup", {
+              const response = await api.post("/auth/register", {
                 username: values.username,
                 password: values.password,
               });
               console.log(response);
+              console.log("created!");
               window.location.href = `/projects/`;
             }}
           >

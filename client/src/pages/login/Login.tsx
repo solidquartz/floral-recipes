@@ -41,6 +41,7 @@ export const Login = () => {
                 password: values.password,
               });
               console.log(response);
+              console.log("successfully logged in");
 
               window.location.href = `/projects/`;
             }}
