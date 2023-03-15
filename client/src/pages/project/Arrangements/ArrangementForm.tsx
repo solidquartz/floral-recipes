@@ -67,6 +67,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
     const response = await api.post(`/projects/${id}/arrangement`, values);
+    handleOpenSnackbar();
     window.location.reload();
     
   };

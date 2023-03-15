@@ -1,7 +1,6 @@
-import { Button, ButtonGroup, Flex, Heading, Text } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, ButtonGroup, Flex, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { FloralOrder } from "./FloralOrder";
-import { useState } from "react";
 import dayjs from "dayjs";
 import { Flower, Project } from "src/types";
 import { ArrangementForm } from "./Arrangements";
@@ -16,6 +15,7 @@ export const EditProjectDetailsComponent: React.FC<
 > = ({ project, flowers }) => {
   //edit project link
   let navigate = useNavigate();
+
   const handleEditProject = (id: number) => {
     navigate(`/projects/${id}/edit`);
   };
@@ -26,7 +26,10 @@ export const EditProjectDetailsComponent: React.FC<
   };
 
   // const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
-  const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
+	const eventDate = dayjs(project.event_date).format("MMMM D, YYYY");
+	
+	//for modal
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -54,7 +57,7 @@ export const EditProjectDetailsComponent: React.FC<
               <Button
                 variant="outline"
                 colorScheme="red"
-                onClick={() => handleViewProjectDetails(project.id)}
+                onClick={onOpen}
               >
                 Stop Editing
               </Button>
@@ -77,16 +80,37 @@ export const EditProjectDetailsComponent: React.FC<
           <Flex>
             <Flex pt="20px" flexDirection="column">
               <Flex flexDirection="column">
-
-                  <ArrangementForm
-                    project={project}
-                    flowers={flowers}
-                  />
+                <ArrangementForm project={project} flowers={flowers} />
               </Flex>
             </Flex>
           </Flex>
         </Flex>
       </Flex>
+
+      {/* Confirm Navigate Away Modal */}
+      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInBottom">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Quit Editing Project?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Are you sure you want to quit? Any unsaved progress will be lost.
+          </ModalBody>
+          <ModalFooter>
+            <Button
+							colorScheme="red"
+							variant="outline"
+              mr={3}
+              onClick={() => handleViewProjectDetails(project.id)}
+            >
+              Stop Editing
+            </Button>
+            <Button colorScheme="gray" onClick={onClose}>
+              Keep Editing
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -4,7 +4,7 @@ import { FloralOrder } from "./FloralOrder";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { Flower, Project } from "src/types";
-import { ViewArrangement, ArrangementForm } from "./Arrangements";
+import { ViewArrangement } from "./Arrangements";
 
 export type ProjectDetailsComponentProps = {
   project: Project;
