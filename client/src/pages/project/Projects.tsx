@@ -24,13 +24,13 @@ export const Projects = () => {
   const state = useAppContext();
   const navigate = useNavigate();
 
+
   //get all projects
   useEffect(() => {
     const fetchData = async () => {
       console.log("fetching data");
       const response = await api.get("/projects");
       state.setProjects(response.data.data.projects);
-      console.log(response.data.data.projects);
     };
 
     if (!state.projects.length) {

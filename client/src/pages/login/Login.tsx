@@ -3,12 +3,16 @@ import { Form, Formik } from "formik";
 import { Header, TextField } from "../shared";
 import * as Yup from "yup";
 import api from "../../api/api";
+import { useAppContext } from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const initialValues = {
     username: "",
     password: "",
   };
+  const state = useAppContext();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -36,14 +40,15 @@ export const Login = () => {
               password: Yup.string().required("Please enter your password"),
             })}
             onSubmit={async (values: typeof initialValues) => {
-              const response = await api.post("/auth/login", {
+              const response = await api.post<{ username: string }>("/auth/login", {
                 username: values.username,
                 password: values.password,
               });
-              console.log(response);
-              console.log("successfully logged in");
 
-              window.location.href = `/projects/`;
+              console.log("logged in!");
+              state.setUser(response.data.username);
+              
+              navigate('/projects');
             }}
           >
             <Form>

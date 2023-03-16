@@ -1,47 +1,10 @@
 import express from "express";
+import passport from "passport";
 import bcrypt from "bcryptjs";
-const passport = require("passport");
-const bcrypt = require("bcryptjs");
 import { db } from "../configs/db.config";
-import passportLocal from "passport-local";
-
-const LocalStrategy = passportLocal.Strategy;
-
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    db.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username],
-      (err, user: any) => {
-        if (err) throw err;
-        if (!user) return done(null, false);
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err) throw err;
-          if (result === true) {
-            return done(null, user);
-          } else {
-            return done(null, false);
-          }
-        });
-      }
-    );
-  })
-);
-passport.serializeUser((user: any, cb) => {
-  cb(null, user.id);
-});
-passport.deserializeUser((id: string, cb) => {
-  db.query("SELECT * FROM users WHERE id = $1", [id], (err, user: any) => {
-    const userInformation = {
-      username: user.username,
-      id: user.id,
-    };
-    cb(err, userInformation);
-  });
-});
+import { checkAuth } from '../auth';
 
 export const registerUsers = () => {
-
   const app = express.Router();
 
   //register
@@ -57,6 +20,44 @@ export const registerUsers = () => {
       data: {
         users: results.rows,
       },
+    });
+  });
+
+  //log in
+  app.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        res.status(401).send();
+      }
+
+      req.logIn(user, (loginErr) => {
+        if (loginErr) {
+          return next(loginErr);
+        }
+
+        res.status(200).send({ username: user.username });
+      });
+    })(req, res, next);
+  });
+
+  app.get("/user", checkAuth, (req: any, res) => {
+    res.send(req.session.passport.user.username);
+  });
+
+  //log out
+  app.post("/logout", (req, res, next) => {
+    console.log("smash dat logout button");
+
+    req.logOut((err) => {
+      if (err) {
+        return next(err);
+      }
+
+      res.status(200).send();
     });
   });
 

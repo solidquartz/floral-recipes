@@ -3,11 +3,10 @@ import React, {
   useState,
   createContext,
   useContext,
-  Dispatch
+  Dispatch,
 } from "react";
 import { Flower, Project } from "../types";
 import api from "../api/api";
-
 
 export type AppContextType = {
   projects: Project[];
@@ -16,34 +15,35 @@ export type AppContextType = {
   setFlowers: Dispatch<React.SetStateAction<Flower[]>>;
   upsertFlower: (flower: Flower) => void;
   upsertProject: (project: Project) => void;
-  user: string,
+  user: string;
   setUser: (user: string) => void;
 };
 
 export const AppContext = createContext<AppContextType>({
   projects: [],
-  setProjects: () => { },
+  setProjects: () => {},
   flowers: [],
-  setFlowers: () => { },
-  upsertFlower: () => { },
-  upsertProject: () => { },
+  setFlowers: () => {},
+  upsertFlower: () => {},
+  upsertProject: () => {},
   user: "",
-  setUser: () => { },
+  setUser: () => {},
 });
 
 export const useAppContext = () => useContext(AppContext);
 
 export type AppContextProviderProps = {
   children: React.ReactNode;
-}
+};
 
-export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
+export const AppContextProvider: React.FC<AppContextProviderProps> = ({
+  children,
+}) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [flowers, setFlowers] = useState<Flower[]>([]);
 
   const upsertFlower = (flower: Flower) => {
     const newFlowers = [...flowers.filter((x) => x.id !== flower.id), flower];
-    console.log(newFlowers);
     setFlowers(newFlowers);
   };
 
@@ -52,15 +52,16 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
       ...projects.filter((x) => x.id !== project.id),
       project,
     ];
-
-    console.log(newProjects);
     setProjects(newProjects);
   };
 
   //get all flowers
   useEffect(() => {
     const fetchData = async () => {
-      const response = await api.get("/flowers");
+      const response = await api.get<{ data: { flowers: Flower[] } }>(
+        "/flowers",
+        { withCredentials: true }
+      );
       setFlowers(response.data.data.flowers);
     };
 
@@ -71,6 +72,23 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 
   //login
   const [user, setUser] = useState("");
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const response = await api.get<string>("/auth/user", {
+  //       withCredentials: true,
+  //     });
+
+  //     console.log("response", response);
+
+  //     if (response.status === 200) {
+  //       setUser(response.data);
+  //     }
+
+  //     if (response.status === 401) {
+  //       console.log("forbidden!!!");
+  //     }
+  //   };
+  // }, []);
 
   const ctx = {
     projects,

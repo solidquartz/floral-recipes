@@ -1,9 +1,26 @@
 import { Link } from "react-router-dom";
 
-import { Box, Button, ButtonGroup, Flex, Heading, Spacer } from "@chakra-ui/react";
-import React from "react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
+  Heading,
+  Spacer,
+} from "@chakra-ui/react";
+import api from "../../api/api";
+
 
 export const Header = () => {
+  const logOut = async () => {
+    const response = await api.post("/auth/logout");
+      if (response.status === 200) {
+        console.log("logged out");
+        window.location.href = "/login";
+        
+      }
+  };
+
   return (
     <Flex
       as="nav"
@@ -32,7 +49,12 @@ export const Header = () => {
               Flowers
             </Button>
           </Link>
-          <Button size="md" colorScheme="pink" variant="outline">
+          <Button
+            size="md"
+            colorScheme="pink"
+            variant="outline"
+            onClick={() => logOut()}
+          >
             Log Out
           </Button>
         </ButtonGroup>

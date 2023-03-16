@@ -1,12 +1,12 @@
 import express from "express";
-
 import { db } from "../configs/db.config";
+import { checkAuth } from '../auth';
 
 export const registerFlowers = () => {
   const app = express.Router();
 
   //gets all flowers with all data
-  app.get("/", async (req, res) => {
+  app.get("/", checkAuth, async (req, res) => {
     try {
       const results = await db.query(
         "SELECT * FROM flowers ORDER BY flower_name"
