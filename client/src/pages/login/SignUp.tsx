@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Heading, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { Header, TextField } from "../shared";
+import { TextField } from "../shared";
 import * as Yup from "yup";
-import api from "../../api/api";
+import { api } from "../../api";
 
 export const SignUp = () => {
   const initialValues = {

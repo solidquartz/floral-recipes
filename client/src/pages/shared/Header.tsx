@@ -8,17 +8,16 @@ import {
   Heading,
   Spacer,
 } from "@chakra-ui/react";
-import api from "../../api/api";
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux';
 
 
 export const Header = () => {
+  const dispatch = useDispatch();
+
   const logOut = async () => {
-    const response = await api.post("/auth/logout");
-      if (response.status === 200) {
-        console.log("logged out");
-        window.location.href = "/login";
-        
-      }
+    dispatch(logout());
+    window.location.href = '/login';
   };
 
   return (

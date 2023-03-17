@@ -2,7 +2,7 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query";
 import axios from "axios";
 import { RootState } from "src/redux";
 
-export default axios.create({
+export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
