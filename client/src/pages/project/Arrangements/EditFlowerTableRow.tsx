@@ -55,7 +55,7 @@ export type EditFlowerTableRowProps = {
   arrangementIndex: number;
   flowerIndex: number;
   flowers: Flower[];
-  handleDeleteArrangedFlower: (remove: () => void, id: number) => void;
+  handleDeleteArrangedFlower: (remove: () => void, flowerId: number, arrangementId: number) => void;
   remove: FieldArrayRenderProps['remove'];
 };
 
@@ -93,7 +93,7 @@ export const EditFlowerTableRow: React.FC<EditFlowerTableRowProps> = ({
           <Button
             colorScheme="red"
             variant="outline"
-            onClick={() => handleDeleteArrangedFlower(() => remove(flowerIndex), flower.id)}
+            onClick={() => handleDeleteArrangedFlower(() => remove(flowerIndex), flower.id, formik.values.arrangements[arrangementIndex].id)}
           >
             {/* flower.id is arranged_flowers.id */}
             <AiOutlineDelete />

@@ -18,7 +18,7 @@ import { EditFlowerTableRow } from "./EditFlowerTableRow";
 export type FlowerTableProps = {
   index: number;
   flowers: Flower[];
-  handleDeleteArrangedFlower: (remove: () => void, id: number) => void;
+  handleDeleteArrangedFlower: (remove: () => void, flowerId: number, arrangementId: number) => void;
 };
 
 export const EditFlowerTable: React.FC<FlowerTableProps> = ({

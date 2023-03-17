@@ -56,18 +56,5 @@ export const registerUsers = () => {
     res.send(req.session.passport.user.username);
   });
 
-  //log out
-  app.post("/logout", (req, res, next) => {
-    console.log("smash dat logout button");
-
-    req.logOut((err) => {
-      if (err) {
-        return next(err);
-      }
-
-      res.status(200).send();
-    });
-  });
-
   return app;
 };

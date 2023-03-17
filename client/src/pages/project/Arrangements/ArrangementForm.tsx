@@ -15,11 +15,15 @@ import { Fragment, useEffect, useState } from "react";
 import { EditFlowerTable } from "./EditFlowerTable";
 import { TextField } from "../../shared";
 import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
-import api from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { SnackbarCloseReason } from "@mui/base/useSnackbar";
 import Snackbar from "../../shared/Snackbar";
 import { Calculations } from "./Calculations";
+import {
+  useUpsertArrangementMutation,
+  useDeleteArrangementMutation,
+  useDeleteArrangedFlowerMutation,
+} from "../../../api";
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -34,7 +38,14 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   flowers,
   project,
 }) => {
+  const navigate = useNavigate();
   const { id } = useParams();
+  const [upsertArrangement, { isLoading: upsertHappening }] =
+    useUpsertArrangementMutation();
+  const [deleteArrangement, { isLoading: deleteArrangementHappening }] =
+    useDeleteArrangementMutation();
+  const [deleteArrangedFlower, { isLoading: deleteFlowerHappening }] =
+    useDeleteArrangedFlowerMutation();
 
   const initialValues: ArrangementFormType = {
     arrangements: project?.arrangements ?? [
@@ -51,7 +62,6 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
-
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -64,32 +74,44 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     setOpen(true);
   };
 
-  const navigate = useNavigate();
-
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
-    const response = await api.post(`/projects/${id}/arrangement`, values);
-    handleOpenSnackbar();
-    navigate(`/projects/${response.data.data.project.id}/details`);
+    const response = await upsertArrangement({
+      id: project?.id,
+      arrangements: values.arrangements,
+    });
+
+    if ("error" in response) {
+    } else {
+      handleOpenSnackbar();
+    }
   };
 
   //delete arrangement
   const [confirmDeleteArr, setConfirmDeleteArr] = useState(false);
   const handleDeleteArrangement = async (remove: () => void, id: number) => {
     if (id) {
-      const response = await api.delete(`/projects/${id}/delete-arr`);
+      const response = await deleteArrangement({
+        projectId: project?.id,
+        arrangementId: id
+      });
     }
+
     remove();
     handleOpenSnackbar();
     setConfirmDeleteArr(false);
   };
 
   //deletes arranged flower
-  const handleDeleteArrangedFlower = async (remove: () => void, id: number) => {
+  const handleDeleteArrangedFlower = async (remove: () => void, flowerId: number, arrangementId: number) => {
     if (id) {
-      const response = await api.delete(`/projects/${id}/delete-arr-flower`);
-      console.log(response);
+      const response = await deleteArrangedFlower({
+        projectId: project?.id,
+        flowerId,
+        arrangementId
+      });
     }
+
     remove();
     handleOpenSnackbar();
   };
@@ -151,9 +173,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                         <EditFlowerTable
                           index={index}
                           flowers={flowers}
-                          handleDeleteArrangedFlower={
-                            handleDeleteArrangedFlower
-                          }
+                          handleDeleteArrangedFlower={handleDeleteArrangedFlower}
                         />
                       </Flex>
 

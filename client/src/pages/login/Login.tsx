@@ -2,10 +2,10 @@ import { Box, Button, Flex, Heading, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { TextField } from "../shared";
 import * as Yup from "yup";
-import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux';
+import { api } from '../../api';
 
 type LoginResult = {
   user: {
@@ -34,8 +34,6 @@ export const Login = () => {
       username: response.data.user.username,
       token: response.data.token,
     };
-
-    localStorage.setItem('flower-api', JSON.stringify(relevantData));
 
     dispatch(login(relevantData));
 

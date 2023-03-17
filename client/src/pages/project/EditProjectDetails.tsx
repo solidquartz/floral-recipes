@@ -1,13 +1,11 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { Header } from "../shared";
 import { useParams } from "react-router-dom";
-import { useGetProjectByIdQuery } from "../../api";
-import { useAppContext } from "../../context/AppContext";
+import { useGetAllFlowersQuery, useGetProjectByIdQuery } from "../../api";
 import { EditProjectDetailsComponent } from "./EditProjectDetailsComponent";
 
 export const EditProjectDetails = () => {
   const { id } = useParams();
-  const { flowers } = useAppContext();
 
   if (!id) {
     return null;
@@ -15,12 +13,13 @@ export const EditProjectDetails = () => {
 
   //loading data
   const { data: project, error, isLoading } = useGetProjectByIdQuery(id);
+  const { data: flowers, isLoading: flowersLoading } = useGetAllFlowersQuery();
 
-  if (isLoading) {
+  if (isLoading || flowersLoading) {
     return <Text>loading...........</Text>;
   }
 
-  if (error || !project) {
+  if (error || !project || !flowers) {
     return <Text>Something went wrong! Please try again later.</Text>;
   }
 

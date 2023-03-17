@@ -9,18 +9,29 @@ import {
 import { Form, Formik } from "formik";
 import { Header, TextField } from "../shared";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import api from "../../api/api";
-import { useAppContext } from "../../context/AppContext";
+import { useCreateProjectMutation } from "../../api";
 
 export const CreateProject = () => {
-  const state = useAppContext();
+
+    const [addProject, { isLoading }] = useCreateProjectMutation();
+    const navigate = useNavigate();
 
   const initialValues = {
     project_name: "",
     event_date: "",
   };
+
+  const handleSubmit = async (values: typeof initialValues) => {
+    const response = await addProject(values);
+
+    if ('error' in response) {
+      console.log(response);
+    } else {
+      navigate(`/projects/${response.data.id}/details`);
+    }
+  }
 
   return (
     <>
@@ -38,15 +49,7 @@ export const CreateProject = () => {
               ),
               event_date: Yup.date().required("Please select a date"),
             })}
-            onSubmit={async (values: typeof initialValues) => {
-              const response = await api.post("/projects", {
-                project_name: values.project_name,
-                event_date: dayjs(values.event_date).format(),
-              });
-              console.log(response);
-              state.upsertProject(response.data.data.project);
-              window.location.href = `/projects/${response.data.data.project.id}/details`;
-            }}
+            onSubmit={handleSubmit}
           >
             <Form>
               <Flex align="center">
