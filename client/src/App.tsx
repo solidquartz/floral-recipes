@@ -5,7 +5,6 @@ import {
   Routes,
   Route,
   Navigate,
-  RouteProps,
 } from "react-router-dom";
 import { AppContextProvider } from "./context/AppContext";
 import {
