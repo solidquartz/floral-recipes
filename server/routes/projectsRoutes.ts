@@ -1,6 +1,10 @@
 import express from "express";
 import { db } from "../configs/db.config";
-import { ArrangedFlower, Arrangement } from "../db/entities";
+import {
+  ArrangedFlower,
+  Arrangement,
+  Project as ProjectEntity,
+} from "../db/entities";
 
 type DbArrangedFlower = {
   id: number;
@@ -146,30 +150,27 @@ export const registerProjects = () => {
         [req.body.project_name, req.body.event_date]
       );
       console.log(results);
-      res.status(201).json({
-        status: "success",
-        data: {
-          project: results.rows[0],
-        },
-      });
+      res.status(201).json(results.rows[0]);
     } catch (err) {
       console.log(err);
+      res.status(500).send();
     }
   });
 
   //edit a project
   app.post("/:id", async (req, res) => {
+    console.log("update project: body", req.body);
+
     try {
-      const results = await db.query(
-        "UPDATE projects SET project_name = $1, event_date = $2 WHERE id = $3 returning * ",
-        [req.body.project_name, req.body.event_date, req.params.id]
-      );
-      res.status(201).json({
-        status: "success",
-        data: {
-          project: results.rows[0],
-        },
-      });
+      const project = new ProjectEntity();
+
+      project.id = Number(req.params.id);
+      project.project_name = req.body.project_name;
+      project.event_date = new Date(req.body.event_date);
+
+      await project.save();
+
+      res.status(200).json(project);
     } catch (err) {
       console.log(err);
     }
@@ -219,7 +220,10 @@ export const registerProjects = () => {
           );
         }
 
-        res.status(201).send();
+        res.status(201).json({
+          projectId: req.params.id,
+          arrangements,
+        });
       } catch (err) {
         console.error(err);
 
@@ -231,8 +235,8 @@ export const registerProjects = () => {
   // deletes arranged_flowers with sent down arrangement id
   // deletes the arranged flowers and then the arrangement
   app.delete(
-    "/:id/delete-arr",
-    async (req: express.Request<{ id: number }>, res) => {
+    "/:projectId/arrangement/:id",
+    async (req: express.Request<{ projectId: number; id: number }>, res) => {
       try {
         await db.query(
           `
@@ -249,7 +253,9 @@ export const registerProjects = () => {
           [req.params.id]
         );
 
-        res.status(200).send();
+        res
+          .status(200)
+          .json({ projectId: req.params.projectId, id: req.params.id });
       } catch (err) {
         console.error(err);
         res.status(500).send(err);
@@ -259,25 +265,36 @@ export const registerProjects = () => {
 
   //deletes an arranged flower from its arrangement
   //params = arranged_flowers id
-    app.delete(
-      "/:id/delete-arr-flower",
-      async (req: express.Request<{ id: number }>, res) => {
-        try {
-          await db.query(
-            `
+  app.delete(
+    "/:projectId/arrangement/:arrangementId/:flowerId",
+    async (
+      req: express.Request<{
+        projectId: number;
+        arrangementId: number;
+        flowerId: number;
+      }>,
+      res
+    ) => {
+      try {
+        await db.query(
+          `
           DELETE FROM arranged_flowers 
           WHERE id = $1
           `,
-            [req.params.id]
-          );
+          [req.params.flowerId]
+        );
 
-          res.status(200).send();
-        } catch (err) {
-          console.error(err);
-          res.status(500).send(err);
-        }
+        res.status(200).json({
+          projectId: req.params.projectId,
+          arrangementId: req.params.arrangementId,
+          flowerId: req.params.flowerId,
+        });
+      } catch (err) {
+        console.error(err);
+        res.status(500).send(err);
       }
-    );
+    }
+  );
 
   return app;
 };

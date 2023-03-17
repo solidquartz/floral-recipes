@@ -27,7 +27,7 @@ export class Project extends BaseEntity {
   @Column("boolean", { default: true })
   active: boolean;
 
-  @Column("date")
+  @Column("timestamptz")
   event_date: Date;
 
   @OneToMany(() => Arrangement, (a) => a.project)

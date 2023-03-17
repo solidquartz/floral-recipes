@@ -1,42 +1,37 @@
 import { Box, Button, ButtonGroup, Flex, Text, VStack } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { Form, Formik } from "formik";
-import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
-import api from "../../api/api";
-import { useAppContext } from "../../context/AppContext";
+import { useGetProjectByIdQuery, useUpdateProjectMutation } from "../../api";
 import { TextField } from "../shared";
 
 export const EditProjectComponent = () => {
   //grab id from url
   const { id } = useParams();
-
   const navigate = useNavigate();
 
-  //for initial values
-  const [projectName, setProjectName] = useState("");
-  const [eventDate, setEventDate] = useState("");
-
-  const state = useAppContext();
-
-
-  useEffect(() => {
-    const fetchProject = async () => {
-      const response = await api.get(`/projects/${id}`);
-      setProjectName(response.data.data.project.name);
-      const formattedEventDate = dayjs(
-        response.data.data.project.event_date
-      ).format("YYYY-MM-DD");
-      setEventDate(formattedEventDate);
-    };
-    fetchProject();
-  }, []);
+  const { data: project, isLoading } = useGetProjectByIdQuery(id ?? '');
+  const [updateProject, { isLoading: updateHappening }] = useUpdateProjectMutation();
 
   const initialValues = {
-    project_name: projectName,
-    event_date: eventDate,
+    project_name: project?.name ?? '',
+    event_date: dayjs(project?.event_date).format('YYYY-MM-DD') ?? '',
   };
+
+  const handleSubmit = async (values: typeof initialValues) => {
+    const response = await updateProject({
+      id: project?.id,
+      event_date: dayjs(values.event_date).toISOString(),
+      name: values.project_name
+    });
+
+    if ('error' in response) {
+      //handle
+    } else {
+      navigate(`/projects/${id}/details`);
+    }
+  }
 
   return (
     <>
@@ -47,14 +42,7 @@ export const EditProjectComponent = () => {
           project_name: Yup.string().required("Please enter a project name"),
           event_date: Yup.date().required("Please enter a date"),
         })}
-        onSubmit={async (values) => {
-          const response = await api.post(`/projects/${id}`, {
-            project_name: values.project_name,
-            event_date: dayjs(values.event_date).format(),
-          });
-          state.upsertProject(response.data.data.project);
-          navigate(`/projects/${response.data.data.project.id}/details`);
-        }}
+        onSubmit={handleSubmit}
       >
         <Form>
           <Flex align="center">
