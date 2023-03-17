@@ -2,20 +2,20 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Users } from "./db/entities";
 import bcrypt from "bcryptjs";
 import { PassportStatic } from "passport";
-import { Express } from 'express';
+import express, { Express } from 'express';
+import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 
-export const checkAuth = (req, res, next) => {
-  console.log('session', req.session);
-
+export const checkAuth = (req: express.Request, res, next) => {
   if (req.isAuthenticated()) {
+    console.log('authorized to see', req.originalUrl);
     return next();
   }
 
-  console.log('no auth');
-  // res.status(401).send();
+  console.log('not authorized to see', req.originalUrl);
+  res.status(401).send();
 };
 
-const authUser = async (username, password, done) => {
+const authUser = new LocalStrategy(async (username, password, done) => {
   const user = await Users.findOneBy({
     username,
   });
@@ -34,13 +34,33 @@ const authUser = async (username, password, done) => {
       return done(null, false);
     }
   });
-};
+});
+
+const jwtAuth = new JWTStrategy({
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET
+}, async (payload, done) => {
+  try {
+    const user = await Users.findOneBy({
+      id: payload.id
+    });
+
+    if (user) {
+      return done(null, user);
+    }
+
+    return done(null, false);
+  } catch (err) {
+    return done(err);
+  }
+});
 
 export const configurePassport = (passport: PassportStatic, app: Express) => {
   app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(passport.session());
 
-  passport.use(new LocalStrategy(authUser));
+  passport.use(authUser);
+  passport.use(jwtAuth);
 
   passport.serializeUser((user: any, done) => {
     process.nextTick(() => {

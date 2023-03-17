@@ -13,7 +13,8 @@
       "ESNext"
     ],
     "skipLibCheck": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "module": "ESNext"
   },
   "include": [
     "src",

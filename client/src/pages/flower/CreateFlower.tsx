@@ -1,18 +1,31 @@
 import { Button, Flex, Heading, Box, VStack, ButtonGroup } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import * as Yup from 'yup';
-import { Link } from "react-router-dom";
-import api from "../../api/api";
-import { useAppContext } from "../../context/AppContext";
+import { Link, useNavigate } from "react-router-dom";
 import { Header, LeftElementTextField, TextField } from "../shared";
+import { useAddFlowerMutation } from '../../api';
 
 
 export const CreateFlower = () => {
+  const [addFlower, { isLoading }] = useAddFlowerMutation();
+  const navigate = useNavigate();
 
-  const state = useAppContext();
-  const initialValues = { flower_name: "", stem_price: "", rounded_up: "" };
+  const initialValues = {
+    flower_name: "",
+    stem_price: "",
+    rounded_up: 0
+  };
 
+  const handleSubmit = async (values: typeof initialValues) => {
+    const response = await addFlower(values);
 
+    if ('error' in response) {
+      // handle
+    } else {
+      navigate('/flowers')
+    }
+  }
+  
   return (
     <>
       {/* Navbar */}
@@ -35,15 +48,7 @@ export const CreateFlower = () => {
                   .required("Please enter a whole number"),
               })}
 
-            onSubmit={async (values) => {
-              const response = await api.post("/flowers", {
-                flower_name: values.flower_name,
-                stem_price: values.stem_price,
-                rounded_up: values.rounded_up,
-              });
-              state.upsertFlower(response.data.data.flower);
-              window.location.href = '/flowers';
-            }}
+            onSubmit={handleSubmit}
           >
             <Form>
               <Flex align="center">
@@ -63,7 +68,9 @@ export const CreateFlower = () => {
                       <Link to="/flowers">
                         <Button>Cancel</Button>
                       </Link>
-                      <Button type="submit" colorScheme="pink">Add</Button>
+                      <Button type="submit" colorScheme="pink" disabled={isLoading}>
+                        Add
+                      </Button>
 
                     </ButtonGroup>
                   </VStack>

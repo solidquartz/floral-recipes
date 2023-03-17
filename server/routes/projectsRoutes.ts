@@ -120,12 +120,7 @@ export const registerProjects = () => {
         flowerArrangementResult.rows
       );
 
-      res.status(200).json({
-        status: "success",
-        data: {
-          project,
-        },
-      });
+      res.status(200).json(project);
     } catch (err) {
       console.log(err);
     }
@@ -137,12 +132,7 @@ export const registerProjects = () => {
       const results = await db.query(
         "SELECT * FROM projects ORDER BY last_updated"
       );
-      res.status(200).json({
-        status: "success",
-        data: {
-          projects: results.rows,
-        },
-      });
+      res.status(200).json(results.rows);
     } catch (err) {
       console.log(err);
     }

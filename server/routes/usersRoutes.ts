@@ -3,6 +3,7 @@ import passport from "passport";
 import bcrypt from "bcryptjs";
 import { db } from "../configs/db.config";
 import { checkAuth } from '../auth';
+import jwt from 'jsonwebtoken';
 
 export const registerUsers = () => {
   const app = express.Router();
@@ -25,7 +26,7 @@ export const registerUsers = () => {
 
   //log in
   app.post("/login", (req, res, next) => {
-    passport.authenticate("local", (err, user) => {
+    passport.authenticate("local", { session: false }, (err, user) => {
       if (err) {
         return next(err);
       }
@@ -34,12 +35,19 @@ export const registerUsers = () => {
         res.status(401).send();
       }
 
-      req.logIn(user, (loginErr) => {
+      req.logIn(user, { session: false }, (loginErr) => {
         if (loginErr) {
           return next(loginErr);
         }
 
-        res.status(200).send({ username: user.username });
+        const jwtUser = {
+          id: user.id,
+          username: user.username
+        };
+
+        const token = jwt.sign(jwtUser, process.env.JWT_SECRET);
+
+        res.json({ user: jwtUser, token });
       });
     })(req, res, next);
   });

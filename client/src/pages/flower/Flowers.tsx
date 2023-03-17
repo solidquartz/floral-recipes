@@ -19,19 +19,17 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { BiSearchAlt } from "react-icons/bi";
-import { GiFlowerPot } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../api/api";
-import { useAppContext } from "../../context/AppContext";
+import { useGetAllFlowersQuery, useDeleteFlowerMutation } from "../../api";
 import { Header } from "../shared";
 import { FlowerTableItem } from "./FlowerTableItem";
 import { useState } from "react";
 import { BsFlower1 } from "react-icons/bs";
 
 export const Flowers = () => {
-  const state = useAppContext();
   const navigate = useNavigate();
+  const { data: flowers, isLoading } = useGetAllFlowersQuery();
+  const [deleteFlower, { isLoading: deleteHappening }] = useDeleteFlowerMutation();
 
   //delete confirmation modal logic
   const [flowerToDelete, setFlowerToDelete] = useState(0);
@@ -40,13 +38,13 @@ export const Flowers = () => {
   //delete a flower
   const handleDeleteFlower = async (id: number) => {
     try {
-      const response = await api.delete(`/flowers/${id}`);
-      state.setFlowers(
-        state.flowers.filter((flower) => {
-          return flower.id !== id;
-        })
-      );
+      const response = await deleteFlower(id);
+
+      if ('error' in response) {
+        // handle
+      }
     } catch (err) { }
+
     onClose();
   };
 
@@ -104,7 +102,7 @@ export const Flowers = () => {
             </Thead>
             <Tbody>
               {/* Body */}
-              {state.flowers.map((flower) => (
+              {(flowers ?? []).map((flower) => (
                 <FlowerTableItem
                   key={flower.id}
                   flower={flower}

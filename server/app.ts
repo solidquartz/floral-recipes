@@ -47,29 +47,37 @@ const run = async () => {
     })
   );
 
-  const connectStore = pgConnect(session);
-  const sessionStore = new connectStore({ conObject: poolConfig });
+  // const connectStore = pgConnect(session);
+  // const sessionStore = new connectStore({ conObject: poolConfig });
 
-  app.use(
-    session({
-      store: sessionStore,
-      secret: process.env.SESSION_SECRET,
-      resave: true,
-      saveUninitialized: false,
-      cookie: {
-        secure: false,
-        httpOnly: false,
-        sameSite: false,
-        maxAge: 1000 * 60 * 60 * 24,
-      },
-    })
-  );
+  // app.use(
+  //   session({
+  //     store: sessionStore,
+  //     secret: process.env.SESSION_SECRET,
+  //     resave: true,
+  //     saveUninitialized: false,
+  //     cookie: {
+  //       secure: false,
+  //       httpOnly: false,
+  //       sameSite: false,
+  //       maxAge: 1000 * 60 * 60 * 24,
+  //     },
+  //   })
+  // );
 
   configurePassport(passport, app);
 
   //routes
-  app.use("/flowers", registerFlowers());
-  app.use("/projects", registerProjects());
+  app.use(
+    "/flowers",
+    passport.authenticate('jwt', { session: false }),
+    registerFlowers()
+  );
+  app.use(
+    "/projects",
+    passport.authenticate('jwt', { session: false }),
+    registerProjects()
+  );
   app.use("/auth", registerUsers());
 
   //listen

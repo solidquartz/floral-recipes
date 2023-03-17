@@ -11,16 +11,15 @@ import {
 import { FieldArray, Form, Formik } from "formik";
 import { array, number, object, string } from "yup";
 import type { Arrangement, Flower, Project } from "../../../types";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { EditFlowerTable } from "./EditFlowerTable";
 import { TextField } from "../../shared";
 import { AiOutlineDelete, AiOutlineSave } from "react-icons/ai";
 import api from "../../../api/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SnackbarCloseReason } from "@mui/base/useSnackbar";
 import Snackbar from "../../shared/Snackbar";
 import { Calculations } from "./Calculations";
-
 
 export type ArrangementFormProps = {
   flowers: Flower[];
@@ -52,6 +51,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     ],
   };
 
+
   //snackbar
   const [open, setOpen] = useState(false);
   const handleCloseSnackbar = (_: any, reason: SnackbarCloseReason) => {
@@ -64,12 +64,13 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
     setOpen(true);
   };
 
+  const navigate = useNavigate();
+
   //saves (upserts) all arrangements in the project
   const handleSubmit = async (values: ArrangementFormType) => {
     const response = await api.post(`/projects/${id}/arrangement`, values);
     handleOpenSnackbar();
-    window.location.reload();
-    
+    navigate(`/projects/${response.data.data.project.id}/details`);
   };
 
   //delete arrangement
@@ -240,14 +241,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
                 </>
               )}
             </FieldArray>
-            <Box
-              position="fixed"
-              w="100%"
-              bgColor="white"
-              bottom={0}
-              p="10px"
-
-            >
+            <Box position="fixed" w="100%" bgColor="white" bottom={0} p="10px">
               <Flex justifyContent="flex-end" pr="250px">
                 <Button
                   size="lg"

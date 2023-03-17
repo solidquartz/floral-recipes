@@ -2,7 +2,7 @@ import { Box, Button, ButtonGroup, Flex, Text, VStack } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import api from "../../api/api";
 import { useAppContext } from "../../context/AppContext";
@@ -12,11 +12,14 @@ export const EditProjectComponent = () => {
   //grab id from url
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   //for initial values
   const [projectName, setProjectName] = useState("");
   const [eventDate, setEventDate] = useState("");
 
   const state = useAppContext();
+
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -50,7 +53,7 @@ export const EditProjectComponent = () => {
             event_date: dayjs(values.event_date).format(),
           });
           state.upsertProject(response.data.data.project);
-          window.location.href = `/projects/${response.data.data.project.id}/details`;
+          navigate(`/projects/${response.data.data.project.id}/details`);
         }}
       >
         <Form>

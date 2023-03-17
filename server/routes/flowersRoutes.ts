@@ -11,12 +11,7 @@ export const registerFlowers = () => {
       const results = await db.query(
         "SELECT * FROM flowers ORDER BY flower_name"
       );
-      res.status(200).json({
-        status: "success",
-        data: {
-          flowers: results.rows,
-        },
-      });
+      res.status(200).json(results.rows);
     } catch (err) {
       console.log(err);
     }
@@ -28,12 +23,7 @@ export const registerFlowers = () => {
       const results = await db.query("SELECT * FROM flowers WHERE id = $1", [
         req.params.id,
       ]);
-      res.status(200).json({
-        status: "success",
-        data: {
-          flower: results.rows[0],
-        },
-      });
+      res.status(200).json(results.rows[0]);
     } catch (err) {
       console.log(err);
     }
@@ -47,6 +37,7 @@ export const registerFlowers = () => {
       ]);
       res.status(204).json({
         status: "success",
+        id: Number(req.params.id)
       });
     } catch (err) {
       console.log(err);
@@ -61,15 +52,10 @@ export const registerFlowers = () => {
         "INSERT INTO flowers (flower_name, stem_price, rounded_up) VALUES ($1, $2, $3) returning *",
         [req.body.flower_name, req.body.stem_price, req.body.rounded_up]
       );
-      console.log(results);
-      res.status(201).json({
-        status: "success",
-        data: {
-          flower: results.rows[0],
-        },
-      });
+      res.status(201).json(results.rows[0]);
     } catch (err) {
       console.log(err);
+      res.status(500).send();
     }
   });
 

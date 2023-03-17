@@ -1,11 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { projectApi, projectReducer } from '../pages';
+import { flowerApi, projectApi } from '../api';
+import { appReducer } from './appReducer';
 
 export const store = configureStore({
   reducer: {
-    project: projectReducer,
+    app: appReducer,
     [projectApi.reducerPath]: projectApi.reducer,
+    [flowerApi.reducerPath]: flowerApi.reducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(projectApi.middleware)
+    getDefaultMiddleware().concat([flowerApi.middleware, projectApi.middleware])
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

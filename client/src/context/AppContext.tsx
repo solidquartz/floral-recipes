@@ -6,7 +6,8 @@ import React, {
   Dispatch,
 } from "react";
 import { Flower, Project } from "../types";
-import api from "../api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, login } from "../redux";
 
 export type AppContextType = {
   projects: Project[];
@@ -15,8 +16,6 @@ export type AppContextType = {
   setFlowers: Dispatch<React.SetStateAction<Flower[]>>;
   upsertFlower: (flower: Flower) => void;
   upsertProject: (project: Project) => void;
-  user: string;
-  setUser: (user: string) => void;
 };
 
 export const AppContext = createContext<AppContextType>({
@@ -26,8 +25,6 @@ export const AppContext = createContext<AppContextType>({
   setFlowers: () => {},
   upsertFlower: () => {},
   upsertProject: () => {},
-  user: "",
-  setUser: () => {},
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -36,11 +33,11 @@ export type AppContextProviderProps = {
   children: React.ReactNode;
 };
 
-export const AppContextProvider: React.FC<AppContextProviderProps> = ({
-  children,
-}) => {
+export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [flowers, setFlowers] = useState<Flower[]>([]);
+  const appToken = useSelector((state: RootState) => state.app.token);
+  const dispatch = useDispatch();
 
   const upsertFlower = (flower: Flower) => {
     const newFlowers = [...flowers.filter((x) => x.id !== flower.id), flower];
@@ -55,40 +52,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     setProjects(newProjects);
   };
 
-  //get all flowers
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get<{ data: { flowers: Flower[] } }>(
-        "/flowers",
-        { withCredentials: true }
-      );
-      setFlowers(response.data.data.flowers);
-    };
-
-    if (!flowers.length) {
-      fetchData().catch(console.error);
-    }
-  }, [flowers]);
-
-  //login
-  const [user, setUser] = useState("");
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const response = await api.get<string>("/auth/user", {
-  //       withCredentials: true,
-  //     });
-
-  //     console.log("response", response);
-
-  //     if (response.status === 200) {
-  //       setUser(response.data);
-  //     }
-
-  //     if (response.status === 401) {
-  //       console.log("forbidden!!!");
-  //     }
-  //   };
-  // }, []);
+  }, []);
 
   const ctx = {
     projects,
@@ -97,8 +62,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     setFlowers,
     upsertFlower,
     upsertProject,
-    user,
-    setUser,
   };
 
   return <AppContext.Provider value={ctx}>{children}</AppContext.Provider>;

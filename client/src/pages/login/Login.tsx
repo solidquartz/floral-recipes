@@ -1,18 +1,46 @@
 import { Box, Button, Flex, Heading, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { Header, TextField } from "../shared";
+import { TextField } from "../shared";
 import * as Yup from "yup";
 import api from "../../api/api";
-import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux';
+
+type LoginResult = {
+  user: {
+    id: string;
+    username: string;
+  };
+  token: string;
+}
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const initialValues = {
     username: "",
     password: "",
   };
-  const state = useAppContext();
-  const navigate = useNavigate();
+
+  const handleSubmit = async (values: typeof initialValues) => {
+    const response = await api.post<LoginResult>("/auth/login", {
+      username: values.username,
+      password: values.password,
+    });
+
+    const relevantData = {
+      username: response.data.user.username,
+      token: response.data.token,
+    };
+
+    localStorage.setItem('flower-api', JSON.stringify(relevantData));
+
+    dispatch(login(relevantData));
+
+    navigate("/projects");
+  };
 
   return (
     <>
@@ -39,17 +67,7 @@ export const Login = () => {
               username: Yup.string().required("Please enter your username"),
               password: Yup.string().required("Please enter your password"),
             })}
-            onSubmit={async (values: typeof initialValues) => {
-              const response = await api.post<{ username: string }>("/auth/login", {
-                username: values.username,
-                password: values.password,
-              });
-
-              console.log("logged in!");
-              state.setUser(response.data.username);
-              
-              navigate('/projects');
-            }}
+            onSubmit={handleSubmit}
           >
             <Form>
               <Flex align="center">
