@@ -37,9 +37,9 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 					order.quantity += stemQuantity * cur.arrangement_quantity;
 					order.total = order.quantity * stemPrice;
 					order.markedUp = order.total * 2.50;
-					order.roundedUp = getOrderSize(order.quantity, flower.rounded_up);
+					order.roundedUp = order.quantity;
 				} else { // make a new order entry
-					const rounded = getOrderSize(stemQuantity, flower.rounded_up);
+					const rounded = stemQuantity;
 
 					acc.push({
 						id: c.flower_id,
