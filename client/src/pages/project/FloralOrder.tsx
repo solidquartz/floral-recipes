@@ -47,8 +47,8 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
             quantity: stemQuantity * cur.arrangement_quantity,
             // roundedUp: rounded,
             pricePerStem: stemPrice,
-            total: (stemQuantity * cur.arrangement_quantity) * stemPrice,
-            markedUp: stemQuantity * stemPrice * 2.5,
+            total: stemQuantity * cur.arrangement_quantity * stemPrice,
+            markedUp: stemQuantity * cur.arrangement_quantity * stemPrice * 2.5,
           });
 				}
 			});
