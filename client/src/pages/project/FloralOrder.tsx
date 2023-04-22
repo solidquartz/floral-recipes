@@ -11,7 +11,7 @@ type FloralOrder = {
 	id: number;
 	name: string;
 	quantity: number;
-	roundedUp: number;
+	// roundedUp: number;
 	pricePerStem: number;
 	total: number;
 	markedUp: number;
@@ -37,19 +37,19 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 					order.quantity += stemQuantity * cur.arrangement_quantity;
 					order.total = order.quantity * stemPrice;
 					order.markedUp = order.total * 2.50;
-					order.roundedUp = order.quantity;
+					// order.roundedUp = order.quantity;
 				} else { // make a new order entry
-					const rounded = stemQuantity;
+					// const rounded = stemQuantity;
 
 					acc.push({
-						id: c.flower_id,
-						name: flower.flower_name,
-						quantity: stemQuantity * cur.arrangement_quantity,
-						roundedUp: rounded,
-						pricePerStem: stemPrice,
-						total: rounded * stemPrice,
-						markedUp: (rounded * stemPrice) * 2.50,
-					});
+            id: c.flower_id,
+            name: flower.flower_name,
+            quantity: stemQuantity * cur.arrangement_quantity,
+            // roundedUp: rounded,
+            pricePerStem: stemPrice,
+            total: (stemQuantity * cur.arrangement_quantity) * stemPrice,
+            markedUp: stemQuantity * stemPrice * 2.5,
+          });
 				}
 			});
 
@@ -75,7 +75,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 						<Tr>
 							<Th>Item</Th>
 							<Th>Stems</Th>
-							<Th>Rounded Up</Th>
+							{/* <Th>Rounded Up</Th> */}
 							<Th>Price per Stem</Th>
 							<Th>Total</Th>
 							<Th>Marked Up Total</Th>
@@ -88,7 +88,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 								key={idx}
 								name={x.name}
 								quantity={x.quantity}
-								roundedUp={x.roundedUp}
+								// roundedUp={x.roundedUp}
 								pricePerStem={x.pricePerStem}
 								total={x.total}
 								markedUp={x.markedUp}
@@ -116,7 +116,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 export type FloralOrderItemProps = {
 	name: string;
 	quantity: number;
-	roundedUp: number;
+	// roundedUp: number;
 	pricePerStem: number;
 	total: number;
 	markedUp: number;
@@ -126,7 +126,7 @@ export type FloralOrderItemProps = {
 const FloralOrderItem: React.FC<FloralOrderItemProps> = ({
   name,
   quantity,
-  roundedUp,
+  // roundedUp,
   pricePerStem,
   total,
   markedUp,
@@ -136,7 +136,7 @@ const FloralOrderItem: React.FC<FloralOrderItemProps> = ({
       {name}
     </Td>
     <Td textAlign="center">{quantity}</Td>
-    <Td textAlign="center">{roundedUp}</Td>
+    {/* <Td textAlign="center">{roundedUp}</Td> */}
     <Td textAlign="center">${pricePerStem.toFixed(2)}</Td>
     <Td textAlign="right">${total.toFixed(2)}</Td>
     <Td textAlign="right">${markedUp.toFixed(2)}</Td>
