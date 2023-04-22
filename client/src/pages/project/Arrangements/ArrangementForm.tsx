@@ -38,7 +38,7 @@ export const ArrangementForm: React.FC<ArrangementFormProps> = ({
   flowers,
   project,
 }) => {
-  const navigate = useNavigate();
+
   const { id } = useParams();
   const [upsertArrangement, { isLoading: upsertHappening }] =
     useUpsertArrangementMutation();

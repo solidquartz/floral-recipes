@@ -16,7 +16,7 @@ export const EditFlowerComponent = () => {
   const initialValues = {
     flower_name: flower?.flower_name ?? '',
     stem_price: flower?.stem_price ?? '',
-    rounded_up: flower?.rounded_up ?? 0,
+    // rounded_up: flower?.rounded_up ?? 0,
   };
 
   const handleSubmit = async (values: typeof initialValues) => {
@@ -38,9 +38,9 @@ export const EditFlowerComponent = () => {
         stem_price: Yup.number()
           .required("Please enter a price only using numbers")
           .typeError("Must be a number"),
-        rounded_up: Yup.number()
-          .required("Please enter a number")
-          .typeError("Must be a number"),
+        // rounded_up: Yup.number()
+        //   .required("Please enter a number")
+        //   .typeError("Must be a number"),
       })}
       onSubmit={handleSubmit}
     >
@@ -61,12 +61,12 @@ export const EditFlowerComponent = () => {
                 label="Price"
                 element="$"
               />
-              <TextField
+              {/* <TextField
                 name="rounded_up"
                 type="text"
                 placeholder="Rounded Up"
                 label="Rounded Up"
-              />
+              /> */}
 
               {/* Buttons */}
               <ButtonGroup spacing="6">

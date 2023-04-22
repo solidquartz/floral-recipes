@@ -43,21 +43,21 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                     </Tooltip>
                   </Th>
                   <Th textAlign="right">Price per Stem</Th>
-                  <Th textAlign="right">
+                  {/* <Th textAlign="right">
                     <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
                       Min Order Size
                     </Tooltip>
-                  </Th>
+                  </Th> */}
                   <Th textAlign="right">
-                    <Tooltip label="Total cost for the stem order of each flower type before rounding up">
+                    <Tooltip label="Total cost for the stem order of each flower type">
                       Total
                     </Tooltip>
                   </Th>
-                  <Th textAlign="right">
+                  {/* <Th textAlign="right">
                     <Tooltip label="Total cost for the stem order of each flower type based on the rounded up number of stems">
                       Rounded Up Total
                     </Tooltip>
-                  </Th>
+                  </Th> */}
                   <Th textAlign="right">Markup 200%</Th>
                   <Th textAlign="right">Markup 250%</Th>
                   <Th />

@@ -39,7 +39,7 @@ export const FlowerTableItem: React.FC<FlowerTableItemProps> = ({
       <Tr>
         <Td>{flower.flower_name}</Td>
         <Td>${flower.stem_price}</Td>
-        <Td>{flower.rounded_up}</Td>
+        {/* <Td>{flower.rounded_up}</Td> */}
         <Td>
           <Button
             variant="ghost"

@@ -15,9 +15,9 @@ export type ArrangedFlowerRow = {
   name: string;
   stem_price: number;
   quantity: number;
-  rounded: number;
+  // rounded: number;
   base_cost: number;
-  rounded_cost: number;
+  // rounded_cost: number;
   markup200: number;
   markup250: number;
 };

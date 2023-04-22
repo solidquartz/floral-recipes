@@ -13,7 +13,7 @@ export const CreateFlower = () => {
   const initialValues = {
     flower_name: "",
     stem_price: "",
-    rounded_up: 0
+    // rounded_up: 1,
   };
 
   const handleSubmit = async (values: typeof initialValues) => {
@@ -44,8 +44,7 @@ export const CreateFlower = () => {
                   .required("Please enter a flower name"),
                 stem_price: Yup.number()
                   .required("Please enter a price"),
-                rounded_up: Yup.number()
-                  .required("Please enter a whole number"),
+                // rounded_up: Yup.number()
               })}
 
             onSubmit={handleSubmit}
@@ -60,7 +59,7 @@ export const CreateFlower = () => {
                     <LeftElementTextField name="stem_price" type="text" placeholder="0.00" label="Price" element="$" />
 
 
-                    <TextField name="rounded_up" type="text" placeholder="0" label="Rounded Up" />
+                    {/* <TextField name="rounded_up" type="text" placeholder="0" label="Rounded Up" /> */}
 
 
                     {/* Buttons */}

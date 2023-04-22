@@ -1,11 +1,11 @@
 require("dotenv").config();
+
 import express from "express";
-import { db, poolConfig } from "./configs/db.config";
+import * as Sentry from "@sentry/node";
+import { db } from "./configs/db.config";
 import { ormDb } from "./configs/db-orm";
 import cookieParser from "cookie-parser";
 import passport from "passport";
-import session from "express-session";
-import pgConnect from "connect-pg-simple";
 import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
@@ -16,17 +16,44 @@ import { registerFlowers } from "./routes/flowersRoutes";
 import { registerProjects } from "./routes/projectsRoutes";
 import { registerUsers } from "./routes/usersRoutes";
 
+const initSentry = (app: express.Express) => {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [
+      // enable HTTP calls tracing
+      new Sentry.Integrations.Http({ tracing: true }),
+      // enable Express.js middleware tracing
+      new Sentry.Integrations.Express({ app }),
+      // Automatically instrument Node.js libraries and frameworks
+      ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
+    ],
 
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+
+  app.use(Sentry.Handlers.requestHandler());
+
+  if (process.env.SENTRY_TRACE === "true") {
+    app.use(Sentry.Handlers.tracingHandler());
+  }
+
+  app.use(Sentry.Handlers.errorHandler());
+};
 
 const run = async () => {
+  const app = express();
+
+  initSentry(app);
+
   try {
     await ormDb.initialize();
     await db.connect();
   } catch (err) {
     console.error(err);
   }
-
-  const app = express();
 
   const { PORT } = process.env;
 
@@ -40,30 +67,12 @@ const run = async () => {
     cors({
       origin:
         process.env.NODE_ENV === "production"
-          ? "your production url"
+          ? "https://floral-recipes.vercel.app"
           : "http://localhost:5173",
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
       credentials: true,
     })
   );
-
-  // const connectStore = pgConnect(session);
-  // const sessionStore = new connectStore({ conObject: poolConfig });
-
-  // app.use(
-  //   session({
-  //     store: sessionStore,
-  //     secret: process.env.SESSION_SECRET,
-  //     resave: true,
-  //     saveUninitialized: false,
-  //     cookie: {
-  //       secure: false,
-  //       httpOnly: false,
-  //       sameSite: false,
-  //       maxAge: 1000 * 60 * 60 * 24,
-  //     },
-  //   })
-  // );
 
   configurePassport(passport, app);
 

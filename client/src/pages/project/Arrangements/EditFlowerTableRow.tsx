@@ -15,9 +15,9 @@ const renderCalc = (flower: ArrangedFlower, flowers: Flower[]) => {
     return (
       <>
         <Td textAlign="right"> - </Td>
+        {/* <Td textAlign="right"> - </Td> */}
         <Td textAlign="right"> - </Td>
-        <Td textAlign="right"> - </Td>
-        <Td textAlign="right"> - </Td>
+        {/* <Td textAlign="right"> - </Td> */}
         <Td textAlign="right"> - </Td>
         <Td textAlign="right"> - </Td>
       </>
@@ -30,9 +30,9 @@ const renderCalc = (flower: ArrangedFlower, flowers: Flower[]) => {
     return (
       <>
         <Td textAlign="right"> - </Td>
+        {/* <Td textAlign="right"> - </Td> */}
         <Td textAlign="right"> - </Td>
-        <Td textAlign="right"> - </Td>
-        <Td textAlign="right"> - </Td>
+        {/* <Td textAlign="right"> - </Td> */}
         <Td textAlign="right"> - </Td>
         <Td textAlign="right"> - </Td>
       </>
@@ -42,9 +42,9 @@ const renderCalc = (flower: ArrangedFlower, flowers: Flower[]) => {
   return (
     <>
       <Td textAlign="right">${row.stem_price.toFixed(2)}</Td>
-      <Td textAlign="right">{row.rounded}</Td>
+      {/* <Td textAlign="right">{row.rounded}</Td> */}
       <Td textAlign="right">${row.base_cost.toFixed(2)}</Td>
-      <Td textAlign="right">${row.rounded_cost.toFixed(2)}</Td>
+      {/* <Td textAlign="right">${row.rounded_cost.toFixed(2)}</Td> */}
       <Td textAlign="right">${row.markup200.toFixed(2)}</Td>
       <Td textAlign="right">${row.markup250.toFixed(2)}</Td>
     </>

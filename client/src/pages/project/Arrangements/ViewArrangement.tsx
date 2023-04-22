@@ -68,22 +68,22 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
                   {" "}
                   <Tooltip label="Stems per one arrangement">Stems</Tooltip>
                 </Th>
-                <Th textAlign="right">
+                {/* <Th textAlign="right">
                   <Tooltip label="The total rounded-up number of stems based on the quantity for one arrangement">
                     Min Order Size
                   </Tooltip>
-                </Th>
+                </Th> */}
                 <Th textAlign="right">
-                  <Tooltip label="Total cost for the stem order of each flower type before rounding up">
+                  <Tooltip label="Total cost for the stem order of each flower type">
                     Total
                   </Tooltip>
                 </Th>
-                <Th textAlign="right">
+                {/* <Th textAlign="right">
                   {" "}
                   <Tooltip label="Total cost for the stem order of each flower type based on the rounded up number of stems">
                     Rounded Up Total
                   </Tooltip>
-                </Th>
+                </Th> */}
                 <Th textAlign="right">Markup 200%</Th>
                 <Th textAlign="right">Markup 250%</Th>
               </Tr>
@@ -95,9 +95,9 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
                   <Td textTransform="capitalize">{x.name}</Td>
                   <Td textAlign="right">${x.stem_price.toFixed(2)}</Td>
                   <Td textAlign="right">{x.quantity}</Td>
-                  <Td textAlign="right">{x.rounded}</Td>
+                  {/* <Td textAlign="right">{x.rounded}</Td> */}
                   <Td textAlign="right">${x.base_cost.toFixed(2)}</Td>
-                  <Td textAlign="right">${x.rounded_cost.toFixed(2)}</Td>
+                  {/* <Td textAlign="right">${x.rounded_cost.toFixed(2)}</Td> */}
                   <Td textAlign="right">${x.markup200.toFixed(2)}</Td>
                   <Td textAlign="right">${x.markup250.toFixed(2)}</Td>
                 </Tr>

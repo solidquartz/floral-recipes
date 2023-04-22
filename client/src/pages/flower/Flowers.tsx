@@ -97,7 +97,7 @@ export const Flowers = () => {
               <Tr>
                 <Th>Flower Name</Th>
                 <Th>Price Per Stem</Th>
-                <Th>Rounded Up</Th>
+                {/* <Th>Rounded Up</Th> */}
               </Tr>
             </Thead>
             <Tbody>

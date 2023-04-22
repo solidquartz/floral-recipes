@@ -24,18 +24,18 @@ export const makeArrangedFlower = (
 
   const stemPrice = parseFloat(fullFlower.stem_price);
   const stemQuantity = parseFloat(flower.stem_quantity);
-  const rounded = getOrderSize(stemQuantity, fullFlower.rounded_up);
+  // const rounded = getOrderSize(stemQuantity, fullFlower.rounded_up);
   const baseCost = stemPrice * stemQuantity;
-  const roundedCost = rounded * stemPrice;
+  // const roundedCost = rounded * stemPrice;
 
   return {
     name: fullFlower.flower_name,
     stem_price: stemPrice,
     quantity: stemQuantity,
-    rounded,
+    // rounded,
     base_cost: baseCost,
-    rounded_cost: roundedCost,
-    markup200: roundedCost * 2,
-    markup250: roundedCost * 2.5,
+    // rounded_cost: roundedCost,
+    markup200: baseCost * 2,
+    markup250: baseCost * 2.5,
   };
 };
