@@ -46,6 +46,8 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
 
   //for arrangement totals
   const totalCost = getTotalCost(flowersInArrangement);
+  const baseMarkup200 = totalCost * 2;
+  const baseMarkup250 = totalCost * 2.5;
   const costAllArrangements = totalCost * arrangement.arrangement_quantity;
   const totalMarkup200 = costAllArrangements * 2;
   const totalMarkup250 = costAllArrangements * 2.5;
@@ -134,6 +136,12 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
                       <Td textAlign="right">
                         ${costAllArrangements.toFixed(2)}
                       </Td>
+                    </Tr>
+                    <Tr>
+                      <Th>Arrangement 200% Markup</Th>
+                      <Td textAlign="right">${baseMarkup200.toFixed(2)}</Td>
+                      <Th>Arrangement 250% Markup</Th>
+                      <Td textAlign="right">${baseMarkup250.toFixed(2)}</Td>
                     </Tr>
                     <Tr>
                       <Th>Total 200% Markup</Th>

@@ -18,7 +18,11 @@ export const Calculations: React.FC<CalculationsProps> = ({
           .filter((x): x is ArrangedFlowerRow => !!x)
       : [];
 
-  const totalCost = flowersInArrangement.length ? getTotalCost(flowersInArrangement) : 0;
+  const totalCost = flowersInArrangement.length
+    ? getTotalCost(flowersInArrangement)
+    : 0;
+  const baseMarkup200 = totalCost * 2;
+  const baseMarkup250 = totalCost * 2.5;
   const costAllArrangements = totalCost * arrangement.arrangement_quantity;
   const totalMarkup200 = costAllArrangements * 2;
   const totalMarkup250 = costAllArrangements * 2.5;
@@ -33,6 +37,12 @@ export const Calculations: React.FC<CalculationsProps> = ({
           <Td textAlign="right">${totalCost.toFixed(2)}</Td>
           <Th>Total (All Arrangements)</Th>
           <Td textAlign="right">${costAllArrangements.toFixed(2)}</Td>
+        </Tr>
+        <Tr>
+          <Th>Arrangement 200% Markup</Th>
+          <Td textAlign="right">${baseMarkup200.toFixed(2)}</Td>
+          <Th>Arrangement 250% Markup</Th>
+          <Td textAlign="right">${baseMarkup250.toFixed(2)}</Td>
         </Tr>
         <Tr>
           <Th>Total 200% Markup</Th>
