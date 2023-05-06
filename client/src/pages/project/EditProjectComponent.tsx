@@ -23,7 +23,7 @@ export const EditProjectComponent = () => {
     const response = await updateProject({
       id: project?.id,
       event_date: dayjs(values.event_date).toISOString(),
-      name: values.project_name
+      project_name: values.project_name
     });
 
     if ('error' in response) {
