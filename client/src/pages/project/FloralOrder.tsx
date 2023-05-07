@@ -32,7 +32,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 				const order = acc.find((x) => x.id === c.flower_id); // see if the acc object already has an entry for this flower_id
 
 				const stemPrice = parseFloat(flower.stem_price); // pre-calculate stem price
-				const stemQuantity = parseInt(c.stem_quantity, 10);
+				const stemQuantity = parseFloat(c.stem_quantity);
 
 				if (order) { // if there's an order for cur.flower_id
 					order.quantity += stemQuantity * cur.arrangement_quantity;
