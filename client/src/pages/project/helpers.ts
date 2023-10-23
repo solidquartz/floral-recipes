@@ -37,5 +37,6 @@ export const makeArrangedFlower = (
     // rounded_cost: roundedCost,
     markup200: baseCost * 2,
     markup250: baseCost * 2.5,
+    markup350: baseCost * 3.5,
   };
 };

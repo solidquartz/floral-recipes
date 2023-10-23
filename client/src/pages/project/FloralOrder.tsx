@@ -16,6 +16,7 @@ type FloralOrder = {
 	total: number;
 	markedUp200: number;
 	markedUp: number;
+	markedUp350: number;
 }
 
 export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) => {
@@ -39,6 +40,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 					order.total = order.quantity * stemPrice;
 					order.markedUp200 = order.total * 2;
 					order.markedUp = order.total * 2.50;
+					order.markedUp350 = order.total * 3.50;
 					// order.roundedUp = order.quantity;
 				} else { // make a new order entry
 					// const rounded = stemQuantity;
@@ -52,6 +54,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
             total: stemQuantity * cur.arrangement_quantity * stemPrice,
             markedUp200: stemQuantity * cur.arrangement_quantity * stemPrice * 2,
             markedUp: stemQuantity * cur.arrangement_quantity * stemPrice * 2.5,
+            markedUp350: stemQuantity * cur.arrangement_quantity * stemPrice * 3.5,
           });
 				}
 			});
@@ -60,12 +63,13 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 		}, []);
 
 	//calculate totals
-	const { total, withMarkup200, withMarkup } = flowerOrders.reduce((acc, cur) => {
+	const { total, withMarkup200, withMarkup350, withMarkup } = flowerOrders.reduce((acc, cur) => {
 		acc.total += cur.total;
 		acc.withMarkup200 += cur.markedUp200;
+		acc.withMarkup350 += cur.markedUp350;
 		acc.withMarkup += cur.markedUp;
 		return acc;
-	}, { total: 0, withMarkup200: 0, withMarkup: 0 });
+	}, { total: 0, withMarkup200: 0, withMarkup350: 0, withMarkup: 0 });
 
 
 	return (
@@ -84,6 +88,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 							<Th>Total</Th>
 							<Th>Markup 200%</Th>
 							<Th>Markup 250%</Th>
+							<Th>Markup 350%</Th>
 						</Tr>
 					</Thead>
 
@@ -98,6 +103,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 								total={x.total}
 								markedUp200={x.markedUp200}
 								markedUp={x.markedUp}
+								markedUp350={x.markedUp350}
 							/>
 						))}
 					</Tbody>
@@ -120,6 +126,11 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 					250% Markup: ${withMarkup.toFixed(2)}
 				</Text>
 			</Flex>
+			<Flex justifyContent="right" pr="40px" pt="20px">
+				<Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
+					350% Markup: ${withMarkup.toFixed(2)}
+				</Text>
+			</Flex>
 		</Flex>
 	);
 };
@@ -131,6 +142,7 @@ export type FloralOrderItemProps = {
 	pricePerStem: number;
 	total: number;
 	markedUp200: number;
+	markedUp350: number;
 	markedUp: number;
 }
 
@@ -142,6 +154,7 @@ const FloralOrderItem: React.FC<FloralOrderItemProps> = ({
   pricePerStem,
 	total,
 	markedUp200,
+	markedUp350,
   markedUp,
 }) => (
   <Tr>
@@ -154,5 +167,6 @@ const FloralOrderItem: React.FC<FloralOrderItemProps> = ({
     <Td textAlign="right">${total.toFixed(2)}</Td>
     <Td textAlign="right">${markedUp200.toFixed(2)}</Td>
     <Td textAlign="right">${markedUp.toFixed(2)}</Td>
+    <Td textAlign="right">${markedUp350.toFixed(2)}</Td>
   </Tr>
 );

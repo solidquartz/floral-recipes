@@ -48,9 +48,11 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
   const totalCost = getTotalCost(flowersInArrangement);
   const baseMarkup200 = totalCost * 2;
   const baseMarkup250 = totalCost * 2.5;
+  const baseMarkup350 = totalCost * 3.5;
   const costAllArrangements = totalCost * arrangement.arrangement_quantity;
   const totalMarkup200 = costAllArrangements * 2;
   const totalMarkup250 = costAllArrangements * 2.5;
+  const totalMarkup350 = costAllArrangements * 3.5;
 
   return (
     <Box pb="100px">
@@ -88,6 +90,7 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
                 </Th> */}
                 <Th textAlign="right">Markup 200%</Th>
                 <Th textAlign="right">Markup 250%</Th>
+                <Th textAlign="right">Markup 350%</Th>
               </Tr>
             </Thead>
 
@@ -102,6 +105,7 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
                   {/* <Td textAlign="right">${x.rounded_cost.toFixed(2)}</Td> */}
                   <Td textAlign="right">${x.markup200.toFixed(2)}</Td>
                   <Td textAlign="right">${x.markup250.toFixed(2)}</Td>
+                  <Td textAlign="right">${x.markup350.toFixed(2)}</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -142,12 +146,16 @@ export const ViewArrangement: React.FC<ArrangementProps> = ({
                       <Td textAlign="right">${baseMarkup200.toFixed(2)}</Td>
                       <Th>Arrangement 250% Markup</Th>
                       <Td textAlign="right">${baseMarkup250.toFixed(2)}</Td>
+                      <Th>Arrangement 350% Markup</Th>
+                      <Td textAlign="right">${baseMarkup350.toFixed(2)}</Td>
                     </Tr>
                     <Tr>
                       <Th>Total 200% Markup</Th>
                       <Td textAlign="right">${totalMarkup200.toFixed(2)}</Td>
                       <Th>Total 250% Markup</Th>
                       <Td textAlign="right">${totalMarkup250.toFixed(2)}</Td>
+                      <Th>Total 350% Markup</Th>
+                      <Td textAlign="right">${totalMarkup350.toFixed(2)}</Td>
                     </Tr>
                   </Tbody>
                 </Table>

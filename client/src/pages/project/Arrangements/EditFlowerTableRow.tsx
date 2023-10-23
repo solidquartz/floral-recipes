@@ -47,6 +47,7 @@ const renderCalc = (flower: ArrangedFlower, flowers: Flower[]) => {
       {/* <Td textAlign="right">${row.rounded_cost.toFixed(2)}</Td> */}
       <Td textAlign="right">${row.markup200.toFixed(2)}</Td>
       <Td textAlign="right">${row.markup250.toFixed(2)}</Td>
+      <Td textAlign="right">${row.markup350.toFixed(3)}</Td>
     </>
   );
 };

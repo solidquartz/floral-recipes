@@ -20,4 +20,5 @@ export type ArrangedFlowerRow = {
   // rounded_cost: number;
   markup200: number;
   markup250: number;
+  markup350: number;
 };

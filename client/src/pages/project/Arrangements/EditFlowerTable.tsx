@@ -60,6 +60,7 @@ export const EditFlowerTable: React.FC<FlowerTableProps> = ({
                   </Th> */}
                   <Th textAlign="right">Markup 200%</Th>
                   <Th textAlign="right">Markup 250%</Th>
+                  <Th textAlign="right">Markup 350%</Th>
                   <Th />
                 </Tr>
               </Thead>
