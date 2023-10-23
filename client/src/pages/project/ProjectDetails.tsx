@@ -37,7 +37,7 @@ export const ProjectDetails = () => {
         // handle
       }
 
-      navigate('/projects')
+      navigate('/projects');
     } catch (err) {}
 
     onClose();
