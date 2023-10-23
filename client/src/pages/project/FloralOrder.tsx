@@ -128,7 +128,7 @@ export const FloralOrder: React.FC<FloralOrderProps> = ({ project, flowers }) =>
 			</Flex>
 			<Flex justifyContent="right" pr="40px" pt="20px">
 				<Text fontSize="md" fontWeight="semibold" textTransform="uppercase">
-					350% Markup: ${withMarkup.toFixed(2)}
+					350% Markup: ${withMarkup350.toFixed(2)}
 				</Text>
 			</Flex>
 		</Flex>
