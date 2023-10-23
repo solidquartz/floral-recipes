@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Arrangement, Project } from "src/types";
 import { baseQuery } from "./api";
+import { DeleteResult } from "./flowerApi";
 
 type UpsertArrangementResponse = {
   projectId: number;
@@ -68,7 +69,10 @@ export const projectApi = createApi({
       }),
       invalidatesTags: (project) => [{ type: "project", id: project?.id }],
     }),
-    upsertArrangement: builder.mutation<UpsertArrangementResponse, Partial<Project>>({
+    upsertArrangement: builder.mutation<
+      UpsertArrangementResponse,
+      Partial<Project>
+    >({
       query: (project) => ({
         url: `projects/${project.id}/arrangement`,
         method: "POST",
@@ -76,19 +80,36 @@ export const projectApi = createApi({
       }),
       invalidatesTags: (r) => [{ type: "project", id: r?.projectId }],
     }),
-    deleteArrangement: builder.mutation<DeleteArrangementResponse, DeleteArrangementRequest>({
+    deleteArrangement: builder.mutation<
+      DeleteArrangementResponse,
+      DeleteArrangementRequest
+    >({
       query: (project) => ({
         url: `projects/${project.projectId}/arrangement/${project.arrangementId}`,
         method: "DELETE",
       }),
-      invalidatesTags: (response) => [{ type: 'project', id: response?.projectId }],
+      invalidatesTags: (response) => [
+        { type: "project", id: response?.projectId },
+      ],
     }),
-    deleteArrangedFlower: builder.mutation<DeleteArrangedFlowerResponse, DeleteArrangedFlowerRequest>({
-      query: project => ({
+    deleteArrangedFlower: builder.mutation<
+      DeleteArrangedFlowerResponse,
+      DeleteArrangedFlowerRequest
+    >({
+      query: (project) => ({
         url: `projects/${project.projectId}/arrangement/${project.arrangementId}/${project.flowerId}`,
-        method: 'DELETE'
+        method: "DELETE",
       }),
-      invalidatesTags: project => [{ type: 'project', id: project?.projectId }]
+      invalidatesTags: (project) => [
+        { type: "project", id: project?.projectId },
+      ],
+    }),
+    deleteProject: builder.mutation<DeleteResult, number>({
+      query: (id) => ({
+        url: `projects/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: project => [{ type: "project", id: project?.id }],
     }),
   }),
 });
@@ -103,4 +124,5 @@ export const {
   useUpsertArrangementMutation,
   useDeleteArrangedFlowerMutation,
   useDeleteArrangementMutation,
+  useDeleteProjectMutation,
 } = projectApi;

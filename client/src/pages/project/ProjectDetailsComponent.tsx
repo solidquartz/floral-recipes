@@ -9,12 +9,13 @@ import { ViewArrangement } from "./Arrangements";
 export type ProjectDetailsComponentProps = {
   project: Project;
   flowers: Flower[];
+  onOpen: () => void;
+  setProjectToDelete: (flowerId: number) => void;
 };
 
 export const ProjectDetailsComponent: React.FC<
   ProjectDetailsComponentProps
-> = ({ project, flowers }) => {
-
+> = ({ project, flowers, onOpen, setProjectToDelete }) => {
   //edit project link
   let navigate = useNavigate();
 
@@ -24,6 +25,11 @@ export const ProjectDetailsComponent: React.FC<
 
   const handleEditProjectDetails = (id: number) => {
     navigate(`/projects/${id}/details/edit`);
+  };
+
+  const handleOpenAlert = (flowerId: number) => {
+    setProjectToDelete(flowerId);
+    onOpen();
   };
 
   // const lastUpdated = dayjs(project.last_updated).format("MMMM D, YYYY h:mm A");
@@ -77,16 +83,21 @@ export const ProjectDetailsComponent: React.FC<
             <Flex pt="20px" flexDirection="column">
               <Flex flexDirection="column">
                 {project.arrangements.map((arrangement) => (
-                    <ViewArrangement
-                      key={arrangement.id}
-                      project={project}
-                      arrangement={arrangement}
-                      flowers={flowers}
-                    />
-                  ))}
+                  <ViewArrangement
+                    key={arrangement.id}
+                    project={project}
+                    arrangement={arrangement}
+                    flowers={flowers}
+                  />
+                ))}
               </Flex>
             </Flex>
           </Flex>
+        </Flex>
+        <Flex pb="24px">
+          <Button colorScheme="red" onClick={() => handleOpenAlert(project.id)}>
+            Delete Project
+          </Button>
         </Flex>
       </Flex>
     </>

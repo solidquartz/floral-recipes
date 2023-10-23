@@ -3,7 +3,7 @@ import { RootState } from 'src/redux';
 import { Flower } from 'src/types';
 import { baseQuery } from './api';
 
-type DeleteResult = {
+export type DeleteResult = {
   success: boolean;
   id: number;
 }
