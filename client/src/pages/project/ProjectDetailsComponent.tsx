@@ -10,7 +10,7 @@ export type ProjectDetailsComponentProps = {
   project: Project;
   flowers: Flower[];
   onOpen: () => void;
-  setProjectToDelete: (flowerId: number) => void;
+  setProjectToDelete: (projectId: number) => void;
 };
 
 export const ProjectDetailsComponent: React.FC<
@@ -27,8 +27,8 @@ export const ProjectDetailsComponent: React.FC<
     navigate(`/projects/${id}/details/edit`);
   };
 
-  const handleOpenAlert = (flowerId: number) => {
-    setProjectToDelete(flowerId);
+  const handleOpenAlert = (projectId: number) => {
+    setProjectToDelete(projectId);
     onOpen();
   };
 
